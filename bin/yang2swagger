@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+var argv = require('minimist')(process.argv.slice(2), {
+  boolean: [ 'help' ],
+  alias: {
+    help: 'h',
+	format: 'f',
+    include: 'I',
+    output: 'o'
+  },
+  string: [ 'format', 'output' ]
+});
+
+var config = require('config');
+var swagger = require('..').eval(config)
+
+argv.include = [].concat(argv.include).filter(Boolean);
+
+swagger
+  .in('transform').invoke({modules: argv.include})
+  .then(function (spec) {
+    return swagger.in('serialize').invoke({spec: spec, format: argv.format});
+  })
+  .then(function (res) {
+    if (argv.output) {
+      require('fs').writeFileSync(argv.output, res, 'utf-8');
+    } else {
+      console.log(res);
+    }
+    return res;
+  })
+  .catch(function (err) {
+    console.error(err);
+  });
