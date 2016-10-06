@@ -3,9 +3,10 @@ module yang-openapi {
   prefix openapi;
   yang-version 1.1;
 
-  import ietf-inet-types { prefix inet; }
-  import ietf-yang-types { prefix yang; }
-  import yang-meta-types { prefix meta; }
+  import ietf-inet-types  { prefix inet; }
+  import ietf-yang-types  { prefix yang; }
+  import yang-json-schema { prefix json; }
+  import yang-meta-types  { prefix meta; }
 
   organization
     "Corenova Technologies, Inc.";
@@ -35,11 +36,6 @@ module yang-openapi {
   /*
    * Type definitions
    */
-  typedef json-schema-ref {
-    type string {
-      
-    }
-  }
   typedef mimetype {
     type string {
       pattern '^.+\/.+$';
@@ -80,79 +76,6 @@ module yang-openapi {
       leaf url  { type inet:uri; }
     }
   }
-  grouping json-datatype {
-    leaf type {
-      type enumeration {
-        enum string;
-        enum number;
-        enum integer;
-        enum boolean;
-        enum array;
-        enum file;
-        enum object;
-      }
-    }
-    leaf format {
-      type union {
-        type enumeration {
-          enum int32;
-          enum int64;
-          enum float;
-          enum double;
-          enum byte;
-          enum binary;
-          enum date;
-          enum date-time;
-          enum password;
-        }
-        type string;
-      }
-    }
-  }
-  grouping json-schema {
-    leaf $ref {
-      type json-schema-ref;
-    }
-    uses openapi:json-datatype;
-    leaf-list required {
-      //type string;
-      type leafref {
-        path '../property/name';
-      }
-    }
-    list property {
-      key name;
-      leaf name {
-        type yang:yang-identifier;
-      }
-      container schema {
-        uses openapi:json-schema {
-          when "../name";
-        }
-      }
-    }
-    container items {
-      when "../type = 'array'";
-      uses openapi:json-schema {
-        when "../type";
-      }
-    }
-    list allOf {
-      uses openapi:json-schema {
-        when "not(../type)";
-      }
-    }
-    list anyOf {
-      uses openapi:json-schema {
-        when "not(../type)";
-      }
-    }
-    list oneOf {
-      uses openapi:json-schema {
-        when "not(../type)";
-      }
-    }
-  }
   grouping parameters-list {
     list parameter {
       leaf name {
@@ -177,10 +100,10 @@ module yang-openapi {
         default false;
         description "if ../in = 'path' this must be true";
       }
-      uses openapi:json-datatype;
+      uses json:json-datatype;
       container schema {
         when "../in = 'body'";
-        uses openapi:json-schema;
+        uses json:json-schema;
       }
       /* TODO
        * allow-empty-value
@@ -208,7 +131,7 @@ module yang-openapi {
       mandatory true;
     }
     container schema {
-      uses openapi:json-schema;
+      uses json:json-schema;
     }
     list header {
       
@@ -282,7 +205,7 @@ module yang-openapi {
   grouping paths-list {
     grouping path-item {
       leaf $ref {
-        type json-schema-ref;
+        type json:json-schema-ref;
       }
       uses openapi:operations-list;
       uses openapi:parameters-list;
@@ -303,7 +226,7 @@ module yang-openapi {
         type yang:yang-identifier;
       }
       container schema {
-        uses openapi:json-schema;
+        uses json:json-schema;
       }
     }
   }

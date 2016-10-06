@@ -393,7 +393,9 @@
         ref2 = yang2jstype(schema.locate(key));
         for (k in ref2) {
           v = ref2[k];
-          param[k] = v;
+          if (v != null) {
+            param[k] = v;
+          }
         }
         return [param];
     }

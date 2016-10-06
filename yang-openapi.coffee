@@ -243,7 +243,7 @@ discoverPathParameters = (schema) ->
         in: 'path'
         required: true
         description: "A key uniquely identifying #{schema.tag} item"
-      param[k] = v for k, v of yang2jstype schema.locate(key)
+      param[k] = v for k, v of yang2jstype schema.locate(key) when v?
       [ param ]
 
 discoverPaths = (schema) ->

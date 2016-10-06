@@ -28,6 +28,7 @@
     "ietf-inet-types": "yang-js",
     "ietf-yang-types": "yang-js",
     "yang-meta-types": "yang-js",
+    "yang-json-schema": "./yang-json-schema.yang",
     "yang-openapi": "./yang-openapi.yang"
   },
   "dependencies": {

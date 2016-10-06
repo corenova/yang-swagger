@@ -390,7 +390,7 @@ definitions:
       - properties:
           $ref:
             type: string
-            format: json-schema-ref
+            format: 'json:json-schema-ref'
   'openapi:operations-list':
     type: object
     properties:
@@ -462,7 +462,7 @@ definitions:
         type: array
         items:
           allOf:
-            - $ref: '#/definitions/openapi:json-datatype'
+            - $ref: '#/definitions/json:json-datatype'
             - required:
                 - name
                 - in
@@ -488,10 +488,10 @@ definitions:
                   type: boolean
                   format: boolean
                 schema:
-                  $ref: '#/definitions/openapi:json-schema'
-  'openapi:json-schema':
+                  $ref: '#/definitions/json:json-schema'
+  'json:json-schema':
     allOf:
-      - $ref: '#/definitions/openapi:json-datatype'
+      - $ref: '#/definitions/json:json-datatype'
       - properties:
           $ref:
             type: string
@@ -510,22 +510,22 @@ definitions:
                   type: string
                   format: 'yang:yang-identifier'
                 schema:
-                  $ref: '#/definitions/openapi:json-schema'
+                  $ref: '#/definitions/json:json-schema'
           allOf:
             type: array
             items:
-              $ref: '#/definitions/openapi:json-schema'
+              $ref: '#/definitions/json:json-schema'
           anyOf:
             type: array
             items:
-              $ref: '#/definitions/openapi:json-schema'
+              $ref: '#/definitions/json:json-schema'
           oneOf:
             type: array
             items:
-              $ref: '#/definitions/openapi:json-schema'
+              $ref: '#/definitions/json:json-schema'
           items:
-            $ref: '#/definitions/openapi:json-schema'
-  'openapi:json-datatype':
+            $ref: '#/definitions/json:json-schema'
+  'json:json-datatype':
     type: object
     properties:
       type:
@@ -563,7 +563,7 @@ definitions:
         type: string
         format: 'meta:description'
       schema:
-        $ref: '#/definitions/openapi:json-schema'
+        $ref: '#/definitions/json:json-schema'
       header:
         type: array
         items:
@@ -592,7 +592,7 @@ definitions:
               type: string
               format: 'yang:yang-identifier'
             schema:
-              $ref: '#/definitions/openapi:json-schema'
+              $ref: '#/definitions/json:json-schema'
   'openapi:responses-def-list':
     type: object
     properties:

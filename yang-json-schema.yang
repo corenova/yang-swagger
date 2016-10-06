@@ -1,0 +1,99 @@
+module yang-json-schema {
+  namespace "urn:ietf:params:xml:ns:yang:yang-json-schema";
+  prefix json;
+  yang-version 1.1;
+
+  import ietf-yang-types  { prefix yang; }
+  
+  organization
+    "Corenova Technologies, Inc.";
+  contact
+    "Peter K. Lee <peter@corenova.com>";
+  reference
+    "https://json-schema.org";
+
+  /*
+   * Type definitions
+   */
+  typedef json-schema-ref {
+    type string {
+      
+    }
+  }
+  /*
+   * Groupings
+   */
+  grouping json-datatype {
+    leaf type {
+      type enumeration {
+        enum string;
+        enum number;
+        enum integer;
+        enum boolean;
+        enum array;
+        enum file;
+        enum object;
+      }
+    }
+    leaf format {
+      type union {
+        type enumeration {
+          enum int32;
+          enum int64;
+          enum float;
+          enum double;
+          enum byte;
+          enum binary;
+          enum date;
+          enum date-time;
+          enum password;
+        }
+        type string;
+      }
+    }
+  }
+  grouping json-schema {
+    leaf $ref {
+      type json-schema-ref;
+    }
+    uses json:json-datatype;
+    leaf-list required {
+      //type string;
+      type leafref {
+        path '../property/name';
+      }
+    }
+    list property {
+      key name;
+      leaf name {
+        type yang:yang-identifier;
+      }
+      container schema {
+        uses json:json-schema {
+          when "../name";
+        }
+      }
+    }
+    container items {
+      when "../type = 'array'";
+      uses json:json-schema {
+        when "../type";
+      }
+    }
+    list allOf {
+      uses json:json-schema {
+        when "not(../type)";
+      }
+    }
+    list anyOf {
+      uses json:json-schema {
+        when "not(../type)";
+      }
+    }
+    list oneOf {
+      uses json:json-schema {
+        when "not(../type)";
+      }
+    }
+  }
+}
