@@ -98,6 +98,7 @@ discoverOperations = (schema, item=false) ->
   switch 
     when schema.kind is 'rpc' then [
       method: 'post'
+      description: schema.description?.tag
       summary: "Invokes #{schema.tag} in #{schema.parent.tag}."
       deprecated: deprecated
       response: [
@@ -108,6 +109,7 @@ discoverOperations = (schema, item=false) ->
     ]
     when schema.kind is 'list' and not item then [
       method: 'post'
+      description: schema.description?.tag
       summary: "Creates one or more new #{schema.tag} in #{schema.parent.tag}."
       deprecated: deprecated
       response: [
@@ -117,7 +119,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'get'
-      description: schema.description
+      description: schema.description?.tag
       summary: "List all #{schema.tag}s from #{schema.parent.tag}"
       deprecated: deprecated
       response: [
@@ -127,6 +129,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
+      description: schema.description?.tag
       summary: "Replace the entire #{schema.tag} collection"
       deprecated: deprecated
       response: [
@@ -135,6 +138,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
+      description: schema.description?.tag
       summary: "Merge items into the #{schema.tag} collection"
       deprecated: deprecated
       response: [
@@ -144,7 +148,7 @@ discoverOperations = (schema, item=false) ->
     ]
     else [
       method: 'get'
-      description: schema.description
+      description: schema.description?.tag
       summary: "View detail on #{schema.tag}"
       deprecated: deprecated
       response: [
@@ -154,6 +158,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
+      description: schema.description?.tag
       summary: "Update details on #{schema.tag}"
       deprecated: deprecated
       response: [
@@ -163,6 +168,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
+      description: schema.description?.tag
       summary: "Merge details on #{schema.tag}"
       deprecated: deprecated
       response: [
@@ -172,6 +178,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'delete'
+      description: schema.description?.tag
       summary: "Delete #{schema.tag} from #{schema.parent.tag}."
       deprecated: deprecated
       response: [

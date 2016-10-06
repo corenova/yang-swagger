@@ -168,6 +168,9 @@ paths:
           description: Expected response for delete
   '/yang-openapi:transform':
     post:
+      description: |-
+        The transform accepts YANG module names and converts into
+        Swagger/OpenAPI specification object.
       summary: Invokes transform in yang-openapi.
       deprecated: false
       responses:
@@ -177,6 +180,9 @@ paths:
             $ref: '#/definitions/openapi:specification'
   '/yang-openapi:serialize':
     post:
+      description: |-
+        The serialize accepts Swagger/OpenAPI specification object and
+        converts into string format based on requested output format.
       summary: Invokes serialize in yang-openapi.
       deprecated: false
       responses:

@@ -183,7 +183,7 @@
   };
 
   discoverOperations = function(schema, item) {
-    var deprecated, ref1;
+    var deprecated, ref1, ref10, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
     if (item == null) {
       item = false;
     }
@@ -196,6 +196,7 @@
         return [
           {
             method: 'post',
+            description: (ref2 = schema.description) != null ? ref2.tag : void 0,
             summary: "Invokes " + schema.tag + " in " + schema.parent.tag + ".",
             deprecated: deprecated,
             response: [
@@ -211,6 +212,7 @@
         return [
           {
             method: 'post',
+            description: (ref3 = schema.description) != null ? ref3.tag : void 0,
             summary: "Creates one or more new " + schema.tag + " in " + schema.parent.tag + ".",
             deprecated: deprecated,
             response: [
@@ -222,7 +224,7 @@
             ]
           }, {
             method: 'get',
-            description: schema.description,
+            description: (ref4 = schema.description) != null ? ref4.tag : void 0,
             summary: "List all " + schema.tag + "s from " + schema.parent.tag,
             deprecated: deprecated,
             response: [
@@ -234,6 +236,7 @@
             ]
           }, {
             method: 'put',
+            description: (ref5 = schema.description) != null ? ref5.tag : void 0,
             summary: "Replace the entire " + schema.tag + " collection",
             deprecated: deprecated,
             response: [
@@ -244,6 +247,7 @@
             ]
           }, {
             method: 'patch',
+            description: (ref6 = schema.description) != null ? ref6.tag : void 0,
             summary: "Merge items into the " + schema.tag + " collection",
             deprecated: deprecated,
             response: [
@@ -258,7 +262,7 @@
         return [
           {
             method: 'get',
-            description: schema.description,
+            description: (ref7 = schema.description) != null ? ref7.tag : void 0,
             summary: "View detail on " + schema.tag,
             deprecated: deprecated,
             response: [
@@ -270,6 +274,7 @@
             ]
           }, {
             method: 'put',
+            description: (ref8 = schema.description) != null ? ref8.tag : void 0,
             summary: "Update details on " + schema.tag,
             deprecated: deprecated,
             response: [
@@ -281,6 +286,7 @@
             ]
           }, {
             method: 'patch',
+            description: (ref9 = schema.description) != null ? ref9.tag : void 0,
             summary: "Merge details on " + schema.tag,
             deprecated: deprecated,
             response: [
@@ -292,6 +298,7 @@
             ]
           }, {
             method: 'delete',
+            description: (ref10 = schema.description) != null ? ref10.tag : void 0,
             summary: "Delete " + schema.tag + " from " + schema.parent.tag + ".",
             deprecated: deprecated,
             response: [

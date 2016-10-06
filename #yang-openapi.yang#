@@ -1,0 +1,353 @@
+module yang-openapi {
+  namespace "urn:ietf:params:xml:ns:yang:yang-openapi";
+  prefix openapi;
+  yang-version 1.1;
+
+  import ietf-inet-types { prefix inet; }
+  import ietf-yang-types { prefix yang; }
+  import yang-meta-types { prefix meta; }
+
+  organization
+    "Corenova Technologies, Inc.";
+  contact
+    "Peter K. Lee <peter@corenova.com>";
+  reference
+    "https://openapis.org";
+
+  /*
+   * Identities
+   */ 
+  identity protocol {
+    description "describes transfer protocol";
+  }
+  identity http {
+    base protocol;
+  }
+  identity https {
+    base protocol;
+  }
+  identity ws {
+    base protocol;
+  }
+  identity wss {
+    base protocol;
+  }
+  /*
+   * Type definitions
+   */
+  typedef json-schema-ref {
+    type string {
+      
+    }
+  }
+  typedef mimetype {
+    type string {
+      pattern '^.+\/.+$';
+    }
+  }
+  typedef http-status-code {
+    type uint16 {
+      range '100..102 | 200..208 | 226 | 300..308 | 400..431 | 500..511';
+    }
+  }
+  typedef http-method {
+    type enumeration {
+      enum get;
+      enum put;
+      enum post;
+      enum delete;
+      enum options;
+      enum head;
+      enum patch;
+    }
+  }
+  /*
+   * Groupings
+   */
+  grouping info {
+    description
+      "Contains metadata information to describe API.";
+    leaf title       { type meta:title; mandatory true; }
+    leaf description { type meta:description; }
+    leaf version     { type meta:api-version; mandatory true; }
+    container contact {
+      leaf name { type meta:person-name; }
+      leaf url { type inet:uri; }
+      leaf email { type meta:email-address; }
+    }
+    container license {
+      leaf name { type meta:license; mandatory true; }
+      leaf url  { type inet:uri; }
+    }
+  }
+  grouping json-schema {
+    grouping json-datatype {
+      leaf type {
+        type enumeration {
+          enum string;
+          enum number;
+          enum integer;
+          enum boolean;
+          enum array;
+          enum file;
+          enum object;
+        }
+      }
+      leaf format {
+        type union {
+          type enumeration {
+            enum int32;
+            enum int64;
+            enum float;
+            enum double;
+            enum byte;
+            enum binary;
+            enum date;
+            enum date-time;
+            enum password;
+          }
+          type string;
+        }
+      }
+    }
+    leaf $ref {
+      type json-schema-ref;
+    }
+    uses json-datatype;
+    leaf-list required {
+      //type string;
+      type leafref {
+        path '../property/name';
+      }
+    }
+    list property {
+      key name;
+      leaf name {
+        type yang:yang-identifier;
+      }
+      container schema {
+        uses openapi:json-schema {
+          when "../name";
+        }
+      }
+    }
+    container items {
+      when "../type = 'array'";
+      uses openapi:json-schema {
+        when "../type";
+      }
+    }
+    list allOf {
+      uses openapi:json-schema {
+        when "not(../type)";
+      }
+    }
+    list anyOf {
+      uses openapi:json-schema {
+        when "not(../type)";
+      }
+    }
+    list oneOf {
+      uses openapi:json-schema {
+        when "not(../type)";
+      }
+    }
+  }
+  grouping response {
+    leaf description {
+      type meta:description;
+      mandatory true;
+    }
+    container schema {
+      uses openapi:json-schema;
+    }
+    list header {
+      
+    }
+    list example {
+      key mime;
+      leaf mime {
+        type mimetype;
+        mandatory true;
+      }
+      container data;
+    }
+  }
+  grouping operations-list {
+    grouping operation {
+      leaf-list tags {
+        type string;
+      }
+      leaf summary {
+        type meta:description {
+          length 0..120;
+        }
+      }
+      leaf description {
+        type meta:description;
+      }
+      leaf operationId {
+        type string;
+      }
+      leaf-list consumes {
+        type mimetype;
+      }
+      leaf-list produces {
+        type mimetype;
+      }
+      leaf-list schemes {
+        type identityref {
+          base protocol;
+        }
+      }
+      leaf deprecated {
+        type boolean;
+        default false;
+      }
+      list response {
+        key code;
+        leaf code {
+          type http-status-code;
+        }
+        uses openapi:response;
+      }
+      list parameter {
+        //node:hash "../parameters";
+        // TODO
+      }
+      list security {
+        key name;
+        leaf name;
+        // TODO
+      }
+    }
+    list operation {
+      //node:hash "..";
+      key method;
+      leaf method {
+        type http-method;
+      }
+      uses operation;
+    }
+  }
+  grouping paths-list {
+    grouping path-item {
+      leaf $ref {
+        type json-schema-ref;
+      }
+      uses operations-list;
+      list parameter {
+        // TODO
+      }
+    }
+    list path {
+      key name;
+      leaf name {
+        type inet:uri;
+      }
+      uses path-item;
+      min-elements 1;
+    }
+  }
+  grouping definitions-list {
+    list definition {
+      key name;
+      leaf name {
+        type yang:yang-identifier;
+      }
+      container schema {
+        uses openapi:json-schema;
+      }
+    }
+  }
+  grouping responses-list {
+    list response {
+      key name;
+      leaf name {
+        type yang:yang-identifier;
+      }
+      uses openapi:response;
+    }
+  }
+  grouping specification {
+    leaf swagger {
+      type meta:api-version;
+      mandatory true;
+      must "current() = '2.0'";
+    }
+    container info {
+      uses openapi:info;
+    }
+    leaf host {
+      type string;
+    }
+    leaf base-path {
+      type inet:uri;
+    }
+    leaf-list schemes {
+      type identityref {
+        base protocol;
+      }
+    }
+    leaf-list consumes {
+      type mimetype;
+      min-elements 1;
+    }
+    leaf-list produces {
+      type mimetype;
+      min-elements 1;
+    }
+    uses paths-list;
+    uses definitions-list;
+    uses responses-list;
+    /* TODO
+     * parameters
+     * security-definitions
+     * security
+     * tags
+     * externalDocs
+     */
+  }
+  /*
+   * Configuration data nodes
+   */ 
+  container info {
+    
+    uses openapi:info;
+  }
+
+  /*
+   * Remote procedures 
+   */ 
+  rpc transform {
+    description
+      "The transform accepts YANG module names and converts into
+       Swagger/OpenAPI specification object.";
+    input {
+      leaf-list modules {
+        type yang:yang-identifier;
+        min-elements 1;
+      }
+    }
+    output {
+      uses openapi:specification;
+    }
+  }
+  rpc serialize {
+    description
+      "The serialize accepts Swagger/OpenAPI specification object and
+       converts into string format based on requested output format.";
+    input {
+      container spec {
+        uses openapi:specification;
+      }
+      leaf format {
+        type enumeration {
+          enum json;
+          enum yaml;
+        }
+        default json;
+      }
+    }
+  }
+}
