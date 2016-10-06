@@ -55,7 +55,8 @@
           };
         case 'union':
           return {
-            anyOf: []
+            type: 'string',
+            format: schema.type.tag
           };
         case 'boolean':
           return {
@@ -129,7 +130,7 @@
         });
         if (property.length) {
           js.allOf.push({
-            required: required,
+            required: required.length ? required : void 0,
             property: property
           });
         }

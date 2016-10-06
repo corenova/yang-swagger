@@ -277,16 +277,14 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/path-item'
-            - required: []
-              properties:
+            - properties:
                 name:
                   type: string
                   format: 'inet:uri'
   path-item:
     allOf:
       - $ref: '#/definitions/operations-list'
-      - required: []
-        properties:
+      - properties:
           $ref:
             type: string
             format: json-schema-ref
@@ -302,8 +300,7 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/operation'
-            - required: []
-              properties:
+            - properties:
                 method:
                   type: string
                   format: http-method
@@ -356,8 +353,7 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/openapi:response'
-            - required: []
-              properties:
+            - properties:
                 code:
                   type: integer
                   format: uint16
@@ -398,8 +394,7 @@ definitions:
   'openapi:json-schema':
     allOf:
       - $ref: '#/definitions/json-datatype'
-      - required: []
-        properties:
+      - properties:
           $ref:
             type: string
             format: json-schema-ref
@@ -447,7 +442,8 @@ definitions:
           - file
           - object
       format:
-        anyOf: []
+        type: string
+        format: union
   definitions-list:
     type: object
     properties:
@@ -469,8 +465,7 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/openapi:response'
-            - required: []
-              properties:
+            - properties:
                 name:
                   type: string
                   format: 'yang:yang-identifier'

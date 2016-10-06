@@ -26,8 +26,10 @@ yang2jstype = (schema) ->
     when 'decimal64'
       type: 'number'
       format: 'double'
-    when 'union'
-      anyOf: [] # TODO
+    when 'union' # TODO
+      type: 'string'
+      format: schema.type.tag
+      #anyOf: []
     when 'boolean'
       type: 'boolean'
       format: schema.type.tag
@@ -67,7 +69,7 @@ yang2jsobj = (schema) ->
       js.allOf = refs.map (ref) -> '$ref': "#/definitions/#{ref.tag}"
       if property.length
         js.allOf.push
-          required: required
+          required: if required.length then required else undefined
           property: property
     else
       ref = refs[0]
