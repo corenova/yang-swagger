@@ -42,7 +42,7 @@ paths:
           schema:
             $ref: '#/definitions/openapi:info'
     delete:
-      summary: Delete info from yang-openapi.
+      summary: Delete info from yang-openapi
       deprecated: false
       responses:
         '204':
@@ -103,7 +103,7 @@ paths:
                 type: string
                 format: 'meta:email-address'
     delete:
-      summary: Delete contact from info.
+      summary: Delete contact from info
       deprecated: false
       responses:
         '204':
@@ -161,7 +161,7 @@ paths:
                 type: string
                 format: 'inet:uri'
     delete:
-      summary: Delete license from info.
+      summary: Delete license from info
       deprecated: false
       responses:
         '204':

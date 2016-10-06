@@ -173,7 +173,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'delete'
-      summary: "Delete #{schema.tag} from #{schema.parent.tag}."
+      summary: "Delete #{schema.tag} from #{schema.parent.tag}"
       deprecated: deprecated
       response: [
         code: 204
