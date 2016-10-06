@@ -18,7 +18,6 @@ produces:
 paths:
   '/yang-openapi:info':
     get:
-      method: get
       summary: View detail on info
       deprecated: false
       responses:
@@ -27,7 +26,6 @@ paths:
           schema:
             $ref: '#/definitions/openapi:info'
     put:
-      method: put
       summary: Update details on info
       deprecated: false
       responses:
@@ -36,7 +34,6 @@ paths:
           schema:
             $ref: '#/definitions/openapi:info'
     patch:
-      method: patch
       summary: Merge details on info
       deprecated: false
       responses:
@@ -45,7 +42,6 @@ paths:
           schema:
             $ref: '#/definitions/openapi:info'
     delete:
-      method: delete
       summary: Delete info from yang-openapi.
       deprecated: false
       responses:
@@ -53,7 +49,6 @@ paths:
           description: Expected response for delete
   '/yang-openapi:info/contact':
     get:
-      method: get
       summary: View detail on contact
       deprecated: false
       responses:
@@ -72,7 +67,6 @@ paths:
                 type: string
                 format: 'meta:email-address'
     put:
-      method: put
       summary: Update details on contact
       deprecated: false
       responses:
@@ -91,7 +85,6 @@ paths:
                 type: string
                 format: 'meta:email-address'
     patch:
-      method: patch
       summary: Merge details on contact
       deprecated: false
       responses:
@@ -110,7 +103,6 @@ paths:
                 type: string
                 format: 'meta:email-address'
     delete:
-      method: delete
       summary: Delete contact from info.
       deprecated: false
       responses:
@@ -118,7 +110,6 @@ paths:
           description: Expected response for delete
   '/yang-openapi:info/license':
     get:
-      method: get
       summary: View detail on license
       deprecated: false
       responses:
@@ -136,7 +127,6 @@ paths:
                 type: string
                 format: 'inet:uri'
     put:
-      method: put
       summary: Update details on license
       deprecated: false
       responses:
@@ -154,7 +144,6 @@ paths:
                 type: string
                 format: 'inet:uri'
     patch:
-      method: patch
       summary: Merge details on license
       deprecated: false
       responses:
@@ -172,7 +161,6 @@ paths:
                 type: string
                 format: 'inet:uri'
     delete:
-      method: delete
       summary: Delete license from info.
       deprecated: false
       responses:
@@ -180,7 +168,6 @@ paths:
           description: Expected response for delete
   '/yang-openapi:transform':
     post:
-      method: post
       summary: Invokes transform in yang-openapi.
       deprecated: false
       responses:
@@ -189,7 +176,6 @@ paths:
             $ref: '#/definitions/openapi:specification'
   '/yang-openapi:serialize':
     post:
-      method: post
       summary: Invokes serialize in yang-openapi.
       deprecated: false
       responses:

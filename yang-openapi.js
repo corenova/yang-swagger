@@ -440,7 +440,7 @@
           operation = path[op.method] = {};
           for (k in op) {
             v = op[k];
-            if (k !== 'response') {
+            if (k !== 'method' && k !== 'response') {
               operation[k] = v;
             }
           }

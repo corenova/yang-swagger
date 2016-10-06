@@ -237,7 +237,7 @@ module.exports = require('./yang-openapi.yang').bind {
       path = a[_path.name] = '$ref': _path['$ref']
       for op in _path.operation
         operation = path[op.method] = {}
-        operation[k] = v for k, v of op when k isnt 'response'
+        operation[k] = v for k, v of op when k not in [ 'method', 'response' ]
         operation.responses = op.response.reduce ((x,_res) ->
           x[_res.code] =
             description: _res.description
