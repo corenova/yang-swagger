@@ -153,26 +153,6 @@ module yang-openapi {
       }
     }
   }
-  grouping response {
-    leaf description {
-      type meta:description;
-      mandatory true;
-    }
-    container schema {
-      uses openapi:json-schema;
-    }
-    list header {
-      
-    }
-    list example {
-      key mime;
-      leaf mime {
-        type mimetype;
-        mandatory true;
-      }
-      container data;
-    }
-  }
   grouping parameters-list {
     list parameter {
       leaf name {
@@ -198,8 +178,11 @@ module yang-openapi {
         description "if ../in = 'path' this must be true";
       }
       uses openapi:json-datatype;
+      container schema {
+        when "../in = 'body'";
+        uses openapi:json-schema;
+      }
       /* TODO
-       * schema (if in = body)
        * allow-empty-value
        * items
        * collection-format
@@ -217,6 +200,35 @@ module yang-openapi {
        * enum
        * multiple-of
        */
+    }
+  }
+  grouping response {
+    leaf description {
+      type meta:description;
+      mandatory true;
+    }
+    container schema {
+      uses openapi:json-schema;
+    }
+    list header {
+      
+    }
+    list example {
+      key mime;
+      leaf mime {
+        type mimetype;
+        mandatory true;
+      }
+      container data;
+    }
+  }
+  grouping responses-list {
+    list response {
+      key code;
+      leaf code {
+        type http-status-code;
+      }
+      uses openapi:response;
     }
   }
   grouping operations-list {
@@ -251,13 +263,7 @@ module yang-openapi {
         default false;
       }
       uses openapi:parameters-list;
-      list response {
-        key code;
-        leaf code {
-          type http-status-code;
-        }
-        uses openapi:response;
-      }
+      uses openapi:responses-list;
       list security {
         key name;
         leaf name;
@@ -301,7 +307,7 @@ module yang-openapi {
       }
     }
   }
-  grouping responses-list {
+  grouping responses-def-list {
     list response {
       key name;
       leaf name {
@@ -340,7 +346,7 @@ module yang-openapi {
     }
     uses openapi:paths-list;
     uses openapi:definitions-list;
-    uses openapi:responses-list;
+    uses openapi:responses-def-list;
     /* TODO
      * parameters
      * security-definitions
@@ -368,6 +374,13 @@ module yang-openapi {
         type yang:yang-identifier;
         min-elements 1;
       }
+      // TODO
+      // openapi:example 'application/json' {
+      //   value
+      //     '{
+      //        "modules": [ "yang-openapi" ]
+      //      }';
+      // }
     }
     output {
       uses openapi:specification;
@@ -387,6 +400,12 @@ module yang-openapi {
           enum yaml;
         }
         default json;
+      }
+    }
+    output {
+      leaf data {
+        description "contains the serialized specification data";
+        type string;
       }
     }
   }

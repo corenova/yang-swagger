@@ -23,9 +23,9 @@ swagger
   })
   .then(function (res) {
     if (argv.output) {
-      require('fs').writeFileSync(argv.output, res, 'utf-8');
+      require('fs').writeFileSync(argv.output, res.data, 'utf-8');
     } else {
-      console.log(res);
+      console.log(res.data);
     }
     return res;
   })

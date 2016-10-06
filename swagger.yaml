@@ -28,6 +28,12 @@ paths:
     put:
       summary: Update details on info
       deprecated: false
+      parameters:
+        - name: info
+          in: body
+          schema:
+            $ref: '#/definitions/openapi:info'
+          required: false
       responses:
         '200':
           description: Expected response of info
@@ -36,6 +42,12 @@ paths:
     patch:
       summary: Merge details on info
       deprecated: false
+      parameters:
+        - name: info
+          in: body
+          schema:
+            $ref: '#/definitions/openapi:info'
+          required: false
       responses:
         '200':
           description: Expected response of info
@@ -69,6 +81,22 @@ paths:
     put:
       summary: Update details on contact
       deprecated: false
+      parameters:
+        - name: contact
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                format: 'meta:person-name'
+              url:
+                type: string
+                format: 'inet:uri'
+              email:
+                type: string
+                format: 'meta:email-address'
+          required: false
       responses:
         '200':
           description: Expected response of contact
@@ -87,6 +115,22 @@ paths:
     patch:
       summary: Merge details on contact
       deprecated: false
+      parameters:
+        - name: contact
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                format: 'meta:person-name'
+              url:
+                type: string
+                format: 'inet:uri'
+              email:
+                type: string
+                format: 'meta:email-address'
+          required: false
       responses:
         '200':
           description: Expected response of contact
@@ -129,6 +173,21 @@ paths:
     put:
       summary: Update details on license
       deprecated: false
+      parameters:
+        - name: license
+          in: body
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                format: 'meta:license'
+              url:
+                type: string
+                format: 'inet:uri'
+          required: false
       responses:
         '200':
           description: Expected response of license
@@ -146,6 +205,21 @@ paths:
     patch:
       summary: Merge details on license
       deprecated: false
+      parameters:
+        - name: license
+          in: body
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                format: 'meta:license'
+              url:
+                type: string
+                format: 'inet:uri'
+          required: false
       responses:
         '200':
           description: Expected response of license
@@ -173,6 +247,18 @@ paths:
         Swagger/OpenAPI specification object.
       summary: Invokes transform in yang-openapi.
       deprecated: false
+      parameters:
+        - name: 'transform:input'
+          in: body
+          schema:
+            type: object
+            properties:
+              modules:
+                type: array
+                items:
+                  type: string
+                  format: 'yang:yang-identifier'
+          required: false
       responses:
         '200':
           description: Expected response of transform
@@ -185,10 +271,32 @@ paths:
         converts into string format based on requested output format.
       summary: Invokes serialize in yang-openapi.
       deprecated: false
+      parameters:
+        - name: 'serialize:input'
+          in: body
+          schema:
+            type: object
+            properties:
+              spec:
+                $ref: '#/definitions/openapi:specification'
+              format:
+                default: json
+                type: string
+                format: enumeration
+                enum:
+                  - json
+                  - yaml
+          required: false
       responses:
         '200':
           description: Expected response of serialize
-          schema: {}
+          schema:
+            type: object
+            properties:
+              data:
+                description: contains the serialized specification data
+                type: string
+                format: string
 definitions:
   'openapi:info':
     description: Contains metadata information to describe API.
@@ -233,7 +341,7 @@ definitions:
     allOf:
       - $ref: '#/definitions/openapi:paths-list'
       - $ref: '#/definitions/openapi:definitions-list'
-      - $ref: '#/definitions/openapi:responses-list'
+      - $ref: '#/definitions/openapi:responses-def-list'
       - required:
           - swagger
         properties:
@@ -306,6 +414,7 @@ definitions:
   operation:
     allOf:
       - $ref: '#/definitions/openapi:parameters-list'
+      - $ref: '#/definitions/openapi:responses-list'
       - properties:
           tags:
             type: array
@@ -340,47 +449,46 @@ definitions:
             default: 'false'
             type: boolean
             format: boolean
-          response:
-            type: array
-            items:
-              allOf:
-                - $ref: '#/definitions/openapi:response'
-                - properties:
-                    code:
-                      type: integer
-                      format: uint16
           security:
             type: array
             items:
               type: object
               properties:
                 name: {}
-  'openapi:response':
+  'openapi:parameters-list':
     type: object
-    required:
-      - description
     properties:
-      description:
-        type: string
-        format: 'meta:description'
-      schema:
-        $ref: '#/definitions/openapi:json-schema'
-      header:
+      parameter:
         type: array
         items:
-          type: object
-      example:
-        type: array
-        items:
-          type: object
-          required:
-            - mime
-          properties:
-            mime:
-              type: string
-              format: mimetype
-            data:
-              type: object
+          allOf:
+            - $ref: '#/definitions/openapi:json-datatype'
+            - required:
+                - name
+                - in
+              properties:
+                name:
+                  type: string
+                  format: string
+                in:
+                  type: string
+                  format: enumeration
+                  enum:
+                    - query
+                    - header
+                    - path
+                    - formData
+                    - body
+                description:
+                  type: string
+                  format: 'meta:description'
+                required:
+                  description: if ../in = 'path' this must be true
+                  default: 'false'
+                  type: boolean
+                  format: boolean
+                schema:
+                  $ref: '#/definitions/openapi:json-schema'
   'openapi:json-schema':
     allOf:
       - $ref: '#/definitions/openapi:json-datatype'
@@ -434,38 +542,44 @@ definitions:
       format:
         type: string
         format: union
-  'openapi:parameters-list':
+  'openapi:responses-list':
     type: object
     properties:
-      parameter:
+      response:
         type: array
         items:
           allOf:
-            - $ref: '#/definitions/openapi:json-datatype'
-            - required:
-                - name
-                - in
-              properties:
-                name:
-                  type: string
-                  format: string
-                in:
-                  type: string
-                  format: enumeration
-                  enum:
-                    - query
-                    - header
-                    - path
-                    - formData
-                    - body
-                description:
-                  type: string
-                  format: 'meta:description'
-                required:
-                  description: if ../in = 'path' this must be true
-                  default: 'false'
-                  type: boolean
-                  format: boolean
+            - $ref: '#/definitions/openapi:response'
+            - properties:
+                code:
+                  type: integer
+                  format: uint16
+  'openapi:response':
+    type: object
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        format: 'meta:description'
+      schema:
+        $ref: '#/definitions/openapi:json-schema'
+      header:
+        type: array
+        items:
+          type: object
+      example:
+        type: array
+        items:
+          type: object
+          required:
+            - mime
+          properties:
+            mime:
+              type: string
+              format: mimetype
+            data:
+              type: object
   'openapi:definitions-list':
     type: object
     properties:
@@ -479,7 +593,7 @@ definitions:
               format: 'yang:yang-identifier'
             schema:
               $ref: '#/definitions/openapi:json-schema'
-  'openapi:responses-list':
+  'openapi:responses-def-list':
     type: object
     properties:
       response:

@@ -101,6 +101,12 @@ discoverOperations = (schema, item=false) ->
       description: schema.description?.tag
       summary: "Invokes #{schema.tag} in #{schema.parent.tag}."
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}:input"
+        in: 'body'
+        description: schema.input?.description?.tag
+        schema: yang2jschema schema.input
+      ]
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
@@ -112,6 +118,12 @@ discoverOperations = (schema, item=false) ->
       description: schema.description?.tag
       summary: "Creates one or more new #{schema.tag} in #{schema.parent.tag}."
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}"
+        in: 'body'
+        description: schema.description?.tag
+        schema: yang2jschema schema
+      ]
       response: [
         code: 200
         description: "Expected response for creating #{schema.tag}(s) in collection"
@@ -130,6 +142,12 @@ discoverOperations = (schema, item=false) ->
       method: 'put'
       summary: "Replace the entire #{schema.tag} collection"
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}"
+        in: 'body'
+        description: schema.description?.tag
+        schema: yang2jschema schema
+      ]
       response: [
         code: 201
         description: "Expected response for replacing collection"
@@ -138,6 +156,12 @@ discoverOperations = (schema, item=false) ->
       method: 'patch'
       summary: "Merge items into the #{schema.tag} collection"
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}"
+        in: 'body'
+        description: schema.description?.tag
+        schema: yang2jschema schema
+      ]
       response: [
         code: 201
         description: "Expected response for merging into collection"
@@ -157,6 +181,12 @@ discoverOperations = (schema, item=false) ->
       method: 'put'
       summary: "Update details on #{schema.tag}"
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}"
+        in: 'body'
+        description: schema.description?.tag
+        schema: yang2jschema schema, item
+      ]
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
@@ -166,6 +196,12 @@ discoverOperations = (schema, item=false) ->
       method: 'patch'
       summary: "Merge details on #{schema.tag}"
       deprecated: deprecated
+      parameter: [
+        name: "#{schema.tag}"
+        in: 'body'
+        description: schema.description?.tag
+        schema: yang2jschema schema, item
+      ]
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
@@ -181,8 +217,8 @@ discoverOperations = (schema, item=false) ->
       ]
     ]
 
-discoverParameters = (schema) ->
-  debug? "[#{schema.trail}] discovering parameters"
+discoverPathParameters = (schema) ->
+  debug? "[#{schema.trail}] discovering path parameters"
   key = "#{schema.key?.valueOf()}"
   switch
     when not schema.key? then [
@@ -221,7 +257,7 @@ discoverPaths = (schema) ->
   switch schema.kind
     when 'list'
       key = schema.key?.valueOf() ? 'index'
-      params = discoverParameters(schema)
+      params = discoverPathParameters(schema)
       paths.push
         name: "#{name}/{#{key}}"
         parameter: params
@@ -272,7 +308,9 @@ module.exports = require('./yang-openapi.yang').bind {
       path = a[_path.name] = '$ref': _path['$ref']
       for op in _path.operation ? []
         operation = path[op.method] = {}
-        operation[k] = v for k, v of op when k not in [ 'method', 'response' ]
+        operation[k] = v for k, v of op when k not in [ 'method', 'parameter', 'response' ]
+        operation.parameters = traverse(op.parameter).map (x) ->
+          @update serializeJSchema(x), true if @key is 'schema'
         operation.responses = op.response.reduce ((x,_res) ->
           x[_res.code] =
             description: _res.description
@@ -289,8 +327,9 @@ module.exports = require('./yang-openapi.yang').bind {
     delete spec.path
     delete spec.definition
     spec = traverse(spec).map (x) -> @remove() unless x?
-    @output = switch @input.format
-      when 'json' then JSON.stringify spec, null, 2
-      when 'yaml' then yaml.dump spec
+    @output =
+      data: switch @input.format
+        when 'json' then JSON.stringify spec, null, 2
+        when 'yaml' then yaml.dump spec
     
 }
