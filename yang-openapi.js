@@ -342,7 +342,7 @@
         key = (ref3 = (ref4 = schema.key) != null ? ref4.valueOf() : void 0) != null ? ref3 : 'id';
         paths.push({
           name: name + "/{" + key + "}",
-          operations: discoverOperations(schema, true)
+          operation: discoverOperations(schema, true)
         });
         subpaths.forEach(function(x) {
           return x.name = (name + "/{" + key + "}") + x.name;
@@ -432,19 +432,19 @@
       };
     },
     serialize: function() {
-      var spec;
+      var ref1, spec;
       if (typeof debug === "function") {
         debug("serializing yang-openapi spec");
       }
       spec = clone(this.input.spec);
       spec.paths = spec.path.reduce((function(a, _path) {
-        var i, k, len, op, operation, path, ref1, v;
+        var i, k, len, op, operation, path, ref1, ref2, v;
         path = a[_path.name] = {
           '$ref': _path['$ref']
         };
-        ref1 = _path.operation;
-        for (i = 0, len = ref1.length; i < len; i++) {
-          op = ref1[i];
+        ref2 = (ref1 = _path.operation) != null ? ref1 : [];
+        for (i = 0, len = ref2.length; i < len; i++) {
+          op = ref2[i];
           operation = path[op.method] = {};
           for (k in op) {
             v = op[k];
@@ -462,10 +462,10 @@
         }
         return a;
       }), {});
-      spec.definitions = spec.definition.reduce((function(a, _def) {
+      spec.definitions = (ref1 = spec.definition) != null ? ref1.reduce((function(a, _def) {
         a[_def.name] = serializeJSchema(_def.schema);
         return a;
-      }), {});
+      }), {}) : void 0;
       delete spec.path;
       delete spec.definition;
       spec = traverse(spec).map(function(x) {

@@ -201,7 +201,7 @@ discoverPaths = (schema) ->
       key = schema.key?.valueOf() ? 'id'
       paths.push
         name: "#{name}/{#{key}}"
-        operations: discoverOperations(schema,true)
+        operation: discoverOperations(schema,true)
       subpaths.forEach (x) -> x.name = "#{name}/{#{key}}" + x.name
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
@@ -243,7 +243,7 @@ module.exports = require('./yang-openapi.yang').bind {
     spec = clone @input.spec
     spec.paths = spec.path.reduce ((a,_path) ->
       path = a[_path.name] = '$ref': _path['$ref']
-      for op in _path.operation
+      for op in _path.operation ? []
         operation = path[op.method] = {}
         operation[k] = v for k, v of op when k not in [ 'method', 'response' ]
         operation.responses = op.response.reduce ((x,_res) ->
@@ -254,7 +254,7 @@ module.exports = require('./yang-openapi.yang').bind {
         ), {}
       return a
     ), {}
-    spec.definitions = spec.definition.reduce ((a,_def) ->
+    spec.definitions = spec.definition?.reduce ((a,_def) ->
       a[_def.name] = serializeJSchema _def.schema
       return a
     ), {}
