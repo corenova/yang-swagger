@@ -1,6 +1,6 @@
 {
   "name": "yang-swagger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "YANG model-driven swagger/openapi transform",
   "keywords": [
     "yang",
@@ -20,6 +20,9 @@
   "license": "Apache-2.0",
   "repository": "corenova/yang-swagger",
   "main": "./yang-openapi.js",
+  "bin": {
+    "yang2swagger": "./bin/yang2swagger"
+  },
   "models": {
     "ietf-inet-types": "yang-js",
     "ietf-yang-types": "yang-js",
