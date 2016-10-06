@@ -99,7 +99,7 @@ discoverOperations = (schema, item=false) ->
     when schema.kind is 'rpc' then [
       method: 'post'
       description: schema.description?.tag
-      summary: "Invokes #{schema.tag} in #{schema.parent.tag}."
+      summary: "Invokes #{schema.tag} in #{schema.parent.tag}"
       deprecated: deprecated
       parameter: [
         name: "#{schema.tag}:input"
@@ -116,7 +116,7 @@ discoverOperations = (schema, item=false) ->
     when schema.kind is 'list' and not item then [
       method: 'post'
       description: schema.description?.tag
-      summary: "Creates one or more new #{schema.tag} in #{schema.parent.tag}."
+      summary: "Creates one or more new #{schema.tag} in #{schema.parent.tag}"
       deprecated: deprecated
       parameter: [
         name: "#{schema.tag}"
@@ -227,6 +227,7 @@ discoverPathParameters = (schema) ->
       required: true
       type: 'integer'
       format: 'int64'
+      description: "An index key identifying #{schema.tag} item (may change over time)"
     ]
     when schema.key.tag.length > 1 then [
       name: key
@@ -234,12 +235,14 @@ discoverPathParameters = (schema) ->
       required: true
       type: 'string'
       format: 'composite'
+      description: "A composite key uniquely identifying #{schema.tag} item"
     ]
     else
       param =
         name: key
         in: 'path'
         required: true
+        description: "A key uniquely identifying #{schema.tag} item"
       param[k] = v for k, v of yang2jstype schema.locate(key)
       [ param ]
 

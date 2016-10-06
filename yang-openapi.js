@@ -368,7 +368,8 @@
             "in": 'path',
             required: true,
             type: 'integer',
-            format: 'int64'
+            format: 'int64',
+            description: "An index key identifying " + schema.tag + " item (may change over time)"
           }
         ];
       case !(schema.key.tag.length > 1):
@@ -378,14 +379,16 @@
             "in": 'path',
             required: true,
             type: 'string',
-            format: 'composite'
+            format: 'composite',
+            description: "A composite key uniquely identifying " + schema.tag + " item"
           }
         ];
       default:
         param = {
           name: key,
           "in": 'path',
-          required: true
+          required: true,
+          description: "A key uniquely identifying " + schema.tag + " item"
         };
         ref2 = yang2jstype(schema.locate(key));
         for (k in ref2) {
