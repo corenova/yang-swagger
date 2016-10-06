@@ -1,7 +1,10 @@
 yang-openapi:info:
   title: YANG-to-SWAGGER
   description: |
-    Provides YANG model-driven schema transformations to swagger/openapi schema formats
+    Provides YANG model-driven schema transformations to
+    swagger/openapi schema formats.  This output is self-generated
+    using its own YANG model (yang-openapi.yang) as input to generate
+    the swagger/openapi specification.
   version: '1.0'
   contact:
     name: Peter K. Lee
