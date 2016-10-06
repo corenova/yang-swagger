@@ -119,7 +119,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'get'
-      description: schema.description?.tag
       summary: "List all #{schema.tag}s from #{schema.parent.tag}"
       deprecated: deprecated
       response: [
@@ -129,7 +128,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
-      description: schema.description?.tag
       summary: "Replace the entire #{schema.tag} collection"
       deprecated: deprecated
       response: [
@@ -138,7 +136,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
-      description: schema.description?.tag
       summary: "Merge items into the #{schema.tag} collection"
       deprecated: deprecated
       response: [
@@ -158,7 +155,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
-      description: schema.description?.tag
       summary: "Update details on #{schema.tag}"
       deprecated: deprecated
       response: [
@@ -168,7 +164,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
-      description: schema.description?.tag
       summary: "Merge details on #{schema.tag}"
       deprecated: deprecated
       response: [
@@ -178,7 +173,6 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'delete'
-      description: schema.description?.tag
       summary: "Delete #{schema.tag} from #{schema.parent.tag}."
       deprecated: deprecated
       response: [
@@ -187,8 +181,36 @@ discoverOperations = (schema, item=false) ->
       ]
     ]
 
+discoverParameters = (schema) ->
+  debug? "[#{schema.trail}] discovering parameters"
+  key = "#{schema.key?.valueOf()}"
+  switch
+    when not schema.key? then [
+      name: 'index'
+      in: 'path'
+      required: true
+      type: 'integer'
+      format: 'int64'
+    ]
+    when schema.key.tag.length > 1 then [
+      name: key
+      in: 'path'
+      required: true
+      type: 'string'
+      format: 'composite'
+    ]
+    else
+      param =
+        name: key
+        in: 'path'
+        required: true
+      param[k] = v for k, v of yang2jstype schema.locate(key)
+      [ param ]
+
 discoverPaths = (schema) ->
   return [] unless schema.kind in [ 'list', 'container', 'rpc' ]
+  return [] if schema['if-feature']? # ignore if-feature entries...
+  
   name = "/#{schema.datakey}"
   debug? "[#{schema.trail}] discovering paths"
   paths = [
@@ -198,11 +220,16 @@ discoverPaths = (schema) ->
   subpaths = [].concat (discoverPaths sub for sub in schema.nodes)...
   switch schema.kind
     when 'list'
-      key = schema.key?.valueOf() ? 'id'
+      key = schema.key?.valueOf() ? 'index'
+      params = discoverParameters(schema)
       paths.push
         name: "#{name}/{#{key}}"
+        parameter: params
         operation: discoverOperations(schema,true)
-      subpaths.forEach (x) -> x.name = "#{name}/{#{key}}" + x.name
+      subpaths.forEach (x) ->
+        x.name = "#{name}/{#{key}}" + x.name
+        x.parameter?.push? params...
+        x.parameter ?= params
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
   debug? "[#{schema.trail}] discovered #{paths.length} paths with #{subpaths.length} subpaths"
@@ -252,6 +279,7 @@ module.exports = require('./yang-openapi.yang').bind {
             schema: serializeJSchema _res.schema
           return x
         ), {}
+      path.parameters = _path.parameter
       return a
     ), {}
     spec.definitions = spec.definition?.reduce ((a,_def) ->

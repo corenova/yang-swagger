@@ -231,9 +231,9 @@ definitions:
             format: 'inet:uri'
   'openapi:specification':
     allOf:
-      - $ref: '#/definitions/paths-list'
-      - $ref: '#/definitions/definitions-list'
-      - $ref: '#/definitions/responses-list'
+      - $ref: '#/definitions/openapi:paths-list'
+      - $ref: '#/definitions/openapi:definitions-list'
+      - $ref: '#/definitions/openapi:responses-list'
       - required:
           - swagger
         properties:
@@ -263,7 +263,7 @@ definitions:
             items:
               type: string
               format: mimetype
-  paths-list:
+  'openapi:paths-list':
     type: object
     properties:
       path:
@@ -277,16 +277,13 @@ definitions:
                   format: 'inet:uri'
   path-item:
     allOf:
-      - $ref: '#/definitions/operations-list'
+      - $ref: '#/definitions/openapi:operations-list'
+      - $ref: '#/definitions/openapi:parameters-list'
       - properties:
           $ref:
             type: string
             format: json-schema-ref
-          parameter:
-            type: array
-            items:
-              type: object
-  operations-list:
+  'openapi:operations-list':
     type: object
     properties:
       operation:
@@ -307,60 +304,57 @@ definitions:
                     - head
                     - patch
   operation:
-    type: object
-    properties:
-      tags:
-        type: array
-        items:
-          type: string
-          format: string
-      consumes:
-        type: array
-        items:
-          type: string
-          format: mimetype
-      produces:
-        type: array
-        items:
-          type: string
-          format: mimetype
-      schemes:
-        type: array
-        items:
-          type: string
-          format: identityref
-      summary:
-        type: string
-        format: 'meta:description'
-      description:
-        type: string
-        format: 'meta:description'
-      operationId:
-        type: string
-        format: string
-      deprecated:
-        default: 'false'
-        type: boolean
-        format: boolean
-      response:
-        type: array
-        items:
-          allOf:
-            - $ref: '#/definitions/openapi:response'
-            - properties:
-                code:
-                  type: integer
-                  format: uint16
-      parameter:
-        type: array
-        items:
-          type: object
-      security:
-        type: array
-        items:
-          type: object
-          properties:
-            name: {}
+    allOf:
+      - $ref: '#/definitions/openapi:parameters-list'
+      - properties:
+          tags:
+            type: array
+            items:
+              type: string
+              format: string
+          consumes:
+            type: array
+            items:
+              type: string
+              format: mimetype
+          produces:
+            type: array
+            items:
+              type: string
+              format: mimetype
+          schemes:
+            type: array
+            items:
+              type: string
+              format: identityref
+          summary:
+            type: string
+            format: 'meta:description'
+          description:
+            type: string
+            format: 'meta:description'
+          operationId:
+            type: string
+            format: string
+          deprecated:
+            default: 'false'
+            type: boolean
+            format: boolean
+          response:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/openapi:response'
+                - properties:
+                    code:
+                      type: integer
+                      format: uint16
+          security:
+            type: array
+            items:
+              type: object
+              properties:
+                name: {}
   'openapi:response':
     type: object
     required:
@@ -389,7 +383,7 @@ definitions:
               type: object
   'openapi:json-schema':
     allOf:
-      - $ref: '#/definitions/json-datatype'
+      - $ref: '#/definitions/openapi:json-datatype'
       - properties:
           $ref:
             type: string
@@ -423,7 +417,7 @@ definitions:
               $ref: '#/definitions/openapi:json-schema'
           items:
             $ref: '#/definitions/openapi:json-schema'
-  json-datatype:
+  'openapi:json-datatype':
     type: object
     properties:
       type:
@@ -440,7 +434,39 @@ definitions:
       format:
         type: string
         format: union
-  definitions-list:
+  'openapi:parameters-list':
+    type: object
+    properties:
+      parameter:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/openapi:json-datatype'
+            - required:
+                - name
+                - in
+              properties:
+                name:
+                  type: string
+                  format: string
+                in:
+                  type: string
+                  format: enumeration
+                  enum:
+                    - query
+                    - header
+                    - path
+                    - formData
+                    - body
+                description:
+                  type: string
+                  format: 'meta:description'
+                required:
+                  description: if ../in = 'path' this must be true
+                  default: 'false'
+                  type: boolean
+                  format: boolean
+  'openapi:definitions-list':
     type: object
     properties:
       definition:
@@ -453,7 +479,7 @@ definitions:
               format: 'yang:yang-identifier'
             schema:
               $ref: '#/definitions/openapi:json-schema'
-  responses-list:
+  'openapi:responses-list':
     type: object
     properties:
       response:

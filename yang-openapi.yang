@@ -80,40 +80,40 @@ module yang-openapi {
       leaf url  { type inet:uri; }
     }
   }
-  grouping json-schema {
-    grouping json-datatype {
-      leaf type {
-        type enumeration {
-          enum string;
-          enum number;
-          enum integer;
-          enum boolean;
-          enum array;
-          enum file;
-          enum object;
-        }
-      }
-      leaf format {
-        type union {
-          type enumeration {
-            enum int32;
-            enum int64;
-            enum float;
-            enum double;
-            enum byte;
-            enum binary;
-            enum date;
-            enum date-time;
-            enum password;
-          }
-          type string;
-        }
+  grouping json-datatype {
+    leaf type {
+      type enumeration {
+        enum string;
+        enum number;
+        enum integer;
+        enum boolean;
+        enum array;
+        enum file;
+        enum object;
       }
     }
+    leaf format {
+      type union {
+        type enumeration {
+          enum int32;
+          enum int64;
+          enum float;
+          enum double;
+          enum byte;
+          enum binary;
+          enum date;
+          enum date-time;
+          enum password;
+        }
+        type string;
+      }
+    }
+  }
+  grouping json-schema {
     leaf $ref {
       type json-schema-ref;
     }
-    uses json-datatype;
+    uses openapi:json-datatype;
     leaf-list required {
       //type string;
       type leafref {
@@ -173,6 +173,52 @@ module yang-openapi {
       container data;
     }
   }
+  grouping parameters-list {
+    list parameter {
+      leaf name {
+        type string;
+        mandatory true;
+      }
+      leaf in {
+        type enumeration {
+          enum query;
+          enum header;
+          enum path;
+          enum formData;
+          enum body;
+        }
+        mandatory true;
+      }
+      leaf description {
+        type meta:description;
+      }
+      leaf required {
+        type boolean;
+        default false;
+        description "if ../in = 'path' this must be true";
+      }
+      uses openapi:json-datatype;
+      /* TODO
+       * schema (if in = body)
+       * allow-empty-value
+       * items
+       * collection-format
+       * default
+       * maximum
+       * exclusive-maximum
+       * minimum
+       * exclusive-minimum
+       * max-length
+       * min-length
+       * pattern
+       * max-items
+       * min-items
+       * unique-items
+       * enum
+       * multiple-of
+       */
+    }
+  }
   grouping operations-list {
     grouping operation {
       leaf-list tags {
@@ -204,16 +250,13 @@ module yang-openapi {
         type boolean;
         default false;
       }
+      uses openapi:parameters-list;
       list response {
         key code;
         leaf code {
           type http-status-code;
         }
         uses openapi:response;
-      }
-      list parameter {
-        //node:hash "../parameters";
-        // TODO
       }
       list security {
         key name;
@@ -235,10 +278,8 @@ module yang-openapi {
       leaf $ref {
         type json-schema-ref;
       }
-      uses operations-list;
-      list parameter {
-        // TODO
-      }
+      uses openapi:operations-list;
+      uses openapi:parameters-list;
     }
     list path {
       key name;
@@ -297,9 +338,9 @@ module yang-openapi {
       type mimetype;
       min-elements 1;
     }
-    uses paths-list;
-    uses definitions-list;
-    uses responses-list;
+    uses openapi:paths-list;
+    uses openapi:definitions-list;
+    uses openapi:responses-list;
     /* TODO
      * parameters
      * security-definitions
