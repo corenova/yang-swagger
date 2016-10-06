@@ -27,9 +27,11 @@
     "yang-openapi": "./yang-openapi.yang"
   },
   "dependencies": {
+    "clone": "^2.0.0",
     "config": "^1.21.0",
     "debug": "^2.2.0",
     "js-yaml": "^3.6.1",
+    "traverse": "^0.6.6",
     "yang-js": "^0.16.1"
   },
   "devDependencies": {
@@ -45,7 +47,8 @@
     "clean": "rimraf dist/* lib/*",
     "prebuild": "npm run clean -s && mkdir -p dist",
     "build:src": "coffee -c yang-openapi.coffee",
-    "build": "npm run build:src",
+    "build:api": "bin/yang2swagger -I yang-openapi -o swagger.yaml",
+    "build": "npm run build:src && npm run build:api",
     "prepublish": "npm run build",
     "pretest": "npm run build",
     "test": "mocha"

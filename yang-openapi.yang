@@ -115,6 +115,7 @@ module yang-openapi {
     }
     uses json-datatype;
     leaf-list required {
+      //type string;
       type leafref {
         path '../property/name';
       }
@@ -209,8 +210,18 @@ module yang-openapi {
         }
         uses openapi:response;
       }
+      list parameter {
+        //node:hash "../parameters";
+        // TODO
+      }
+      list security {
+        key name;
+        leaf name;
+        // TODO
+      }
     }
     list operation {
+      //node:hash "..";
       key method;
       leaf method {
         type http-method;
@@ -259,9 +270,9 @@ module yang-openapi {
   }
   grouping specification {
     leaf swagger {
-      config false;
       type meta:api-version;
-      default '2.0';
+      mandatory true;
+      must "current() = '2.0'";
     }
     container info {
       uses openapi:info;

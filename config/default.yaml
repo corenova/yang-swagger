@@ -1,0 +1,11 @@
+yang-openapi:info:
+  title: YANG-to-SWAGGER
+  description: |
+    Provides YANG model-driven schema transformations to swagger/openapi schema formats
+  version: '1.0'
+  contact:
+    name: Peter K. Lee
+    url: https://github.com/corenova/yang-swagger
+    email: peter@corenova.com
+  license:
+    name: 'Apache-2.0'

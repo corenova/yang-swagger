@@ -1,16 +1,18 @@
 # OPENAPI (swagger) specification feature
 
 debug = require('debug')('yang:openapi') if process.env.DEBUG?
+clone = require 'clone'
+traverse = require 'traverse'
 Yang = require 'yang-js'
 yaml = require 'js-yaml'
 
 # TODO: this should be handled via separate yang-json-schema module
 definitions = {}
 yang2jstype = (schema) ->
-  jschema =
+  js =
     description: schema.description?.tag
     default: schema.default?.tag
-  return jschema unless schema.type?
+  return js unless schema.type?
   datatype = switch schema.type.primitive
     when 'uint8','int8'
       type: 'integer'
@@ -37,10 +39,14 @@ yang2jstype = (schema) ->
       # TODO: handle pattern?
       type: 'string'
       format: schema.type.tag
-  jschema[k] = v for k, v of datatype
-  return jschema
+  js[k] = v for k, v of datatype
+  return js
 
 yang2jsobj = (schema) ->
+  return {} unless schema?
+  debug? "[#{schema.trail}] converting schema to JSON-schema"
+  js =
+   description: schema.description?.tag
   required = []
   property = schema.nodes
     .filter (x) -> x.parent is schema
@@ -49,35 +55,43 @@ yang2jsobj = (schema) ->
         required.push node.tag
       name: node.tag
       schema: yang2jschema node
-  if schema.uses?
-    description: schema.description?.tag
-    allOf: schema.uses
-      .map (x) -> 
-        definitions[x.tag] = yang2jschema x.grouping
-        '$ref': "#/definitions/#{x.tag}"
-      .concat {
-        required: required if required.length
-        property: property if property.length
-      }
+  refs = schema.uses?.filter (x) -> x.parent is schema
+  if refs?.length
+    refs.forEach (ref) ->
+      unless definitions[ref.tag]?
+        debug? "[#{schema.trail}] defining #{ref.tag}"
+        definitions[ref.tag] = true
+        definitions[ref.tag] = yang2jsobj ref.state.grouping.origin
+      
+    if refs.length > 1 or property.length
+      js.allOf = refs.map (ref) -> '$ref': "#/definitions/#{ref.tag}"
+      if property.length
+        js.allOf.push
+          required: required
+          property: property
+    else
+      ref = refs[0]
+      js['$ref'] = "#/definitions/#{ref.tag}"
   else
-    type: 'object'
-    description: schema.description?.tag
-    required: required if required.length
-    property: property if property.length
+    js.type = 'object'
+    js.required = required if required.length
+    js.property = property if property.length
+  
+  return js
 
-yang2jschema = (schema, collection=false) ->
+yang2jschema = (schema, item=false) ->
   return {} unless schema?
   switch schema.kind
     when 'leaf'      then yang2jstype schema
     when 'leaf-list' then type: 'array', items: yang2jstype schema
-    when 'container' then yang2jsobj schema
     when 'list'
-      if collection then type: 'array', items: yang2jsobj schema
+      unless item then type: 'array', items: yang2jsobj schema
       else yang2jsobj schema
-    else {}
+    when 'grouping' then {}
+    else yang2jsobj schema
 
 discoverOperations = (schema, item=false) ->
-  debug? "discover operations for #{schema.trail}"
+  debug? "[#{schema.trail}] discovering operations"
   deprecated = schema.status?.valueOf() is 'deprecated'
   switch 
     when schema.kind is 'rpc' then [
@@ -96,7 +110,7 @@ discoverOperations = (schema, item=false) ->
       response: [
         code: 200
         description: "Expected response for creating #{schema.tag}(s) in collection"
-        schema: yang2jschema schema, true
+        schema: yang2jschema schema
       ]
      ,
       method: 'get'
@@ -106,7 +120,7 @@ discoverOperations = (schema, item=false) ->
       response: [
         code: 200
         description: "Expected response of #{schema.tag}s"
-        schema: yang2jschema schema, true
+        schema: yang2jschema schema
       ]
      ,
       method: 'put'
@@ -133,7 +147,7 @@ discoverOperations = (schema, item=false) ->
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
-        schema: yang2jschema schema
+        schema: yang2jschema schema, item
       ]
      ,
       method: 'put'
@@ -142,7 +156,7 @@ discoverOperations = (schema, item=false) ->
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
-        schema: yang2jschema schema
+        schema: yang2jschema schema, item
       ]
      ,
       method: 'patch'
@@ -151,11 +165,11 @@ discoverOperations = (schema, item=false) ->
       response: [
         code: 200
         description: "Expected response of #{schema.tag}"
-        schema: yang2jschema schema
+        schema: yang2jschema schema, item
       ]
      ,
       method: 'delete'
-      summary: "Deletes a #{schema.tag} from #{schema.parent.tag}."
+      summary: "Delete #{schema.tag} from #{schema.parent.tag}."
       deprecated: deprecated
       response: [
         code: 204
@@ -166,12 +180,12 @@ discoverOperations = (schema, item=false) ->
 discoverPaths = (schema) ->
   return [] unless schema.kind in [ 'list', 'container', 'rpc' ]
   name = "/#{schema.datakey}"
-  debug? "discover paths for #{name}"
+  debug? "[#{schema.trail}] discovering paths"
   paths = [
     name: name
     operation: discoverOperations schema
   ]
-  subpaths = (discoverPaths sub for sub in schema.nodes)
+  subpaths = [].concat (discoverPaths sub for sub in schema.nodes)...
   switch schema.kind
     when 'list'
       key = schema.key?.valueOf() ? 'id'
@@ -181,21 +195,64 @@ discoverPaths = (schema) ->
       subpaths.forEach (x) -> x.name = "#{name}/{#{key}}" + x.name
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
-  debug? "discovered #{paths.length} paths with #{subpaths.length} subpaths"
+  debug? "[#{schema.trail}] discovered #{paths.length} paths with #{subpaths.length} subpaths"
   paths.concat subpaths...
+
+serializeJSchema = (jschema) ->
+  return unless jschema?
+  o = {}
+  o[k] = v for k, v of jschema when k isnt 'property'
+  o.properties = jschema.property?.reduce ((a, _prop) ->
+    a[_prop.name] = serializeJSchema _prop.schema
+    return a
+  ), {}
+  o.items = serializeJSchema o.items
+  o.allOf = o.allOf?.map (x) -> serializeJSchema x
+  o.anyOf = o.anyOf?.map (x) -> serializeJSchema x
+  o.oneOf = o.oneOf?.map (x) -> serializeJSchema x
+  return o
 
 module.exports = require('./yang-openapi.yang').bind {
 
   transform: ->
     modules = @input.modules.map (name) => @schema.constructor.import(name)
+    debug? "transforming #{@input.modules} into yang-openapi"
     definitions = {} # usage of globals is a hack
     @output =
+      swagger: '2.0'
       info: @get('/info')
       consumes: [ "application/json" ]
       produces: [ "application/json" ]
       path: modules
         .map (m) -> discoverPaths(schema) for schema in m.nodes
-        .reduce ((a,b) -> a.concat b), []
+        .reduce ((a,b) -> a.concat b...), []
       definition: (name: k, schema: v for k, v of definitions)
+
+  serialize: ->
+    debug? "serializing yang-openapi spec"
+    spec = clone @input.spec
+    spec.paths = spec.path.reduce ((a,_path) ->
+      path = a[_path.name] = '$ref': _path['$ref']
+      for op in _path.operation
+        operation = path[op.method] = {}
+        operation[k] = v for k, v of op when k isnt 'response'
+        operation.responses = op.response.reduce ((x,_res) ->
+          x[_res.code] =
+            description: _res.description
+            schema: serializeJSchema _res.schema
+          return x
+        ), {}
+      return a
+    ), {}
+    spec.definitions = spec.definition.reduce ((a,_def) ->
+      a[_def.name] = serializeJSchema _def.schema
+      return a
+    ), {}
+    delete spec.path
+    delete spec.definition
+    spec = traverse(spec).map (x) -> @remove() unless x?
+    @output = switch @input.format
+      when 'json' then JSON.stringify spec, null, 2
+      when 'yaml' then yaml.dump spec
     
 }
