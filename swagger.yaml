@@ -172,6 +172,7 @@ paths:
       deprecated: false
       responses:
         '200':
+          description: Expected response of transform
           schema:
             $ref: '#/definitions/openapi:specification'
   '/yang-openapi:serialize':
@@ -180,6 +181,7 @@ paths:
       deprecated: false
       responses:
         '200':
+          description: Expected response of serialize
           schema: {}
 definitions:
   'openapi:info':
@@ -355,6 +357,8 @@ definitions:
             name: {}
   'openapi:response':
     type: object
+    required:
+      - description
     properties:
       description:
         type: string

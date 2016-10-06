@@ -201,6 +201,7 @@
             response: [
               {
                 code: 200,
+                description: "Expected response of " + schema.tag,
                 schema: yang2jschema(schema.output)
               }
             ]

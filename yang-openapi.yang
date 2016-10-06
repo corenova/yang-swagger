@@ -156,6 +156,7 @@ module yang-openapi {
   grouping response {
     leaf description {
       type meta:description;
+      mandatory true;
     }
     container schema {
       uses openapi:json-schema;
