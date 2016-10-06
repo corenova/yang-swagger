@@ -5,19 +5,26 @@ var argv = require('minimist')(process.argv.slice(2), {
   alias: {
     help: 'h',
 	format: 'f',
-    include: 'I',
     output: 'o'
   },
   string: [ 'format', 'output' ]
 });
 
+if (argv.h === true) {
+  var help;
+  help  = "  Usage: yang-swagger [options] modules...\n\n";
+  help += "  Options:\n";
+  help += "    -f, --format <string>    Convert to YAML or JSON (default: json)\n";
+  help += "    -o, --output <filename>  Write to <filename> if specified, otherwise to console\n";
+  console.info(help);
+  process.exit();
+}
+
 var config = require('config');
 var swagger = require('..').eval(config)
 
-argv.include = [].concat(argv.include).filter(Boolean);
-
-swagger
-  .in('transform').invoke({modules: argv.include})
+swagger.in('transform')
+  .invoke({modules: argv._})
   .then(function (spec) {
     return swagger.in('serialize').invoke({spec: spec, format: argv.format});
   })

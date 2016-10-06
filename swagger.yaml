@@ -245,7 +245,7 @@ paths:
       description: |-
         The transform accepts YANG module names and converts into
         Swagger/OpenAPI specification object.
-      summary: Invokes transform in yang-openapi.
+      summary: Invokes transform in yang-openapi
       deprecated: false
       parameters:
         - name: 'transform:input'
@@ -269,7 +269,7 @@ paths:
       description: |-
         The serialize accepts Swagger/OpenAPI specification object and
         converts into string format based on requested output format.
-      summary: Invokes serialize in yang-openapi.
+      summary: Invokes serialize in yang-openapi
       deprecated: false
       parameters:
         - name: 'serialize:input'

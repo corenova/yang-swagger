@@ -8,20 +8,59 @@ YANG model-driven swagger/openapi transform
 ## Installation
 
 ```bash
-$ npm install yang-swagger
+$ npm install -g yang-swagger
 ```
+
+The preferred installation is *global* for easy access to the
+`yang-swagger` utility but can also be used as a dependency module to
+help generate swagger/openapi specification as part of your project.
 
 ## Quick Start
 
 ```bash
-$ bin/yang2swagger -I yang-openapi -f yaml
+$ yang-swagger -f yaml -o swagger.yaml yang-openapi
 ```
 
 The above example will import the `yang-openapi` YANG module and
 transform into swagger specification YAML file.
 
-You can also take a look at the generated documentation at
-[Apiary](http://docs.yangswagger.apiary.io).
+```
+  Usage: yang-swagger [options] modules...
+
+  Options:
+      -f, --format <string>    Convert to YAML or JSON (default: json)
+      -o, --output <filename>  Write to <filename> if specified, otherwise to console
+```
+
+You can also use it as a library module:
+
+```coffeescript
+swag = require("yang-swagger").eval {
+  'yang-openapi:info':
+    title: "my-api"
+	description: "describe purpose"
+	version: "1.0"
+	contact:
+	  name: "your name"
+	  url: "http://some/website"
+	  email: "your email"
+	license:
+	  name: "Apache-2.0"
+}
+swag.in('transform')
+  .invoke modules: [ 'yang-openapi' ]
+  .then (spec) ->
+    console.log "do something with <spec>"
+```
+
+For more information on programmatic usage, be sure to take a look at
+the References listed below.
+
+## References
+
+- [Apiary Documentation](http://docs.yangswagger.apiary.io)
+- [Using with Express](http://github.com/corenova/yang-express)
+- [Using YANG with JavaScript](http://github.com/corenova/yang-js)
 
 ## License
   [Apache 2.0](LICENSE)

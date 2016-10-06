@@ -1,6 +1,6 @@
 {
   "name": "yang-swagger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "YANG model-driven swagger/openapi transform",
   "keywords": [
     "yang",
@@ -21,8 +21,9 @@
   "repository": "corenova/yang-swagger",
   "main": "./yang-openapi.js",
   "bin": {
-    "yang2swagger": "./bin/yang2swagger"
+    "yang-swagger": "./bin/yang-swagger"
   },
+  "preferGlobal": true,
   "models": {
     "ietf-inet-types": "yang-js",
     "ietf-yang-types": "yang-js",
@@ -50,7 +51,7 @@
     "clean": "rimraf dist/* lib/*",
     "prebuild": "npm run clean -s && mkdir -p dist",
     "build:src": "coffee -c yang-openapi.coffee",
-    "build:api": "bin/yang2swagger -I yang-openapi -f yaml -o swagger.yaml",
+    "build:api": "bin/yang-swagger -f yaml -o swagger.yaml yang-openapi",
     "build": "npm run build:src && npm run build:api",
     "prepublish": "npm run build",
     "pretest": "npm run build",

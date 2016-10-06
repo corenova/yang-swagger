@@ -197,7 +197,7 @@
           {
             method: 'post',
             description: (ref2 = schema.description) != null ? ref2.tag : void 0,
-            summary: "Invokes " + schema.tag + " in " + schema.parent.tag + ".",
+            summary: "Invokes " + schema.tag + " in " + schema.parent.tag,
             deprecated: deprecated,
             parameter: [
               {
@@ -221,7 +221,7 @@
           {
             method: 'post',
             description: (ref5 = schema.description) != null ? ref5.tag : void 0,
-            summary: "Creates one or more new " + schema.tag + " in " + schema.parent.tag + ".",
+            summary: "Creates one or more new " + schema.tag + " in " + schema.parent.tag,
             deprecated: deprecated,
             parameter: [
               {
