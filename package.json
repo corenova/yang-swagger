@@ -47,7 +47,7 @@
     "clean": "rimraf dist/* lib/*",
     "prebuild": "npm run clean -s && mkdir -p dist",
     "build:src": "coffee -c yang-openapi.coffee",
-    "build:api": "bin/yang2swagger -I yang-openapi -o swagger.yaml",
+    "build:api": "bin/yang2swagger -I yang-openapi -f yaml -o swagger.yaml",
     "build": "npm run build:src && npm run build:api",
     "prepublish": "npm run build",
     "pretest": "npm run build",

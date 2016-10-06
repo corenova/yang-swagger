@@ -1,720 +1,476 @@
-{
-  "swagger": "2.0",
-  "info": {
-    "title": "YANG-to-SWAGGER",
-    "description": "Provides YANG model-driven schema transformations to swagger/openapi schema formats\n",
-    "version": "1.0",
-    "contact": {
-      "name": "Peter K. Lee",
-      "url": "https://github.com/corenova/yang-swagger",
-      "email": "peter@corenova.com"
-    },
-    "license": {
-      "name": "Apache-2.0"
-    }
-  },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "paths": {
-    "/yang-openapi:info": {
-      "get": {
-        "method": "get",
-        "summary": "View detail on info",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of info",
-            "schema": {
-              "$ref": "#/definitions/openapi:info"
-            }
-          }
-        }
-      },
-      "put": {
-        "method": "put",
-        "summary": "Update details on info",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of info",
-            "schema": {
-              "$ref": "#/definitions/openapi:info"
-            }
-          }
-        }
-      },
-      "patch": {
-        "method": "patch",
-        "summary": "Merge details on info",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of info",
-            "schema": {
-              "$ref": "#/definitions/openapi:info"
-            }
-          }
-        }
-      },
-      "delete": {
-        "method": "delete",
-        "summary": "Delete info from yang-openapi.",
-        "deprecated": false,
-        "responses": {
-          "204": {
-            "description": "Expected response for delete"
-          }
-        }
-      }
-    },
-    "/yang-openapi:info/contact": {
-      "get": {
-        "method": "get",
-        "summary": "View detail on contact",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of contact",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:person-name"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                },
-                "email": {
-                  "type": "string",
-                  "format": "meta:email-address"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "method": "put",
-        "summary": "Update details on contact",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of contact",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:person-name"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                },
-                "email": {
-                  "type": "string",
-                  "format": "meta:email-address"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "method": "patch",
-        "summary": "Merge details on contact",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of contact",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:person-name"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                },
-                "email": {
-                  "type": "string",
-                  "format": "meta:email-address"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "method": "delete",
-        "summary": "Delete contact from info.",
-        "deprecated": false,
-        "responses": {
-          "204": {
-            "description": "Expected response for delete"
-          }
-        }
-      }
-    },
-    "/yang-openapi:info/license": {
-      "get": {
-        "method": "get",
-        "summary": "View detail on license",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of license",
-            "schema": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:license"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "method": "put",
-        "summary": "Update details on license",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of license",
-            "schema": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:license"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "method": "patch",
-        "summary": "Merge details on license",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "Expected response of license",
-            "schema": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "format": "meta:license"
-                },
-                "url": {
-                  "type": "string",
-                  "format": "inet:uri"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "method": "delete",
-        "summary": "Delete license from info.",
-        "deprecated": false,
-        "responses": {
-          "204": {
-            "description": "Expected response for delete"
-          }
-        }
-      }
-    },
-    "/yang-openapi:transform": {
-      "post": {
-        "method": "post",
-        "summary": "Invokes transform in yang-openapi.",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/openapi:specification"
-            }
-          }
-        }
-      }
-    },
-    "/yang-openapi:serialize": {
-      "post": {
-        "method": "post",
-        "summary": "Invokes serialize in yang-openapi.",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "schema": {}
-          }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "openapi:info": {
-      "description": "Contains metadata information to describe API.",
-      "type": "object",
-      "required": [
-        "title",
-        "version"
-      ],
-      "properties": {
-        "title": {
-          "type": "string",
-          "format": "meta:title"
-        },
-        "description": {
-          "type": "string",
-          "format": "meta:description"
-        },
-        "version": {
-          "type": "string",
-          "format": "meta:api-version"
-        },
-        "contact": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "format": "meta:person-name"
-            },
-            "url": {
-              "type": "string",
-              "format": "inet:uri"
-            },
-            "email": {
-              "type": "string",
-              "format": "meta:email-address"
-            }
-          }
-        },
-        "license": {
-          "type": "object",
-          "required": [
-            "name"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "format": "meta:license"
-            },
-            "url": {
-              "type": "string",
-              "format": "inet:uri"
-            }
-          }
-        }
-      }
-    },
-    "openapi:specification": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/paths-list"
-        },
-        {
-          "$ref": "#/definitions/definitions-list"
-        },
-        {
-          "$ref": "#/definitions/responses-list"
-        },
-        {
-          "required": [
-            "swagger"
-          ],
-          "properties": {
-            "swagger": {
-              "type": "string",
-              "format": "meta:api-version"
-            },
-            "host": {
-              "type": "string",
-              "format": "string"
-            },
-            "base-path": {
-              "type": "string",
-              "format": "inet:uri"
-            },
-            "info": {
-              "$ref": "#/definitions/openapi:info"
-            },
-            "schemes": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "identityref"
-              }
-            },
-            "consumes": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "mimetype"
-              }
-            },
-            "produces": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "mimetype"
-              }
-            }
-          }
-        }
-      ]
-    },
-    "paths-list": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/path-item"
-              },
-              {
-                "required": [],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "format": "inet:uri"
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "path-item": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/operations-list"
-        },
-        {
-          "required": [],
-          "properties": {
-            "$ref": {
-              "type": "string",
-              "format": "json-schema-ref"
-            },
-            "parameter": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            }
-          }
-        }
-      ]
-    },
-    "operations-list": {
-      "type": "object",
-      "properties": {
-        "operation": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/operation"
-              },
-              {
-                "required": [],
-                "properties": {
-                  "method": {
-                    "type": "string",
-                    "format": "http-method",
-                    "enum": [
-                      "get",
-                      "put",
-                      "post",
-                      "delete",
-                      "options",
-                      "head",
-                      "patch"
-                    ]
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "operation": {
-      "type": "object",
-      "properties": {
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "string"
-          }
-        },
-        "consumes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "mimetype"
-          }
-        },
-        "produces": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "mimetype"
-          }
-        },
-        "schemes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "identityref"
-          }
-        },
-        "summary": {
-          "type": "string",
-          "format": "meta:description"
-        },
-        "description": {
-          "type": "string",
-          "format": "meta:description"
-        },
-        "operationId": {
-          "type": "string",
-          "format": "string"
-        },
-        "deprecated": {
-          "default": "false",
-          "type": "boolean",
-          "format": "boolean"
-        },
-        "response": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/openapi:response"
-              },
-              {
-                "required": [],
-                "properties": {
-                  "code": {
-                    "type": "integer",
-                    "format": "uint16"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "parameter": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "security": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {}
-            }
-          }
-        }
-      }
-    },
-    "openapi:response": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string",
-          "format": "meta:description"
-        },
-        "schema": {
-          "$ref": "#/definitions/openapi:json-schema"
-        },
-        "header": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "example": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "mime"
-            ],
-            "properties": {
-              "mime": {
-                "type": "string",
-                "format": "mimetype"
-              },
-              "data": {
-                "type": "object"
-              }
-            }
-          }
-        }
-      }
-    },
-    "openapi:json-schema": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/json-datatype"
-        },
-        {
-          "required": [],
-          "properties": {
-            "$ref": {
-              "type": "string",
-              "format": "json-schema-ref"
-            },
-            "required": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "leafref"
-              }
-            },
-            "property": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "format": "yang:yang-identifier"
-                  },
-                  "schema": {
-                    "$ref": "#/definitions/openapi:json-schema"
-                  }
-                }
-              }
-            },
-            "allOf": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/openapi:json-schema"
-              }
-            },
-            "anyOf": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/openapi:json-schema"
-              }
-            },
-            "oneOf": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/openapi:json-schema"
-              }
-            },
-            "items": {
-              "$ref": "#/definitions/openapi:json-schema"
-            }
-          }
-        }
-      ]
-    },
-    "json-datatype": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "format": "enumeration",
-          "enum": [
-            "string",
-            "number",
-            "integer",
-            "boolean",
-            "array",
-            "file",
-            "object"
-          ]
-        },
-        "format": {
-          "anyOf": []
-        }
-      }
-    },
-    "definitions-list": {
-      "type": "object",
-      "properties": {
-        "definition": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "format": "yang:yang-identifier"
-              },
-              "schema": {
-                "$ref": "#/definitions/openapi:json-schema"
-              }
-            }
-          }
-        }
-      }
-    },
-    "responses-list": {
-      "type": "object",
-      "properties": {
-        "response": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/openapi:response"
-              },
-              {
-                "required": [],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "format": "yang:yang-identifier"
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    }
-  }
-}
+swagger: '2.0'
+info:
+  title: YANG-to-SWAGGER
+  description: >
+    Provides YANG model-driven schema transformations to swagger/openapi schema
+    formats
+  version: '1.0'
+  contact:
+    name: Peter K. Lee
+    url: 'https://github.com/corenova/yang-swagger'
+    email: peter@corenova.com
+  license:
+    name: Apache-2.0
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/yang-openapi:info':
+    get:
+      method: get
+      summary: View detail on info
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of info
+          schema:
+            $ref: '#/definitions/openapi:info'
+    put:
+      method: put
+      summary: Update details on info
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of info
+          schema:
+            $ref: '#/definitions/openapi:info'
+    patch:
+      method: patch
+      summary: Merge details on info
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of info
+          schema:
+            $ref: '#/definitions/openapi:info'
+    delete:
+      method: delete
+      summary: Delete info from yang-openapi.
+      deprecated: false
+      responses:
+        '204':
+          description: Expected response for delete
+  '/yang-openapi:info/contact':
+    get:
+      method: get
+      summary: View detail on contact
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of contact
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                format: 'meta:person-name'
+              url:
+                type: string
+                format: 'inet:uri'
+              email:
+                type: string
+                format: 'meta:email-address'
+    put:
+      method: put
+      summary: Update details on contact
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of contact
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                format: 'meta:person-name'
+              url:
+                type: string
+                format: 'inet:uri'
+              email:
+                type: string
+                format: 'meta:email-address'
+    patch:
+      method: patch
+      summary: Merge details on contact
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of contact
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                format: 'meta:person-name'
+              url:
+                type: string
+                format: 'inet:uri'
+              email:
+                type: string
+                format: 'meta:email-address'
+    delete:
+      method: delete
+      summary: Delete contact from info.
+      deprecated: false
+      responses:
+        '204':
+          description: Expected response for delete
+  '/yang-openapi:info/license':
+    get:
+      method: get
+      summary: View detail on license
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of license
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                format: 'meta:license'
+              url:
+                type: string
+                format: 'inet:uri'
+    put:
+      method: put
+      summary: Update details on license
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of license
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                format: 'meta:license'
+              url:
+                type: string
+                format: 'inet:uri'
+    patch:
+      method: patch
+      summary: Merge details on license
+      deprecated: false
+      responses:
+        '200':
+          description: Expected response of license
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                format: 'meta:license'
+              url:
+                type: string
+                format: 'inet:uri'
+    delete:
+      method: delete
+      summary: Delete license from info.
+      deprecated: false
+      responses:
+        '204':
+          description: Expected response for delete
+  '/yang-openapi:transform':
+    post:
+      method: post
+      summary: Invokes transform in yang-openapi.
+      deprecated: false
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/openapi:specification'
+  '/yang-openapi:serialize':
+    post:
+      method: post
+      summary: Invokes serialize in yang-openapi.
+      deprecated: false
+      responses:
+        '200':
+          schema: {}
+definitions:
+  'openapi:info':
+    description: Contains metadata information to describe API.
+    type: object
+    required:
+      - title
+      - version
+    properties:
+      title:
+        type: string
+        format: 'meta:title'
+      description:
+        type: string
+        format: 'meta:description'
+      version:
+        type: string
+        format: 'meta:api-version'
+      contact:
+        type: object
+        properties:
+          name:
+            type: string
+            format: 'meta:person-name'
+          url:
+            type: string
+            format: 'inet:uri'
+          email:
+            type: string
+            format: 'meta:email-address'
+      license:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+            format: 'meta:license'
+          url:
+            type: string
+            format: 'inet:uri'
+  'openapi:specification':
+    allOf:
+      - $ref: '#/definitions/paths-list'
+      - $ref: '#/definitions/definitions-list'
+      - $ref: '#/definitions/responses-list'
+      - required:
+          - swagger
+        properties:
+          swagger:
+            type: string
+            format: 'meta:api-version'
+          host:
+            type: string
+            format: string
+          base-path:
+            type: string
+            format: 'inet:uri'
+          info:
+            $ref: '#/definitions/openapi:info'
+          schemes:
+            type: array
+            items:
+              type: string
+              format: identityref
+          consumes:
+            type: array
+            items:
+              type: string
+              format: mimetype
+          produces:
+            type: array
+            items:
+              type: string
+              format: mimetype
+  paths-list:
+    type: object
+    properties:
+      path:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/path-item'
+            - required: []
+              properties:
+                name:
+                  type: string
+                  format: 'inet:uri'
+  path-item:
+    allOf:
+      - $ref: '#/definitions/operations-list'
+      - required: []
+        properties:
+          $ref:
+            type: string
+            format: json-schema-ref
+          parameter:
+            type: array
+            items:
+              type: object
+  operations-list:
+    type: object
+    properties:
+      operation:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/operation'
+            - required: []
+              properties:
+                method:
+                  type: string
+                  format: http-method
+                  enum:
+                    - get
+                    - put
+                    - post
+                    - delete
+                    - options
+                    - head
+                    - patch
+  operation:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+          format: string
+      consumes:
+        type: array
+        items:
+          type: string
+          format: mimetype
+      produces:
+        type: array
+        items:
+          type: string
+          format: mimetype
+      schemes:
+        type: array
+        items:
+          type: string
+          format: identityref
+      summary:
+        type: string
+        format: 'meta:description'
+      description:
+        type: string
+        format: 'meta:description'
+      operationId:
+        type: string
+        format: string
+      deprecated:
+        default: 'false'
+        type: boolean
+        format: boolean
+      response:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/openapi:response'
+            - required: []
+              properties:
+                code:
+                  type: integer
+                  format: uint16
+      parameter:
+        type: array
+        items:
+          type: object
+      security:
+        type: array
+        items:
+          type: object
+          properties:
+            name: {}
+  'openapi:response':
+    type: object
+    properties:
+      description:
+        type: string
+        format: 'meta:description'
+      schema:
+        $ref: '#/definitions/openapi:json-schema'
+      header:
+        type: array
+        items:
+          type: object
+      example:
+        type: array
+        items:
+          type: object
+          required:
+            - mime
+          properties:
+            mime:
+              type: string
+              format: mimetype
+            data:
+              type: object
+  'openapi:json-schema':
+    allOf:
+      - $ref: '#/definitions/json-datatype'
+      - required: []
+        properties:
+          $ref:
+            type: string
+            format: json-schema-ref
+          required:
+            type: array
+            items:
+              type: string
+              format: leafref
+          property:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  format: 'yang:yang-identifier'
+                schema:
+                  $ref: '#/definitions/openapi:json-schema'
+          allOf:
+            type: array
+            items:
+              $ref: '#/definitions/openapi:json-schema'
+          anyOf:
+            type: array
+            items:
+              $ref: '#/definitions/openapi:json-schema'
+          oneOf:
+            type: array
+            items:
+              $ref: '#/definitions/openapi:json-schema'
+          items:
+            $ref: '#/definitions/openapi:json-schema'
+  json-datatype:
+    type: object
+    properties:
+      type:
+        type: string
+        format: enumeration
+        enum:
+          - string
+          - number
+          - integer
+          - boolean
+          - array
+          - file
+          - object
+      format:
+        anyOf: []
+  definitions-list:
+    type: object
+    properties:
+      definition:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              format: 'yang:yang-identifier'
+            schema:
+              $ref: '#/definitions/openapi:json-schema'
+  responses-list:
+    type: object
+    properties:
+      response:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/openapi:response'
+            - required: []
+              properties:
+                name:
+                  type: string
+                  format: 'yang:yang-identifier'
