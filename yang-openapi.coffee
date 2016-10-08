@@ -46,7 +46,7 @@ yang2jstype = (schema) ->
 
 yang2jsobj = (schema) ->
   return {} unless schema?
-  debug? "[#{schema.trail}] converting schema to JSON-schema"
+  #debug? "[#{schema.trail}] converting schema to JSON-schema"
   js =
    description: schema.description?.tag
   required = []
@@ -292,7 +292,7 @@ module.exports = require('./yang-openapi.yang').bind {
 
   transform: ->
     modules = @input.modules.map (name) => @schema.constructor.import(name)
-    debug? "transforming #{@input.modules} into yang-openapi"
+    debug? "[transform] transforming #{@input.modules} into yang-openapi"
     definitions = {} # usage of globals is a hack
     @output =
       swagger: '2.0'

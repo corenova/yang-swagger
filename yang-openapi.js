@@ -90,9 +90,6 @@
     if (schema == null) {
       return {};
     }
-    if (typeof debug === "function") {
-      debug("[" + schema.trail + "] converting schema to JSON-schema");
-    }
     js = {
       description: (ref1 = schema.description) != null ? ref1.tag : void 0
     };
@@ -498,7 +495,7 @@
         };
       })(this));
       if (typeof debug === "function") {
-        debug("transforming " + this.input.modules + " into yang-openapi");
+        debug("[transform] transforming " + this.input.modules + " into yang-openapi");
       }
       definitions = {};
       return this.output = {
