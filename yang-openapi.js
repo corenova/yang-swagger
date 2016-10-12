@@ -3,7 +3,7 @@
   var Yang, clone, debug, definitions, discoverOperations, discoverPathParameters, discoverPaths, serializeJSchema, traverse, yaml, yang2jschema, yang2jsobj, yang2jstype;
 
   if (process.env.DEBUG != null) {
-    debug = require('debug')('yang:openapi');
+    debug = require('debug')('yang-swagger');
   }
 
   clone = require('clone');
@@ -499,42 +499,47 @@
       }
       definitions = {};
       return this.output = {
-        swagger: '2.0',
-        info: this.get('/info'),
-        consumes: ["application/json"],
-        produces: ["application/json"],
-        path: modules.map(function(m) {
-          var i, len, ref1, results, schema;
-          ref1 = m.nodes;
-          results = [];
-          for (i = 0, len = ref1.length; i < len; i++) {
-            schema = ref1[i];
-            results.push(discoverPaths(schema));
-          }
-          return results;
-        }).reduce((function(a, b) {
-          return a.concat.apply(a, b);
-        }), []),
-        definition: (function() {
-          var results;
-          results = [];
-          for (k in definitions) {
-            v = definitions[k];
-            results.push({
-              name: k,
-              schema: v
-            });
-          }
-          return results;
-        })()
+        spec: {
+          swagger: '2.0',
+          info: this.get('/info'),
+          consumes: ["application/json"],
+          produces: ["application/json"],
+          path: modules.map(function(m) {
+            var i, len, ref1, results, schema;
+            ref1 = m.nodes;
+            results = [];
+            for (i = 0, len = ref1.length; i < len; i++) {
+              schema = ref1[i];
+              results.push(discoverPaths(schema));
+            }
+            return results;
+          }).reduce((function(a, b) {
+            return a.concat.apply(a, b);
+          }), []),
+          definition: (function() {
+            var results;
+            results = [];
+            for (k in definitions) {
+              v = definitions[k];
+              results.push({
+                name: k,
+                schema: v
+              });
+            }
+            return results;
+          })()
+        }
       };
     },
-    serialize: function() {
+    '{specification}/serialize': function() {
       var ref1, spec;
       if (typeof debug === "function") {
         debug("serializing yang-openapi spec");
       }
-      spec = clone(this.input.spec);
+      if (typeof debug === "function") {
+        debug(this.container);
+      }
+      spec = clone(this.container);
       spec.paths = spec.path.reduce((function(a, _path) {
         var i, k, len, op, operation, path, ref1, ref2, v;
         path = a[_path.name] = {

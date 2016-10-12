@@ -1,6 +1,6 @@
 # OPENAPI (swagger) specification feature
 
-debug = require('debug')('yang:openapi') if process.env.DEBUG?
+debug = require('debug')('yang-swagger') if process.env.DEBUG?
 clone = require 'clone'
 traverse = require 'traverse'
 Yang = require 'yang-js'
@@ -295,18 +295,20 @@ module.exports = require('./yang-openapi.yang').bind {
     debug? "[transform] transforming #{@input.modules} into yang-openapi"
     definitions = {} # usage of globals is a hack
     @output =
-      swagger: '2.0'
-      info: @get('/info')
-      consumes: [ "application/json" ]
-      produces: [ "application/json" ]
-      path: modules
-        .map (m) -> discoverPaths(schema) for schema in m.nodes
-        .reduce ((a,b) -> a.concat b...), []
-      definition: (name: k, schema: v for k, v of definitions)
+      spec:
+        swagger: '2.0'
+        info: @get('/info')
+        consumes: [ "application/json" ]
+        produces: [ "application/json" ]
+        path: modules
+          .map (m) -> discoverPaths(schema) for schema in m.nodes
+          .reduce ((a,b) -> a.concat b...), []
+        definition: (name: k, schema: v for k, v of definitions)
 
-  serialize: ->
+  '{specification}/serialize': ->
     debug? "serializing yang-openapi spec"
-    spec = clone @input.spec
+    debug? @container
+    spec = clone @container
     spec.paths = spec.path.reduce ((a,_path) ->
       path = a[_path.name] = '$ref': _path['$ref']
       for op in _path.operation ? []

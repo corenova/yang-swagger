@@ -277,6 +277,26 @@ module yang-openapi {
      * tags
      * externalDocs
      */
+    action serialize {
+      description
+        "The serialize converts current Swagger/OpenAPI specification object
+         into string format based on requested output format.";
+      input {
+        leaf format {
+          type enumeration {
+            enum json;
+            enum yaml;
+          }
+          default json;
+        }
+      }
+      output {
+        leaf data {
+          description "contains the serialized specification data";
+          type string;
+        }
+      }
+    }
   }
   /*
    * Configuration data nodes
@@ -306,29 +326,8 @@ module yang-openapi {
       // }
     }
     output {
-      uses openapi:specification;
-    }
-  }
-  rpc serialize {
-    description
-      "The serialize accepts Swagger/OpenAPI specification object and
-       converts into string format based on requested output format.";
-    input {
       container spec {
         uses openapi:specification;
-      }
-      leaf format {
-        type enumeration {
-          enum json;
-          enum yaml;
-        }
-        default json;
-      }
-    }
-    output {
-      leaf data {
-        description "contains the serialized specification data";
-        type string;
       }
     }
   }

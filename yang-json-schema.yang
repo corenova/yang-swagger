@@ -3,7 +3,8 @@ module yang-json-schema {
   prefix json;
   yang-version 1.1;
 
-  import ietf-yang-types  { prefix yang; }
+  import ietf-yang-types { prefix yang; }
+  import ietf-inet-types { prefix inet; }
   
   organization
     "Corenova Technologies, Inc.";
@@ -16,9 +17,7 @@ module yang-json-schema {
    * Type definitions
    */
   typedef json-schema-ref {
-    type string {
-      
-    }
+    type inet:uri;
   }
   /*
    * Groupings

@@ -25,16 +25,16 @@ var swagger = require('..').eval(config)
 
 swagger.in('transform')
   .invoke({modules: argv._})
-  .then(function (spec) {
-    return swagger.in('serialize').invoke({spec: spec, format: argv.format});
+  .then(function (output) {
+	return output.spec.serialize(argv)
   })
-  .then(function (res) {
+  .then(function (output) {
     if (argv.output) {
-      require('fs').writeFileSync(argv.output, res.data, 'utf-8');
+      require('fs').writeFileSync(argv.output, output.data, 'utf-8');
     } else {
-      console.log(res.data);
+      console.log(output.data);
     }
-    return res;
+    return output;
   })
   .catch(function (err) {
     console.error(err);

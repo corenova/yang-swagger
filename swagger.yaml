@@ -18,6 +18,7 @@ consumes:
   - application/json
 produces:
   - application/json
+serialize: !<tag:yaml.org,2002:js/function> 'function () { [native code] }'
 paths:
   '/yang-openapi:info':
     get:
@@ -266,40 +267,10 @@ paths:
         '200':
           description: Expected response of transform
           schema:
-            $ref: '#/definitions/openapi:specification'
-  '/yang-openapi:serialize':
-    post:
-      description: |-
-        The serialize accepts Swagger/OpenAPI specification object and
-        converts into string format based on requested output format.
-      summary: Invokes serialize in yang-openapi
-      deprecated: false
-      parameters:
-        - name: 'serialize:input'
-          in: body
-          schema:
             type: object
             properties:
               spec:
                 $ref: '#/definitions/openapi:specification'
-              format:
-                default: json
-                type: string
-                format: enumeration
-                enum:
-                  - json
-                  - yaml
-          required: false
-      responses:
-        '200':
-          description: Expected response of serialize
-          schema:
-            type: object
-            properties:
-              data:
-                description: contains the serialized specification data
-                type: string
-                format: string
 definitions:
   'openapi:info':
     description: Contains metadata information to describe API.
@@ -374,6 +345,21 @@ definitions:
             items:
               type: string
               format: mimetype
+          serialize:
+            description: >-
+              The serialize converts current Swagger/OpenAPI specification
+              object
+
+              into string format based on requested output format.
+            type: object
+            properties:
+              undefined:
+                type: object
+                properties:
+                  data:
+                    description: contains the serialized specification data
+                    type: string
+                    format: string
   'openapi:paths-list':
     type: object
     properties:
