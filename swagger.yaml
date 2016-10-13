@@ -18,7 +18,6 @@ consumes:
   - application/json
 produces:
   - application/json
-serialize: !<tag:yaml.org,2002:js/function> 'function () { [native code] }'
 paths:
   '/yang-openapi:info':
     get:

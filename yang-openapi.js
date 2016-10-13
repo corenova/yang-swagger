@@ -98,7 +98,7 @@
       return x.parent === schema;
     }).map(function(node) {
       var ref2;
-      if (((ref2 = node.mandatory) != null ? ref2.valueOf() : void 0) === true) {
+      if (((ref2 = node.mandatory) != null ? ref2.tag : void 0) === true) {
         required.push(node.tag);
       }
       return {
@@ -577,6 +577,7 @@
       }), {}) : void 0;
       delete spec.path;
       delete spec.definition;
+      delete spec.serialize;
       spec = traverse(spec).map(function(x) {
         if (x == null) {
           return this.remove();

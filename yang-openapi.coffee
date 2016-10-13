@@ -331,6 +331,7 @@ module.exports = require('./yang-openapi.yang').bind {
     ), {}
     delete spec.path
     delete spec.definition
+    delete spec.serialize
     spec = traverse(spec).map (x) -> @remove() unless x?
     @output =
       data: switch @input.format
