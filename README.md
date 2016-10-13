@@ -49,8 +49,8 @@ swag = require("yang-swagger").eval {
 }
 swag.in('transform')
   .invoke modules: [ 'yang-openapi' ]
-  .then (spec) ->
-    console.log "do something with <spec>"
+  .then (output) ->
+    console.log "do something with <output.spec>"
 ```
 
 For more information on programmatic usage, be sure to take a look at
