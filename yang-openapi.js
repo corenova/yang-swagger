@@ -98,7 +98,7 @@
       return x.parent === schema;
     }).map(function(node) {
       var ref2;
-      if (((ref2 = node.mandatory) != null ? ref2.tag : void 0) === true) {
+      if (((ref2 = node.mandatory) != null ? ref2.valueOf() : void 0) === true) {
         required.push(node.tag);
       }
       return {
