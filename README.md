@@ -28,9 +28,16 @@ transform into swagger specification YAML file.
   Usage: yang-swagger [options] modules...
 
   Options:
+      -c, --config <filename>  Use <filename> to retrieve configuration data (default: uses 'config' directory)
       -f, --format <string>    Convert to YAML or JSON (default: json)
       -o, --output <filename>  Write to <filename> if specified, otherwise to console
 ```
+
+Using the `--config` option will allow you to specify where to find
+the configuration data for the `yang-openapi` YANG module. By default,
+it will check the `config` directory but you can specify any arbitrary
+file location for specifying the `yang-openapi:info` configuration
+data.
 
 You can also use it as a library module:
 

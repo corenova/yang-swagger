@@ -4,16 +4,18 @@ var argv = require('minimist')(process.argv.slice(2), {
   boolean: [ 'help' ],
   alias: {
     help: 'h',
+	config: 'c',
 	format: 'f',
     output: 'o'
   },
-  string: [ 'format', 'output' ]
+  string: [ 'config', 'format', 'output' ]
 });
 
 if (argv.h === true) {
   var help;
   help  = "  Usage: yang-swagger [options] modules...\n\n";
   help += "  Options:\n";
+  help += "    -c, --config <filename>  Use <filename> to retrieve configuration data (default: uses 'config' directory)\n";
   help += "    -f, --format <string>    Convert to YAML or JSON (default: json)\n";
   help += "    -o, --output <filename>  Write to <filename> if specified, otherwise to console\n";
   console.info(help);
@@ -21,6 +23,10 @@ if (argv.h === true) {
 }
 
 var config = require('config');
+if (argv.config) {
+  var path = require('path');
+  config = config.util.parseFile(path.resolve(argv.config));
+}
 var swagger = require('..').eval(config)
 
 swagger.in('transform')

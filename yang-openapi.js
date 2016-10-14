@@ -486,14 +486,25 @@
 
   module.exports = require('./yang-openapi.yang').bind({
     transform: function() {
-      var k, modules, v;
+      var found, k, modules, v;
+      if (typeof debug === "function") {
+        debug("[transform] importing '" + this.input.modules + "'");
+      }
       modules = this.input.modules.map((function(_this) {
         return function(name) {
           return _this.schema.constructor["import"](name);
         };
-      })(this));
+      })(this)).filter(function(x) {
+        return x != null;
+      });
+      if (!modules.length) {
+        this["throw"]("unable to transform without any modules");
+      }
+      found = modules.map(function(x) {
+        return x.datakey;
+      });
       if (typeof debug === "function") {
-        debug("[transform] transforming " + this.input.modules);
+        debug("[transform] transforming " + found);
       }
       definitions = {};
       return this.output = {

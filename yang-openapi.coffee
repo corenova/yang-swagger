@@ -290,8 +290,14 @@ serializeJSchema = (jschema) ->
 module.exports = require('./yang-openapi.yang').bind {
 
   transform: ->
-    modules = @input.modules.map (name) => @schema.constructor.import(name)
-    debug? "[transform] transforming #{@input.modules}"
+    debug? "[transform] importing '#{@input.modules}'"
+    modules = @input.modules
+      .map (name) => @schema.constructor.import(name)
+      .filter (x) -> x?
+    unless modules.length
+      @throw "unable to transform without any modules"
+    found = modules.map (x) -> x.datakey
+    debug? "[transform] transforming #{found}"
     definitions = {} # XXX - usage of globals is a hack (will have concurrency issues)
     @output =
       spec:
