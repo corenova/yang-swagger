@@ -1,7 +1,6 @@
 # OPENAPI (swagger) specification feature
 
 debug = require('debug')('yang-swagger') if process.env.DEBUG?
-clone = require 'clone'
 traverse = require 'traverse'
 Yang = require 'yang-js'
 yaml = require 'js-yaml'
@@ -61,7 +60,7 @@ yang2jsobj = (schema) ->
   if refs?.length
     refs.forEach (ref) ->
       unless definitions[ref.tag]?
-        debug? "[#{schema.trail}] defining #{ref.tag}"
+        debug? "[yang2jsobj] defining #{ref.tag} using #{schema.trail}"
         definitions[ref.tag] = true
         definitions[ref.tag] = yang2jsobj ref.state.grouping.origin
       
@@ -76,8 +75,8 @@ yang2jsobj = (schema) ->
       js['$ref'] = "#/definitions/#{ref.tag}"
   else
     js.type = 'object'
-    js.required = required if required.length
     js.property = property if property.length
+    js.required = required if required.length
   
   return js
 
@@ -93,10 +92,10 @@ yang2jschema = (schema, item=false) ->
     else yang2jsobj schema
 
 discoverOperations = (schema, item=false) ->
-  debug? "[#{schema.trail}] discovering operations"
+  debug? "[discoverOperations] inspecting #{schema.trail}"
   deprecated = schema.status?.valueOf() is 'deprecated'
   switch 
-    when schema.kind is 'rpc' then [
+    when schema.kind in [ 'rpc', 'action' ] then [
       method: 'post'
       description: schema.description?.tag
       summary: "Invokes #{schema.tag} in #{schema.parent.tag}"
@@ -218,7 +217,7 @@ discoverOperations = (schema, item=false) ->
     ]
 
 discoverPathParameters = (schema) ->
-  debug? "[#{schema.trail}] discovering path parameters"
+  debug? "[discoverPathParameters] inspecting #{schema.trail}"
   key = "#{schema.key?.valueOf()}"
   switch
     when not schema.key? then [
@@ -247,11 +246,11 @@ discoverPathParameters = (schema) ->
       [ param ]
 
 discoverPaths = (schema) ->
-  return [] unless schema.kind in [ 'list', 'container', 'rpc' ]
+  return [] unless schema.kind in [ 'list', 'container', 'rpc', 'action' ]
   return [] if schema['if-feature']? # ignore if-feature entries...
   
   name = "/#{schema.datakey}"
-  debug? "[#{schema.trail}] discovering paths"
+  debug? "[discoverPaths] inspecting #{schema.trail}"
   paths = [
     name: name
     operation: discoverOperations schema
@@ -271,7 +270,7 @@ discoverPaths = (schema) ->
         x.parameter ?= params
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
-  debug? "[#{schema.trail}] discovered #{paths.length} paths with #{subpaths.length} subpaths"
+  debug? "[discoverPaths] discovered #{paths.length} paths with #{subpaths.length} subpaths inside #{schema.trail}"
   paths.concat subpaths...
 
 serializeJSchema = (jschema) ->
@@ -292,8 +291,8 @@ module.exports = require('./yang-openapi.yang').bind {
 
   transform: ->
     modules = @input.modules.map (name) => @schema.constructor.import(name)
-    debug? "[transform] transforming #{@input.modules} into yang-openapi"
-    definitions = {} # usage of globals is a hack
+    debug? "[transform] transforming #{@input.modules}"
+    definitions = {} # XXX - usage of globals is a hack (will have concurrency issues)
     @output =
       spec:
         swagger: '2.0'
@@ -306,9 +305,8 @@ module.exports = require('./yang-openapi.yang').bind {
         definition: (name: k, schema: v for k, v of definitions)
 
   '{specification}/serialize': ->
-    debug? "serializing yang-openapi spec"
-    debug? @container
-    spec = clone @container
+    debug? "[#{@path}] serializing specification"
+    spec = @parent.toJSON(false)
     spec.paths = spec.path.reduce ((a,_path) ->
       path = a[_path.name] = '$ref': _path['$ref']
       for op in _path.operation ? []

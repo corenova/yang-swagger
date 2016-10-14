@@ -164,6 +164,8 @@ paths:
           description: Expected response of license
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
@@ -179,6 +181,8 @@ paths:
           in: body
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
@@ -192,6 +196,8 @@ paths:
           description: Expected response of license
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
@@ -207,6 +213,8 @@ paths:
           in: body
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
@@ -220,6 +228,8 @@ paths:
           description: Expected response of license
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
@@ -264,6 +274,9 @@ definitions:
   'openapi:info':
     description: Contains metadata information to describe API.
     type: object
+    required:
+      - title
+      - version
     properties:
       title:
         type: string
@@ -531,6 +544,8 @@ definitions:
                   format: uint16
   'openapi:response':
     type: object
+    required:
+      - description
     properties:
       description:
         type: string
