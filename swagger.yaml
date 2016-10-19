@@ -344,21 +344,6 @@ definitions:
             items:
               type: string
               format: mimetype
-          serialize:
-            description: >-
-              The serialize converts current Swagger/OpenAPI specification
-              object
-
-              into string format based on requested output format.
-            type: object
-            properties:
-              undefined:
-                type: object
-                properties:
-                  data:
-                    description: contains the serialized specification data
-                    type: string
-                    format: string
   'openapi:paths-list':
     type: object
     properties:

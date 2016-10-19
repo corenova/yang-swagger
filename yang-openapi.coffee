@@ -50,12 +50,12 @@ yang2jsobj = (schema) ->
    description: schema.description?.tag
   required = []
   property = schema.nodes
-    .filter (x) -> x.parent is schema
+    .filter (x) -> x.kind isnt 'action' and x.parent is schema
     .map (node) ->
       if node.mandatory?.valueOf() is true
         required.push node.tag
       name: node.tag
-      schema: yang2jschema node
+      schema: yang2jschema node.origin ? node
   refs = schema.uses?.filter (x) -> x.parent is schema
   if refs?.length
     refs.forEach (ref) ->
@@ -216,34 +216,31 @@ discoverOperations = (schema, item=false) ->
       ]
     ]
 
-discoverPathParameters = (schema) ->
-  debug? "[discoverPathParameters] inspecting #{schema.trail}"
-  key = "#{schema.key?.valueOf()}"
+discoverPathParameter = (schema) ->
+  debug? "[discoverPathParameter] inspecting #{schema.trail}"
   switch
-    when not schema.key? then [
+    when not schema.key?
       name: 'index'
       in: 'path'
       required: true
       type: 'integer'
       format: 'int64'
       description: "An index key identifying #{schema.tag} item (may change over time)"
-    ]
-    when schema.key.tag.length > 1 then [
-      name: key
+    when schema.key.tag.length > 1
+      name: "#{schema.key.valueOf()}"
       in: 'path'
       required: true
       type: 'string'
       format: 'composite'
       description: "A composite key uniquely identifying #{schema.tag} item"
-    ]
     else
       param =
-        name: key
+        name: "#{schema.key.valueOf()}"
         in: 'path'
         required: true
         description: "A key uniquely identifying #{schema.tag} item"
-      param[k] = v for k, v of yang2jstype schema.locate(key) when v?
-      [ param ]
+      param[k] = v for k, v of yang2jstype schema.locate(param.name) when v?
+      return param
 
 discoverPaths = (schema) ->
   return [] unless schema.kind in [ 'list', 'container', 'rpc', 'action' ]
@@ -258,16 +255,21 @@ discoverPaths = (schema) ->
   subpaths = [].concat (discoverPaths sub for sub in schema.nodes)...
   switch schema.kind
     when 'list'
-      key = schema.key?.valueOf() ? 'index'
-      params = discoverPathParameters(schema)
-      paths.push
-        name: "#{name}/{#{key}}"
-        parameter: params
-        operation: discoverOperations(schema,true)
+      param = discoverPathParameter(schema)
+      # test if any subpaths have same param.name
+      for sub in subpaths
+        if (sub.parameter?.some (x) -> x.name is param.name)
+          param.name = "#{schema.tag}-#{param.name}"
+          break
       subpaths.forEach (x) ->
-        x.name = "#{name}/{#{key}}" + x.name
-        x.parameter?.push? params...
-        x.parameter ?= params
+        x.parameter?.push param
+        x.parameter ?= [ param ]
+        x.name = "#{name}/{#{param.name}}" + x.name
+        debug? "[discoverPaths] subpath #{x.name} has parameters: #{x.parameter.map (p) -> p.name}"
+      paths.push
+        name: "#{name}/{#{param.name}}"
+        parameter: [ param ]
+        operation: discoverOperations(schema,true)
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
   debug? "[discoverPaths] discovered #{paths.length} paths with #{subpaths.length} subpaths inside #{schema.trail}"
@@ -340,6 +342,5 @@ module.exports = require('./yang-openapi.yang').bind {
     @output =
       data: switch @input.format
         when 'json' then JSON.stringify spec, null, 2
-        when 'yaml' then yaml.dump spec
-    
+        when 'yaml' then yaml.dump spec, lineWidth: -1
 }

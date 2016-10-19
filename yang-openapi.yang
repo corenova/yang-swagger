@@ -78,6 +78,7 @@ module yang-openapi {
   }
   grouping parameters-list {
     list parameter {
+      key "name";
       leaf name {
         type string;
         mandatory true;

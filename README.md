@@ -66,7 +66,7 @@ the References listed below.
 ## References
 
 - [Apiary Documentation](http://docs.yangswagger.apiary.io)
-- [Using with Express](http://github.com/corenova/yang-express)
+- [Expressing Interfaces](http://github.com/corenova/yang-express)
 - [Using YANG with JavaScript](http://github.com/corenova/yang-js)
 
 ## License
