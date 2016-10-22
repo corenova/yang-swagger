@@ -491,7 +491,7 @@
   };
 
   serializeJSchema = function(jschema) {
-    var k, o, ref1, ref2, ref3, ref4, v;
+    var k, o, ref1, ref2, v;
     if (jschema == null) {
       return;
     }
@@ -510,12 +510,21 @@
     o.allOf = (ref2 = o.allOf) != null ? ref2.map(function(x) {
       return serializeJSchema(x);
     }) : void 0;
-    o.anyOf = (ref3 = o.anyOf) != null ? ref3.map(function(x) {
-      return serializeJSchema(x);
-    }) : void 0;
-    o.oneOf = (ref4 = o.oneOf) != null ? ref4.map(function(x) {
-      return serializeJSchema(x);
-    }) : void 0;
+    if (o.anyOf != null) {
+      if (o.type == null) {
+        o.type = 'object';
+      }
+      if (o.properties == null) {
+        o.properties = {};
+      }
+      o.anyOf.forEach(function(x) {
+        var ref3;
+        return (ref3 = x.property) != null ? ref3.forEach(function(prop) {
+          return o.properties[prop.name] = serializeJSchema(prop.schema);
+        }) : void 0;
+      });
+      delete o.anyOf;
+    }
     return o;
   };
 

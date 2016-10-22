@@ -300,8 +300,17 @@ serializeJSchema = (jschema) ->
   ), {}
   o.items = serializeJSchema o.items
   o.allOf = o.allOf?.map (x) -> serializeJSchema x
-  o.anyOf = o.anyOf?.map (x) -> serializeJSchema x
-  o.oneOf = o.oneOf?.map (x) -> serializeJSchema x
+
+  # Swagger 2.0 does NOT support anyOf or oneOf
+  #o.anyOf = o.anyOf?.map (x) -> serializeJSchema x
+  #o.oneOf = o.oneOf?.map (x) -> serializeJSchema x
+  if o.anyOf?
+    o.type ?= 'object'
+    o.properties ?= {}
+    o.anyOf.forEach (x) ->
+      x.property?.forEach (prop) ->
+        o.properties[prop.name] = serializeJSchema prop.schema
+    delete o.anyOf
   return o
 
 module.exports = require('./yang-openapi.yang').bind {

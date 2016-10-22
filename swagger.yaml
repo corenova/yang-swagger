@@ -258,28 +258,22 @@ paths:
         - name: 'transform:input'
           in: body
           schema:
-            anyOf:
-              - type: object
-                properties:
-                  modules:
-                    type: array
-                    items:
-                      type: string
-                      format: 'yang:yang-identifier'
-              - type: object
-                required:
-                  - file
-                  - format
-                properties:
-                  file:
-                    type: string
-                    format: 'meta:file-name'
-                  format:
-                    type: string
-                    format: enumeration
-                    enum:
-                      - json
-                      - yaml
+            properties:
+              modules:
+                type: array
+                items:
+                  type: string
+                  format: 'yang:yang-identifier'
+              file:
+                type: string
+                format: 'meta:file-name'
+              format:
+                type: string
+                format: enumeration
+                enum:
+                  - json
+                  - yaml
+            type: object
           required: false
       responses:
         '200':
