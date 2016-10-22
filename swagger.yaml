@@ -21,6 +21,7 @@ produces:
 paths:
   '/yang-openapi:info':
     get:
+      description: Contains API description metadata for use during 'transform' output
       summary: View detail on info
       deprecated: false
       responses:
@@ -34,6 +35,7 @@ paths:
       parameters:
         - name: info
           in: body
+          description: Contains API description metadata for use during 'transform' output
           schema:
             $ref: '#/definitions/openapi:info'
           required: false
@@ -48,6 +50,7 @@ paths:
       parameters:
         - name: info
           in: body
+          description: Contains API description metadata for use during 'transform' output
           schema:
             $ref: '#/definitions/openapi:info'
           required: false
@@ -246,21 +249,37 @@ paths:
   '/yang-openapi:transform':
     post:
       description: |-
-        The transform accepts YANG module names and converts into
-        Swagger/OpenAPI specification object.
+        The transform accepts YANG module names/locations or pre-existing
+        Swagger specification file contents and converts into YANG
+        schema-defined Swagger/OpenAPI specification object instance.
       summary: Invokes transform in yang-openapi
       deprecated: false
       parameters:
         - name: 'transform:input'
           in: body
           schema:
-            type: object
-            properties:
-              modules:
-                type: array
-                items:
-                  type: string
-                  format: 'yang:yang-identifier'
+            oneOf:
+              - type: object
+                properties:
+                  modules:
+                    type: array
+                    items:
+                      type: string
+                      format: 'yang:yang-identifier'
+              - type: object
+                required:
+                  - file
+                  - format
+                properties:
+                  file:
+                    type: string
+                    format: 'meta:file-name'
+                  format:
+                    type: string
+                    format: enumeration
+                    enum:
+                      - json
+                      - yaml
           required: false
       responses:
         '200':
@@ -272,7 +291,6 @@ paths:
                 $ref: '#/definitions/openapi:specification'
 definitions:
   'openapi:info':
-    description: Contains metadata information to describe API.
     type: object
     required:
       - title

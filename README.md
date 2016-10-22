@@ -66,6 +66,7 @@ the References listed below.
 ## References
 
 - [Apiary Documentation](http://docs.yangswagger.apiary.io)
+- [Working with Multiple Schemas](http://github.com/corenova/yang-js/blob/master/TUTORIAL.md#working-with-multiple-schemas)
 - [Expressing Interfaces](http://github.com/corenova/yang-express)
 - [Using YANG with JavaScript](http://github.com/corenova/yang-js)
 

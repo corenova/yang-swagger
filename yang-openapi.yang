@@ -303,6 +303,8 @@ module yang-openapi {
    * Configuration data nodes
    */ 
   container info {
+    description
+      "Contains API description metadata for use during 'transform' output";
     uses openapi:info;
   }
 
@@ -311,12 +313,31 @@ module yang-openapi {
    */ 
   rpc transform {
     description
-      "The transform accepts YANG module names and converts into
-       Swagger/OpenAPI specification object.";
+      "The transform accepts YANG module names/locations or pre-existing
+       Swagger specification file contents and converts into YANG
+       schema-defined Swagger/OpenAPI specification object instance.";
     input {
-      leaf-list modules {
-        type yang:yang-identifier;
-        min-elements 1;
+      choice source {
+        case yang-modules {
+          leaf-list modules {
+            type yang:yang-identifier;
+            min-elements 1;
+          }
+        }
+        case swagger-file {
+          leaf file {
+            type meta:file-name;
+            mandatory true;
+          }
+          leaf format {
+            type enumeration {
+              enum json;
+              enum yaml;
+            }
+            mandatory true;
+          }
+          status planned;
+        }
       }
       // TODO
       // openapi:example 'application/json' {

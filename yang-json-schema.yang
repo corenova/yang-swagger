@@ -91,7 +91,7 @@ module yang-json-schema {
     }
     list oneOf {
       uses json:json-schema {
-        when "not(../type)";
+        when "not(../property)";
       }
     }
   }

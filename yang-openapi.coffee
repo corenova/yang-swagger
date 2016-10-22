@@ -56,28 +56,43 @@ yang2jsobj = (schema) ->
         required.push node.tag
       name: node.tag
       schema: yang2jschema node.origin ? node
-  refs = schema.uses?.filter (x) -> x.parent is schema
-  if refs?.length
-    refs.forEach (ref) ->
-      unless definitions[ref.tag]?
-        debug? "[yang2jsobj] defining #{ref.tag} using #{schema.trail}"
-        definitions[ref.tag] = true
-        definitions[ref.tag] = yang2jsobj ref.state.grouping.origin
+
+  choices = schema.choice?.filter (x) -> x.parent is schema
+    .map (choice) -> oneOf: choice.case?.map (node) -> yang2jsobj node.origin ? node
       
-    if refs.length > 1 or property.length
-      js.allOf = refs.map (ref) -> '$ref': "#/definitions/#{ref.tag}"
-      if property.length
-        js.allOf.push
-          required: if required.length then required else undefined
-          property: property
+  refs = schema.uses?.filter (x) -> x.parent is schema
+  switch
+    when refs?.length
+      refs.forEach (ref) ->
+        unless definitions[ref.tag]?
+          debug? "[yang2jsobj] defining #{ref.tag} using #{schema.trail}"
+          definitions[ref.tag] = true
+          definitions[ref.tag] = yang2jsobj ref.state.grouping.origin
+
+      if refs.length > 1 or property.length
+        js.allOf = refs.map (ref) -> '$ref': "#/definitions/#{ref.tag}"
+        if property.length
+          js.allOf.push
+            required: if required.length then required else undefined
+            property: property
+        if choices?.length
+          js.allOf.push choices...
+      else
+        ref = refs[0]
+        js['$ref'] = "#/definitions/#{ref.tag}"
+    when choices?.length
+      if choices.length > 1 or property.length
+        js.allOf = [].concat choices
+        if property.length
+          js.allOf.push
+            required: if required.length then required else undefined
+            property: property
+      else
+        js.oneOf = choices[0].oneOf
     else
-      ref = refs[0]
-      js['$ref'] = "#/definitions/#{ref.tag}"
-  else
-    js.type = 'object'
-    js.property = property if property.length
-    js.required = required if required.length
-  
+      js.type = 'object'
+      js.property = property if property.length
+      js.required = required if required.length
   return js
 
 yang2jschema = (schema, item=false) ->
@@ -292,6 +307,9 @@ serializeJSchema = (jschema) ->
 module.exports = require('./yang-openapi.yang').bind {
 
   transform: ->
+    debug? "[transform] using '#{@input['@choice']}' as source"
+    switch @input['@choice']
+      when 'swagger-file' then @throw "swagger-file transform feature not yet supported!"
     debug? "[transform] importing '#{@input.modules}'"
     modules = @input.modules
       .map (name) => @schema.constructor.import(name)

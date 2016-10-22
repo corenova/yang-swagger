@@ -84,7 +84,7 @@
   };
 
   yang2jsobj = function(schema) {
-    var js, property, ref, ref1, ref2, refs, required;
+    var choices, js, property, ref, ref1, ref2, ref3, ref4, refs, required;
     if (schema == null) {
       return {};
     }
@@ -104,43 +104,72 @@
         schema: yang2jschema((ref3 = node.origin) != null ? ref3 : node)
       };
     });
-    refs = (ref2 = schema.uses) != null ? ref2.filter(function(x) {
+    choices = (ref2 = schema.choice) != null ? ref2.filter(function(x) {
+      return x.parent === schema;
+    }).map(function(choice) {
+      var ref3;
+      return {
+        oneOf: (ref3 = choice["case"]) != null ? ref3.map(function(node) {
+          var ref4;
+          return yang2jsobj((ref4 = node.origin) != null ? ref4 : node);
+        }) : void 0
+      };
+    }) : void 0;
+    refs = (ref3 = schema.uses) != null ? ref3.filter(function(x) {
       return x.parent === schema;
     }) : void 0;
-    if (refs != null ? refs.length : void 0) {
-      refs.forEach(function(ref) {
-        if (definitions[ref.tag] == null) {
-          if (typeof debug === "function") {
-            debug("[yang2jsobj] defining " + ref.tag + " using " + schema.trail);
+    switch (false) {
+      case !(refs != null ? refs.length : void 0):
+        refs.forEach(function(ref) {
+          if (definitions[ref.tag] == null) {
+            if (typeof debug === "function") {
+              debug("[yang2jsobj] defining " + ref.tag + " using " + schema.trail);
+            }
+            definitions[ref.tag] = true;
+            return definitions[ref.tag] = yang2jsobj(ref.state.grouping.origin);
           }
-          definitions[ref.tag] = true;
-          return definitions[ref.tag] = yang2jsobj(ref.state.grouping.origin);
-        }
-      });
-      if (refs.length > 1 || property.length) {
-        js.allOf = refs.map(function(ref) {
-          return {
-            '$ref': "#/definitions/" + ref.tag
-          };
         });
-        if (property.length) {
-          js.allOf.push({
-            required: required.length ? required : void 0,
-            property: property
+        if (refs.length > 1 || property.length) {
+          js.allOf = refs.map(function(ref) {
+            return {
+              '$ref': "#/definitions/" + ref.tag
+            };
           });
+          if (property.length) {
+            js.allOf.push({
+              required: required.length ? required : void 0,
+              property: property
+            });
+          }
+          if (choices != null ? choices.length : void 0) {
+            (ref4 = js.allOf).push.apply(ref4, choices);
+          }
+        } else {
+          ref = refs[0];
+          js['$ref'] = "#/definitions/" + ref.tag;
         }
-      } else {
-        ref = refs[0];
-        js['$ref'] = "#/definitions/" + ref.tag;
-      }
-    } else {
-      js.type = 'object';
-      if (property.length) {
-        js.property = property;
-      }
-      if (required.length) {
-        js.required = required;
-      }
+        break;
+      case !(choices != null ? choices.length : void 0):
+        if (choices.length > 1 || property.length) {
+          js.allOf = [].concat(choices);
+          if (property.length) {
+            js.allOf.push({
+              required: required.length ? required : void 0,
+              property: property
+            });
+          }
+        } else {
+          js.oneOf = choices[0].oneOf;
+        }
+        break;
+      default:
+        js.type = 'object';
+        if (property.length) {
+          js.property = property;
+        }
+        if (required.length) {
+          js.required = required;
+        }
     }
     return js;
   };
@@ -493,6 +522,13 @@
   module.exports = require('./yang-openapi.yang').bind({
     transform: function() {
       var found, k, modules, v;
+      if (typeof debug === "function") {
+        debug("[transform] using '" + this.input['@choice'] + "' as source");
+      }
+      switch (this.input['@choice']) {
+        case 'swagger-file':
+          this["throw"]("swagger-file transform feature not yet supported!");
+      }
       if (typeof debug === "function") {
         debug("[transform] importing '" + this.input.modules + "'");
       }
