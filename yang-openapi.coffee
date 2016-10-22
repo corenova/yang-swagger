@@ -259,7 +259,7 @@ discoverPathParameter = (schema) ->
 
 discoverPaths = (schema) ->
   return [] unless schema.kind in [ 'list', 'container', 'rpc', 'action' ]
-  return [] if schema['if-feature']? # ignore if-feature entries...
+  return [] if schema['if-feature']? # XXX ignore if-feature entries...
   
   name = "/#{schema.datakey}"
   debug? "[discoverPaths] inspecting #{schema.trail}"

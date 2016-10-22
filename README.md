@@ -15,6 +15,13 @@ The preferred installation is *global* for easy access to the
 `yang-swagger` utility but can also be used as a dependency module to
 help generate swagger/openapi specification as part of your project.
 
+> NOTE: Currently, Swagger/OpenAPI 2.0 Specification does **NOT**
+> support JSON-schema `an yOf` and `oneOf` directives, which means
+> that we cannot properly treat YANG `choice/case` statements during
+> conversion. As a work-around, the current transform will simply
+> serialize all configuration nodes from the `choice/case` sections
+> into a flat list of properties.
+
 ## Quick Start
 
 ```bash
