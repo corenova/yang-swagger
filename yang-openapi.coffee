@@ -58,7 +58,7 @@ yang2jsobj = (schema) ->
       schema: yang2jschema node.origin ? node
 
   choices = schema.choice?.filter (x) -> x.parent is schema
-    .map (choice) -> oneOf: choice.case?.map (node) -> yang2jsobj node.origin ? node
+    .map (choice) -> anyOf: choice.case?.map (node) -> yang2jsobj node.origin ? node
       
   refs = schema.uses?.filter (x) -> x.parent is schema
   switch
@@ -88,7 +88,7 @@ yang2jsobj = (schema) ->
             required: if required.length then required else undefined
             property: property
       else
-        js.oneOf = choices[0].oneOf
+        js.anyOf = choices[0].anyOf
     else
       js.type = 'object'
       js.property = property if property.length

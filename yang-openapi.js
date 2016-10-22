@@ -109,7 +109,7 @@
     }).map(function(choice) {
       var ref3;
       return {
-        oneOf: (ref3 = choice["case"]) != null ? ref3.map(function(node) {
+        anyOf: (ref3 = choice["case"]) != null ? ref3.map(function(node) {
           var ref4;
           return yang2jsobj((ref4 = node.origin) != null ? ref4 : node);
         }) : void 0
@@ -159,7 +159,7 @@
             });
           }
         } else {
-          js.oneOf = choices[0].oneOf;
+          js.anyOf = choices[0].anyOf;
         }
         break;
       default:

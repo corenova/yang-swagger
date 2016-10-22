@@ -258,7 +258,7 @@ paths:
         - name: 'transform:input'
           in: body
           schema:
-            oneOf:
+            anyOf:
               - type: object
                 properties:
                   modules:
