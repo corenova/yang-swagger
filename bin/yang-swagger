@@ -30,7 +30,7 @@ if (argv.config) {
 var swagger = require('..').eval(config)
 
 swagger.in('transform')
-  .invoke({modules: argv._})
+  .do({modules: argv._})
   .then(function (output) {
 	return output.spec.serialize(argv)
   })
