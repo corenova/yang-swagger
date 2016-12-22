@@ -50,7 +50,7 @@ yang2jsobj = (schema) ->
    description: schema.description?.tag
   required = []
   property = schema.nodes
-    .filter (x) -> x.kind isnt 'action' and x.parent is schema
+    .filter (x) -> x.kind not in ['action', 'choice'] and x.parent is schema
     .map (node) ->
       if node.mandatory?.valueOf() is true
         required.push node.tag

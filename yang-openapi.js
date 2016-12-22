@@ -93,7 +93,8 @@
     };
     required = [];
     property = schema.nodes.filter(function(x) {
-      return x.kind !== 'action' && x.parent === schema;
+      var ref2;
+      return ((ref2 = x.kind) !== 'action' && ref2 !== 'choice') && x.parent === schema;
     }).map(function(node) {
       var ref2, ref3;
       if (((ref2 = node.mandatory) != null ? ref2.valueOf() : void 0) === true) {
