@@ -333,14 +333,14 @@ definitions:
           swagger:
             type: string
             format: 'meta:api-version'
+          info:
+            $ref: '#/definitions/openapi:info'
           host:
             type: string
             format: string
           base-path:
             type: string
             format: 'inet:uri'
-          info:
-            $ref: '#/definitions/openapi:info'
           schemes:
             type: array
             items:
@@ -406,6 +406,15 @@ definitions:
             items:
               type: string
               format: string
+          summary:
+            type: string
+            format: 'meta:description'
+          description:
+            type: string
+            format: 'meta:description'
+          operationId:
+            type: string
+            format: string
           consumes:
             type: array
             items:
@@ -421,15 +430,6 @@ definitions:
             items:
               type: string
               format: identityref
-          summary:
-            type: string
-            format: 'meta:description'
-          description:
-            type: string
-            format: 'meta:description'
-          operationId:
-            type: string
-            format: string
           deprecated:
             default: 'false'
             type: boolean
@@ -496,6 +496,8 @@ definitions:
                   format: 'yang:yang-identifier'
                 schema:
                   $ref: '#/definitions/json:json-schema'
+          items:
+            $ref: '#/definitions/json:json-schema'
           allOf:
             type: array
             items:
@@ -508,8 +510,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/json:json-schema'
-          items:
-            $ref: '#/definitions/json:json-schema'
   'json:json-datatype':
     type: object
     properties:
