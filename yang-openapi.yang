@@ -158,7 +158,7 @@ module yang-openapi {
   grouping operations-list {
     grouping operation {
       leaf-list tags {
-        type string;
+        type yang:yang-identifier;
       }
       leaf summary {
         type meta:description {
@@ -240,6 +240,25 @@ module yang-openapi {
       uses openapi:response;
     }
   }
+  grouping tags-list {
+    list tag {
+      key name;
+      leaf name {
+        type yang:yang-identifier;
+      }
+      leaf description {
+        type meta:description;
+      }
+      container externalDocs {
+        leaf description {
+          type meta:description;
+        }
+        leaf url {
+          type inet:uri;
+        }
+      }
+    }
+  }
   grouping specification {
     leaf swagger {
       type meta:api-version;
@@ -271,13 +290,14 @@ module yang-openapi {
     uses openapi:paths-list;
     uses openapi:definitions-list;
     uses openapi:responses-def-list;
+    uses openapi:tags-list;
     /* TODO
      * parameters
      * security-definitions
      * security
-     * tags
      * externalDocs
      */
+
     action serialize {
       description
         "The serialize converts current Swagger/OpenAPI specification object

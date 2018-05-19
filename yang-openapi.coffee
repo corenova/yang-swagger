@@ -108,10 +108,12 @@ yang2jschema = (schema, item=false) ->
 
 discoverOperations = (schema, item=false) ->
   debug? "[discoverOperations] inspecting #{schema.trail}"
+  origin = schema.root.tag
   deprecated = schema.status?.valueOf() is 'deprecated'
   switch 
     when schema.kind in [ 'rpc', 'action' ] then [
       method: 'post'
+      tags: [ origin ]
       description: schema.description?.tag
       summary: "Invokes #{schema.tag} in #{schema.parent.tag}"
       deprecated: deprecated
@@ -129,6 +131,7 @@ discoverOperations = (schema, item=false) ->
     ]
     when schema.kind is 'list' and not item then [
       method: 'post'
+      tags: [ origin ]
       description: schema.description?.tag
       summary: "Creates one or more new #{schema.tag} in #{schema.parent.tag}"
       deprecated: deprecated
@@ -145,6 +148,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'get'
+      tags: [ origin ]
       summary: "List all #{schema.tag}s from #{schema.parent.tag}"
       deprecated: deprecated
       response: [
@@ -154,6 +158,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
+      tags: [ origin ]
       summary: "Replace the entire #{schema.tag} collection"
       deprecated: deprecated
       parameter: [
@@ -168,6 +173,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
+      tags: [ origin ]
       summary: "Merge items into the #{schema.tag} collection"
       deprecated: deprecated
       parameter: [
@@ -183,6 +189,7 @@ discoverOperations = (schema, item=false) ->
     ]
     else [
       method: 'get'
+      tags: [ origin ]
       description: schema.description?.tag
       summary: "View detail on #{schema.tag}"
       deprecated: deprecated
@@ -193,6 +200,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'put'
+      tags: [ origin ]
       summary: "Update details on #{schema.tag}"
       deprecated: deprecated
       parameter: [
@@ -208,6 +216,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'patch'
+      tags: [ origin ]
       summary: "Merge details on #{schema.tag}"
       deprecated: deprecated
       parameter: [
@@ -223,6 +232,7 @@ discoverOperations = (schema, item=false) ->
       ]
      ,
       method: 'delete'
+      tags: [ origin ]
       summary: "Delete #{schema.tag} from #{schema.parent.tag}"
       deprecated: deprecated
       response: [
@@ -290,6 +300,21 @@ discoverPaths = (schema) ->
   debug? "[discoverPaths] discovered #{paths.length} paths with #{subpaths.length} subpaths inside #{schema.trail}"
   paths.concat subpaths...
 
+discoverTags = (schema) ->
+  return [] unless schema.kind in [ 'list', 'container', 'rpc', 'action' ]
+  return [] if schema['if-feature']? # XXX ignore if-feature entries...
+
+  name = "/#{schema.datakey}"
+  debug? "[discoverTags] inspecting #{schema.trail}"
+  tag =
+    name: name
+    description: schema.description?.tag ? "Operations related to #{name}"
+  if schema.reference?.tag
+    tag.externalDocs =
+      description: "Find out more about #{name}"
+      url: schema.reference.tag 
+  return tag
+
 serializeJSchema = (jschema) ->
   return unless jschema?
   o = {}
@@ -334,6 +359,14 @@ module.exports = require('./yang-openapi.yang').bind {
         info: @get('/info')
         consumes: [ "application/json" ]
         produces: [ "application/json" ]
+        tag: modules
+          .map (m) ->
+            tag = name: m.tag, description: "Operations related to #{m.tag}"
+            if m.reference?.tag
+              tag.externalDocs =
+                description: "Find out more about #{m.tag}"
+                url: m.reference.tag
+            return tag
         path: modules
           .map (m) -> discoverPaths(schema) for schema in m.nodes
           .reduce ((a,b) -> a.concat b...), []
@@ -342,6 +375,7 @@ module.exports = require('./yang-openapi.yang').bind {
   '{specification}/serialize': ->
     debug? "[#{@path}] serializing specification"
     spec = @parent.toJSON(false)
+    spec.tags = spec.tag
     spec.paths = spec.path.reduce ((a,_path) ->
       path = a[_path.name] = '$ref': _path['$ref']
       for op in _path.operation ? []
@@ -362,6 +396,7 @@ module.exports = require('./yang-openapi.yang').bind {
       a[_def.name] = serializeJSchema _def.schema
       return a
     ), {}
+    delete spec.tag
     delete spec.path
     delete spec.definition
     delete spec.serialize

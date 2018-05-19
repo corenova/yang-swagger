@@ -1,6 +1,6 @@
 {
   "name": "yang-swagger",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "YANG model-driven swagger/openapi transform",
   "keywords": [
     "yang",
