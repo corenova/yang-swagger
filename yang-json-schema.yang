@@ -57,10 +57,10 @@ module yang-json-schema {
     }
     uses json:json-datatype;
     leaf-list required {
-      //type string;
-      type leafref {
-        path '../property/name';
-      }
+      type string;
+      // type leafref {
+      //   path '../property/name';
+      // }
     }
     list property {
       key name;

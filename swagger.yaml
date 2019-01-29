@@ -418,14 +418,7 @@ paths:
           description: Expected response of license
           schema:
             required:
-              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
-                error-tag: data-missing
-                error-app-tag: instance-required
-                err-path: ../property/name
-                toString: !<tag:yaml.org,2002:js/function> |-
-                  function () {
-                              return value;
-                            }
+              - name
             allOf: []
             oneOf: []
             type: object
@@ -448,14 +441,7 @@ paths:
           required: false
           schema:
             required:
-              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
-                error-tag: data-missing
-                error-app-tag: instance-required
-                err-path: ../property/name
-                toString: !<tag:yaml.org,2002:js/function> |-
-                  function () {
-                              return value;
-                            }
+              - name
             allOf: []
             oneOf: []
             type: object
@@ -471,14 +457,7 @@ paths:
           description: Expected response of license
           schema:
             required:
-              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
-                error-tag: data-missing
-                error-app-tag: instance-required
-                err-path: ../property/name
-                toString: !<tag:yaml.org,2002:js/function> |-
-                  function () {
-                              return value;
-                            }
+              - name
             allOf: []
             oneOf: []
             type: object
@@ -501,14 +480,7 @@ paths:
           required: false
           schema:
             required:
-              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
-                error-tag: data-missing
-                error-app-tag: instance-required
-                err-path: ../property/name
-                toString: !<tag:yaml.org,2002:js/function> |-
-                  function () {
-                              return value;
-                            }
+              - name
             allOf: []
             oneOf: []
             type: object
@@ -524,14 +496,7 @@ paths:
           description: Expected response of license
           schema:
             required:
-              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
-                error-tag: data-missing
-                error-app-tag: instance-required
-                err-path: ../property/name
-                toString: !<tag:yaml.org,2002:js/function> |-
-                  function () {
-                              return value;
-                            }
+              - name
             allOf: []
             oneOf: []
             type: object
@@ -772,7 +737,7 @@ paths:
                                                               type: array
                                                               items:
                                                                 type: string
-                                                                format: leafref
+                                                                format: string
                                                             property:
                                                               type: array
                                                               items:
@@ -850,7 +815,7 @@ paths:
                                                               type: array
                                                               items:
                                                                 type: string
-                                                                format: leafref
+                                                                format: string
                                                             property:
                                                               type: array
                                                               items:
@@ -945,7 +910,7 @@ paths:
                                                     type: array
                                                     items:
                                                       type: string
-                                                      format: leafref
+                                                      format: string
                                                   property:
                                                     type: array
                                                     items:
@@ -1017,7 +982,7 @@ paths:
                                       type: array
                                       items:
                                         type: string
-                                        format: leafref
+                                        format: string
                                     property:
                                       type: array
                                       items:
@@ -1081,7 +1046,7 @@ paths:
                                           type: array
                                           items:
                                             type: string
-                                            format: leafref
+                                            format: string
                                         property:
                                           type: array
                                           items:
@@ -1160,22 +1125,8 @@ paths:
 definitions:
   'openapi:info':
     required:
-      - message: '[leafref] required is invalid for ''title'' (not found in ../property/name)'
-        error-tag: data-missing
-        error-app-tag: instance-required
-        err-path: ../property/name
-        toString: !<tag:yaml.org,2002:js/function> |-
-          function () {
-                      return value;
-                    }
-      - message: '[leafref] required is invalid for ''version'' (not found in ../property/name)'
-        error-tag: data-missing
-        error-app-tag: instance-required
-        err-path: ../property/name
-        toString: !<tag:yaml.org,2002:js/function> |-
-          function () {
-                      return value;
-                    }
+      - title
+      - version
     allOf: []
     oneOf: []
     type: object
@@ -1223,7 +1174,7 @@ definitions:
             type: array
             items:
               type: string
-              format: leafref
+              format: string
           property:
             type: array
             items:
@@ -1286,14 +1237,7 @@ definitions:
         format: union
   'openapi:response':
     required:
-      - message: '[leafref] required is invalid for ''description'' (not found in ../property/name)'
-        error-tag: data-missing
-        error-app-tag: instance-required
-        err-path: ../property/name
-        toString: !<tag:yaml.org,2002:js/function> |-
-          function () {
-                      return value;
-                    }
+      - description
     allOf: []
     oneOf: []
     type: object
@@ -1312,7 +1256,7 @@ definitions:
                 type: array
                 items:
                   type: string
-                  format: leafref
+                  format: string
               property:
                 type: array
                 items:
@@ -1451,7 +1395,7 @@ definitions:
                               type: array
                               items:
                                 type: string
-                                format: leafref
+                                format: string
                             property:
                               type: array
                               items:
@@ -1529,7 +1473,7 @@ definitions:
                               type: array
                               items:
                                 type: string
-                                format: leafref
+                                format: string
                             property:
                               type: array
                               items:
@@ -1632,7 +1576,7 @@ definitions:
                           type: array
                           items:
                             type: string
-                            format: leafref
+                            format: string
                         property:
                           type: array
                           items:
@@ -1715,7 +1659,7 @@ definitions:
                           type: array
                           items:
                             type: string
-                            format: leafref
+                            format: string
                         property:
                           type: array
                           items:
@@ -1874,7 +1818,7 @@ definitions:
                                         type: array
                                         items:
                                           type: string
-                                          format: leafref
+                                          format: string
                                       property:
                                         type: array
                                         items:
@@ -1952,7 +1896,7 @@ definitions:
                                         type: array
                                         items:
                                           type: string
-                                          format: leafref
+                                          format: string
                                       property:
                                         type: array
                                         items:
@@ -2047,7 +1991,7 @@ definitions:
                               type: array
                               items:
                                 type: string
-                                format: leafref
+                                format: string
                             property:
                               type: array
                               items:
@@ -2204,7 +2148,7 @@ definitions:
                                     type: array
                                     items:
                                       type: string
-                                      format: leafref
+                                      format: string
                                   property:
                                     type: array
                                     items:
@@ -2282,7 +2226,7 @@ definitions:
                                     type: array
                                     items:
                                       type: string
-                                      format: leafref
+                                      format: string
                                   property:
                                     type: array
                                     items:
@@ -2517,7 +2461,7 @@ definitions:
                                                   type: array
                                                   items:
                                                     type: string
-                                                    format: leafref
+                                                    format: string
                                                 property:
                                                   type: array
                                                   items:
@@ -2595,7 +2539,7 @@ definitions:
                                                   type: array
                                                   items:
                                                     type: string
-                                                    format: leafref
+                                                    format: string
                                                 property:
                                                   type: array
                                                   items:
@@ -2690,7 +2634,7 @@ definitions:
                                         type: array
                                         items:
                                           type: string
-                                          format: leafref
+                                          format: string
                                       property:
                                         type: array
                                         items:
@@ -2762,7 +2706,7 @@ definitions:
                           type: array
                           items:
                             type: string
-                            format: leafref
+                            format: string
                         property:
                           type: array
                           items:
@@ -2826,7 +2770,7 @@ definitions:
                               type: array
                               items:
                                 type: string
-                                format: leafref
+                                format: string
                             property:
                               type: array
                               items:
@@ -3017,7 +2961,7 @@ definitions:
                                               type: array
                                               items:
                                                 type: string
-                                                format: leafref
+                                                format: string
                                             property:
                                               type: array
                                               items:
@@ -3095,7 +3039,7 @@ definitions:
                                               type: array
                                               items:
                                                 type: string
-                                                format: leafref
+                                                format: string
                                             property:
                                               type: array
                                               items:
@@ -3190,7 +3134,7 @@ definitions:
                                     type: array
                                     items:
                                       type: string
-                                      format: leafref
+                                      format: string
                                   property:
                                     type: array
                                     items:
@@ -3267,7 +3211,7 @@ definitions:
                       type: array
                       items:
                         type: string
-                        format: leafref
+                        format: string
                     property:
                       type: array
                       items:
@@ -3336,7 +3280,7 @@ definitions:
                           type: array
                           items:
                             type: string
-                            format: leafref
+                            format: string
                         property:
                           type: array
                           items:
