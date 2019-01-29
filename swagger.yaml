@@ -18,6 +18,7 @@ consumes:
   - application/json
 produces:
   - application/json
+response: []
 tags:
   - name: yang-openapi
     description: Operations related to yang-openapi
@@ -29,66 +30,277 @@ paths:
     get:
       tags:
         - yang-openapi
-      description: Contains API description metadata for use during 'transform' output
       summary: View detail on info
+      description: Contains API description metadata for use during 'transform' output
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '200':
           description: Expected response of info
           schema:
-            $ref: '#/definitions/openapi:info'
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+            oneOf: []
+            properties: {}
+            type: object
     put:
       tags:
         - yang-openapi
       summary: Update details on info
       deprecated: false
+      security: []
       parameters:
         - name: info
           in: body
           description: Contains API description metadata for use during 'transform' output
-          schema:
-            $ref: '#/definitions/openapi:info'
           required: false
+          schema:
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+            oneOf: []
+            properties: {}
+            type: object
       responses:
         '200':
           description: Expected response of info
           schema:
-            $ref: '#/definitions/openapi:info'
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+            oneOf: []
+            properties: {}
+            type: object
     patch:
       tags:
         - yang-openapi
       summary: Merge details on info
       deprecated: false
+      security: []
       parameters:
         - name: info
           in: body
           description: Contains API description metadata for use during 'transform' output
-          schema:
-            $ref: '#/definitions/openapi:info'
           required: false
+          schema:
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+            oneOf: []
+            properties: {}
+            type: object
       responses:
         '200':
           description: Expected response of info
           schema:
-            $ref: '#/definitions/openapi:info'
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+            oneOf: []
+            properties: {}
+            type: object
     delete:
       tags:
         - yang-openapi
       summary: Delete info from yang-openapi
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '204':
           description: Expected response for delete
+    parameters: []
   '/yang-openapi:info/contact':
     get:
       tags:
         - yang-openapi
       summary: View detail on contact
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '200':
           description: Expected response of contact
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               name:
@@ -105,10 +317,14 @@ paths:
         - yang-openapi
       summary: Update details on contact
       deprecated: false
+      security: []
       parameters:
         - name: contact
           in: body
+          required: false
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               name:
@@ -120,11 +336,12 @@ paths:
               email:
                 type: string
                 format: 'meta:email-address'
-          required: false
       responses:
         '200':
           description: Expected response of contact
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               name:
@@ -141,10 +358,14 @@ paths:
         - yang-openapi
       summary: Merge details on contact
       deprecated: false
+      security: []
       parameters:
         - name: contact
           in: body
+          required: false
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               name:
@@ -156,11 +377,12 @@ paths:
               email:
                 type: string
                 format: 'meta:email-address'
-          required: false
       responses:
         '200':
           description: Expected response of contact
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               name:
@@ -177,22 +399,36 @@ paths:
         - yang-openapi
       summary: Delete contact from info
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '204':
           description: Expected response for delete
+    parameters: []
   '/yang-openapi:info/license':
     get:
       tags:
         - yang-openapi
       summary: View detail on license
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '200':
           description: Expected response of license
           schema:
-            type: object
             required:
-              - name
+              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
+                error-tag: data-missing
+                error-app-tag: instance-required
+                err-path: ../property/name
+                toString: !<tag:yaml.org,2002:js/function> |-
+                  function () {
+                              return value;
+                            }
+            allOf: []
+            oneOf: []
+            type: object
             properties:
               name:
                 type: string
@@ -205,13 +441,24 @@ paths:
         - yang-openapi
       summary: Update details on license
       deprecated: false
+      security: []
       parameters:
         - name: license
           in: body
+          required: false
           schema:
-            type: object
             required:
-              - name
+              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
+                error-tag: data-missing
+                error-app-tag: instance-required
+                err-path: ../property/name
+                toString: !<tag:yaml.org,2002:js/function> |-
+                  function () {
+                              return value;
+                            }
+            allOf: []
+            oneOf: []
+            type: object
             properties:
               name:
                 type: string
@@ -219,14 +466,22 @@ paths:
               url:
                 type: string
                 format: 'inet:uri'
-          required: false
       responses:
         '200':
           description: Expected response of license
           schema:
-            type: object
             required:
-              - name
+              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
+                error-tag: data-missing
+                error-app-tag: instance-required
+                err-path: ../property/name
+                toString: !<tag:yaml.org,2002:js/function> |-
+                  function () {
+                              return value;
+                            }
+            allOf: []
+            oneOf: []
+            type: object
             properties:
               name:
                 type: string
@@ -239,13 +494,24 @@ paths:
         - yang-openapi
       summary: Merge details on license
       deprecated: false
+      security: []
       parameters:
         - name: license
           in: body
+          required: false
           schema:
-            type: object
             required:
-              - name
+              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
+                error-tag: data-missing
+                error-app-tag: instance-required
+                err-path: ../property/name
+                toString: !<tag:yaml.org,2002:js/function> |-
+                  function () {
+                              return value;
+                            }
+            allOf: []
+            oneOf: []
+            type: object
             properties:
               name:
                 type: string
@@ -253,14 +519,22 @@ paths:
               url:
                 type: string
                 format: 'inet:uri'
-          required: false
       responses:
         '200':
           description: Expected response of license
           schema:
-            type: object
             required:
-              - name
+              - message: '[leafref] required is invalid for ''name'' (not found in ../property/name)'
+                error-tag: data-missing
+                error-app-tag: instance-required
+                err-path: ../property/name
+                toString: !<tag:yaml.org,2002:js/function> |-
+                  function () {
+                              return value;
+                            }
+            allOf: []
+            oneOf: []
+            type: object
             properties:
               name:
                 type: string
@@ -273,23 +547,30 @@ paths:
         - yang-openapi
       summary: Delete license from info
       deprecated: false
+      security: []
+      parameters: []
       responses:
         '204':
           description: Expected response for delete
+    parameters: []
   '/yang-openapi:transform':
     post:
       tags:
         - yang-openapi
+      summary: Invokes transform in yang-openapi
       description: |-
         The transform accepts YANG module names/locations or pre-existing
         Swagger specification file contents and converts into YANG
         schema-defined Swagger/OpenAPI specification object instance.
-      summary: Invokes transform in yang-openapi
       deprecated: false
+      security: []
       parameters:
         - name: 'transform:input'
           in: body
+          required: false
           schema:
+            allOf: []
+            oneOf: []
             properties:
               modules:
                 type: array
@@ -306,21 +587,598 @@ paths:
                   - json
                   - yaml
             type: object
-          required: false
       responses:
         '200':
           description: Expected response of transform
           schema:
+            allOf: []
+            oneOf: []
             type: object
             properties:
               spec:
-                $ref: '#/definitions/openapi:specification'
+                allOf:
+                  - $ref: '#/definitions/openapi:specification'
+                  - required:
+                      - swagger
+                    properties:
+                      swagger:
+                        type: string
+                        format: 'meta:api-version'
+                      info:
+                        allOf:
+                          - $ref: '#/definitions/openapi:info'
+                          - required:
+                              - title
+                              - version
+                            properties:
+                              title:
+                                type: string
+                                format: 'meta:title'
+                              description:
+                                type: string
+                                format: 'meta:description'
+                              version:
+                                type: string
+                                format: 'meta:api-version'
+                              contact:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'meta:person-name'
+                                  url:
+                                    type: string
+                                    format: 'inet:uri'
+                                  email:
+                                    type: string
+                                    format: 'meta:email-address'
+                              license:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'meta:license'
+                                  url:
+                                    type: string
+                                    format: 'inet:uri'
+                      host:
+                        type: string
+                        format: string
+                      base-path:
+                        type: string
+                        format: 'inet:uri'
+                      schemes:
+                        type: array
+                        items:
+                          type: string
+                          format: identityref
+                      consumes:
+                        type: array
+                        items:
+                          type: string
+                          format: mimetype
+                      produces:
+                        type: array
+                        items:
+                          type: string
+                          format: mimetype
+                      path:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/definitions/path-item'
+                            - properties:
+                                name:
+                                  type: string
+                                  format: 'inet:uri'
+                                $ref:
+                                  type: string
+                                  format: 'json:json-schema-ref'
+                                operation:
+                                  type: array
+                                  items:
+                                    allOf:
+                                      - $ref: '#/definitions/operation'
+                                      - properties:
+                                          method:
+                                            type: string
+                                            format: http-method
+                                            enum:
+                                              - get
+                                              - put
+                                              - post
+                                              - delete
+                                              - options
+                                              - head
+                                              - patch
+                                          tags:
+                                            type: array
+                                            items:
+                                              type: string
+                                              format: 'yang:yang-identifier'
+                                          summary:
+                                            type: string
+                                            format: 'meta:description'
+                                          description:
+                                            type: string
+                                            format: 'meta:description'
+                                          operationId:
+                                            type: string
+                                            format: string
+                                          consumes:
+                                            type: array
+                                            items:
+                                              type: string
+                                              format: mimetype
+                                          produces:
+                                            type: array
+                                            items:
+                                              type: string
+                                              format: mimetype
+                                          schemes:
+                                            type: array
+                                            items:
+                                              type: string
+                                              format: identityref
+                                          deprecated:
+                                            default: 'false'
+                                            type: boolean
+                                            format: boolean
+                                          security:
+                                            type: array
+                                            items:
+                                              type: object
+                                              properties:
+                                                name: {}
+                                          parameter:
+                                            type: array
+                                            items:
+                                              allOf:
+                                                - $ref: '#/definitions/json:json-datatype'
+                                                - required:
+                                                    - name
+                                                    - in
+                                                  properties:
+                                                    name:
+                                                      type: string
+                                                      format: string
+                                                    in:
+                                                      type: string
+                                                      format: enumeration
+                                                      enum:
+                                                        - query
+                                                        - header
+                                                        - path
+                                                        - formData
+                                                        - body
+                                                    description:
+                                                      type: string
+                                                      format: 'meta:description'
+                                                    required:
+                                                      description: if ../in = 'path' this must be true
+                                                      default: 'false'
+                                                      type: boolean
+                                                      format: boolean
+                                                    schema:
+                                                      allOf:
+                                                        - $ref: '#/definitions/json:json-schema'
+                                                        - properties:
+                                                            $ref:
+                                                              type: string
+                                                              format: json-schema-ref
+                                                            required:
+                                                              type: array
+                                                              items:
+                                                                type: string
+                                                                format: leafref
+                                                            property:
+                                                              type: array
+                                                              items:
+                                                                type: object
+                                                                properties:
+                                                                  name:
+                                                                    type: string
+                                                                    format: 'yang:yang-identifier'
+                                                                  schema:
+                                                                    $ref: '#/definitions/json:json-schema'
+                                                            items:
+                                                              $ref: '#/definitions/json:json-schema'
+                                                            allOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            anyOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            oneOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            type:
+                                                              type: string
+                                                              format: enumeration
+                                                              enum:
+                                                                - string
+                                                                - number
+                                                                - integer
+                                                                - boolean
+                                                                - array
+                                                                - file
+                                                                - object
+                                                            format:
+                                                              type: string
+                                                              format: union
+                                                    type:
+                                                      type: string
+                                                      format: enumeration
+                                                      enum:
+                                                        - string
+                                                        - number
+                                                        - integer
+                                                        - boolean
+                                                        - array
+                                                        - file
+                                                        - object
+                                                    format:
+                                                      type: string
+                                                      format: union
+                                          response:
+                                            type: array
+                                            items:
+                                              allOf:
+                                                - $ref: '#/definitions/openapi:response'
+                                                - required:
+                                                    - description
+                                                  properties:
+                                                    code:
+                                                      type: integer
+                                                      format: uint16
+                                                    description:
+                                                      type: string
+                                                      format: 'meta:description'
+                                                    schema:
+                                                      allOf:
+                                                        - $ref: '#/definitions/json:json-schema'
+                                                        - properties:
+                                                            $ref:
+                                                              type: string
+                                                              format: json-schema-ref
+                                                            required:
+                                                              type: array
+                                                              items:
+                                                                type: string
+                                                                format: leafref
+                                                            property:
+                                                              type: array
+                                                              items:
+                                                                type: object
+                                                                properties:
+                                                                  name:
+                                                                    type: string
+                                                                    format: 'yang:yang-identifier'
+                                                                  schema:
+                                                                    $ref: '#/definitions/json:json-schema'
+                                                            items:
+                                                              $ref: '#/definitions/json:json-schema'
+                                                            allOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            anyOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            oneOf:
+                                                              type: array
+                                                              items:
+                                                                $ref: '#/definitions/json:json-schema'
+                                                            type:
+                                                              type: string
+                                                              format: enumeration
+                                                              enum:
+                                                                - string
+                                                                - number
+                                                                - integer
+                                                                - boolean
+                                                                - array
+                                                                - file
+                                                                - object
+                                                            format:
+                                                              type: string
+                                                              format: union
+                                                    header:
+                                                      type: array
+                                                      items:
+                                                        type: object
+                                                    example:
+                                                      type: array
+                                                      items:
+                                                        type: object
+                                                        required:
+                                                          - mime
+                                                        properties:
+                                                          mime:
+                                                            type: string
+                                                            format: mimetype
+                                                          data:
+                                                            type: object
+                                parameter:
+                                  type: array
+                                  items:
+                                    allOf:
+                                      - $ref: '#/definitions/json:json-datatype'
+                                      - required:
+                                          - name
+                                          - in
+                                        properties:
+                                          name:
+                                            type: string
+                                            format: string
+                                          in:
+                                            type: string
+                                            format: enumeration
+                                            enum:
+                                              - query
+                                              - header
+                                              - path
+                                              - formData
+                                              - body
+                                          description:
+                                            type: string
+                                            format: 'meta:description'
+                                          required:
+                                            description: if ../in = 'path' this must be true
+                                            default: 'false'
+                                            type: boolean
+                                            format: boolean
+                                          schema:
+                                            allOf:
+                                              - $ref: '#/definitions/json:json-schema'
+                                              - properties:
+                                                  $ref:
+                                                    type: string
+                                                    format: json-schema-ref
+                                                  required:
+                                                    type: array
+                                                    items:
+                                                      type: string
+                                                      format: leafref
+                                                  property:
+                                                    type: array
+                                                    items:
+                                                      type: object
+                                                      properties:
+                                                        name:
+                                                          type: string
+                                                          format: 'yang:yang-identifier'
+                                                        schema:
+                                                          $ref: '#/definitions/json:json-schema'
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                  allOf:
+                                                    type: array
+                                                    items:
+                                                      $ref: '#/definitions/json:json-schema'
+                                                  anyOf:
+                                                    type: array
+                                                    items:
+                                                      $ref: '#/definitions/json:json-schema'
+                                                  oneOf:
+                                                    type: array
+                                                    items:
+                                                      $ref: '#/definitions/json:json-schema'
+                                                  type:
+                                                    type: string
+                                                    format: enumeration
+                                                    enum:
+                                                      - string
+                                                      - number
+                                                      - integer
+                                                      - boolean
+                                                      - array
+                                                      - file
+                                                      - object
+                                                  format:
+                                                    type: string
+                                                    format: union
+                                          type:
+                                            type: string
+                                            format: enumeration
+                                            enum:
+                                              - string
+                                              - number
+                                              - integer
+                                              - boolean
+                                              - array
+                                              - file
+                                              - object
+                                          format:
+                                            type: string
+                                            format: union
+                      definition:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              format: 'openapi:grouping-identifier'
+                            schema:
+                              allOf:
+                                - $ref: '#/definitions/json:json-schema'
+                                - properties:
+                                    $ref:
+                                      type: string
+                                      format: json-schema-ref
+                                    required:
+                                      type: array
+                                      items:
+                                        type: string
+                                        format: leafref
+                                    property:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          name:
+                                            type: string
+                                            format: 'yang:yang-identifier'
+                                          schema:
+                                            $ref: '#/definitions/json:json-schema'
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                    allOf:
+                                      type: array
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                    anyOf:
+                                      type: array
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                    oneOf:
+                                      type: array
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                    type:
+                                      type: string
+                                      format: enumeration
+                                      enum:
+                                        - string
+                                        - number
+                                        - integer
+                                        - boolean
+                                        - array
+                                        - file
+                                        - object
+                                    format:
+                                      type: string
+                                      format: union
+                      response:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/definitions/openapi:response'
+                            - required:
+                                - description
+                              properties:
+                                name:
+                                  type: string
+                                  format: 'yang:yang-identifier'
+                                description:
+                                  type: string
+                                  format: 'meta:description'
+                                schema:
+                                  allOf:
+                                    - $ref: '#/definitions/json:json-schema'
+                                    - properties:
+                                        $ref:
+                                          type: string
+                                          format: json-schema-ref
+                                        required:
+                                          type: array
+                                          items:
+                                            type: string
+                                            format: leafref
+                                        property:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                                format: 'yang:yang-identifier'
+                                              schema:
+                                                $ref: '#/definitions/json:json-schema'
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                        allOf:
+                                          type: array
+                                          items:
+                                            $ref: '#/definitions/json:json-schema'
+                                        anyOf:
+                                          type: array
+                                          items:
+                                            $ref: '#/definitions/json:json-schema'
+                                        oneOf:
+                                          type: array
+                                          items:
+                                            $ref: '#/definitions/json:json-schema'
+                                        type:
+                                          type: string
+                                          format: enumeration
+                                          enum:
+                                            - string
+                                            - number
+                                            - integer
+                                            - boolean
+                                            - array
+                                            - file
+                                            - object
+                                        format:
+                                          type: string
+                                          format: union
+                                header:
+                                  type: array
+                                  items:
+                                    type: object
+                                example:
+                                  type: array
+                                  items:
+                                    type: object
+                                    required:
+                                      - mime
+                                    properties:
+                                      mime:
+                                        type: string
+                                        format: mimetype
+                                      data:
+                                        type: object
+                      tag:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              format: 'yang:yang-identifier'
+                            description:
+                              type: string
+                              format: 'meta:description'
+                            externalDocs:
+                              type: object
+                              properties:
+                                description:
+                                  type: string
+                                  format: 'meta:description'
+                                url:
+                                  type: string
+                                  format: 'inet:uri'
+    parameters: []
 definitions:
   'openapi:info':
-    type: object
     required:
-      - title
-      - version
+      - message: '[leafref] required is invalid for ''title'' (not found in ../property/name)'
+        error-tag: data-missing
+        error-app-tag: instance-required
+        err-path: ../property/name
+        toString: !<tag:yaml.org,2002:js/function> |-
+          function () {
+                      return value;
+                    }
+      - message: '[leafref] required is invalid for ''version'' (not found in ../property/name)'
+        error-tag: data-missing
+        error-app-tag: instance-required
+        err-path: ../property/name
+        toString: !<tag:yaml.org,2002:js/function> |-
+          function () {
+                      return value;
+                    }
+    allOf: []
+    oneOf: []
+    type: object
     properties:
       title:
         type: string
@@ -354,81 +1212,161 @@ definitions:
           url:
             type: string
             format: 'inet:uri'
-  'openapi:specification':
+  'json:json-schema':
     allOf:
-      - $ref: '#/definitions/openapi:paths-list'
-      - $ref: '#/definitions/openapi:definitions-list'
-      - $ref: '#/definitions/openapi:responses-def-list'
-      - $ref: '#/definitions/openapi:tags-list'
-      - required:
-          - swagger
-        properties:
-          swagger:
-            type: string
-            format: 'meta:api-version'
-          info:
-            $ref: '#/definitions/openapi:info'
-          host:
-            type: string
-            format: string
-          base-path:
-            type: string
-            format: 'inet:uri'
-          schemes:
-            type: array
-            items:
-              type: string
-              format: identityref
-          consumes:
-            type: array
-            items:
-              type: string
-              format: mimetype
-          produces:
-            type: array
-            items:
-              type: string
-              format: mimetype
-  'openapi:paths-list':
-    type: object
-    properties:
-      path:
-        type: array
-        items:
-          allOf:
-            - $ref: '#/definitions/path-item'
-            - properties:
-                name:
-                  type: string
-                  format: 'inet:uri'
-  path-item:
-    allOf:
-      - $ref: '#/definitions/openapi:operations-list'
-      - $ref: '#/definitions/openapi:parameters-list'
+      - $ref: '#/definitions/json:json-datatype'
       - properties:
           $ref:
             type: string
-            format: 'json:json-schema-ref'
-  'openapi:operations-list':
+            format: json-schema-ref
+          required:
+            type: array
+            items:
+              type: string
+              format: leafref
+          property:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  format: 'yang:yang-identifier'
+                schema:
+                  $ref: '#/definitions/json:json-schema'
+          items:
+            $ref: '#/definitions/json:json-schema'
+          allOf:
+            type: array
+            items:
+              $ref: '#/definitions/json:json-schema'
+          anyOf:
+            type: array
+            items:
+              $ref: '#/definitions/json:json-schema'
+          oneOf:
+            type: array
+            items:
+              $ref: '#/definitions/json:json-schema'
+          type:
+            type: string
+            format: enumeration
+            enum:
+              - string
+              - number
+              - integer
+              - boolean
+              - array
+              - file
+              - object
+          format:
+            type: string
+            format: union
+    oneOf: []
+    properties: {}
+    type: object
+  'json:json-datatype':
+    allOf: []
+    oneOf: []
     type: object
     properties:
-      operation:
+      type:
+        type: string
+        format: enumeration
+        enum:
+          - string
+          - number
+          - integer
+          - boolean
+          - array
+          - file
+          - object
+      format:
+        type: string
+        format: union
+  'openapi:response':
+    required:
+      - message: '[leafref] required is invalid for ''description'' (not found in ../property/name)'
+        error-tag: data-missing
+        error-app-tag: instance-required
+        err-path: ../property/name
+        toString: !<tag:yaml.org,2002:js/function> |-
+          function () {
+                      return value;
+                    }
+    allOf: []
+    oneOf: []
+    type: object
+    properties:
+      description:
+        type: string
+        format: 'meta:description'
+      schema:
+        allOf:
+          - $ref: '#/definitions/json:json-schema'
+          - properties:
+              $ref:
+                type: string
+                format: json-schema-ref
+              required:
+                type: array
+                items:
+                  type: string
+                  format: leafref
+              property:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      format: 'yang:yang-identifier'
+                    schema:
+                      $ref: '#/definitions/json:json-schema'
+              items:
+                $ref: '#/definitions/json:json-schema'
+              allOf:
+                type: array
+                items:
+                  $ref: '#/definitions/json:json-schema'
+              anyOf:
+                type: array
+                items:
+                  $ref: '#/definitions/json:json-schema'
+              oneOf:
+                type: array
+                items:
+                  $ref: '#/definitions/json:json-schema'
+              type:
+                type: string
+                format: enumeration
+                enum:
+                  - string
+                  - number
+                  - integer
+                  - boolean
+                  - array
+                  - file
+                  - object
+              format:
+                type: string
+                format: union
+      header:
         type: array
         items:
-          allOf:
-            - $ref: '#/definitions/operation'
-            - properties:
-                method:
-                  type: string
-                  format: http-method
-                  enum:
-                    - get
-                    - put
-                    - post
-                    - delete
-                    - options
-                    - head
-                    - patch
+          type: object
+      example:
+        type: array
+        items:
+          type: object
+          required:
+            - mime
+          properties:
+            mime:
+              type: string
+              format: mimetype
+            data:
+              type: object
   operation:
     allOf:
       - $ref: '#/definitions/openapi:parameters-list'
@@ -473,7 +1411,185 @@ definitions:
               type: object
               properties:
                 name: {}
+          parameter:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/json:json-datatype'
+                - required:
+                    - name
+                    - in
+                  properties:
+                    name:
+                      type: string
+                      format: string
+                    in:
+                      type: string
+                      format: enumeration
+                      enum:
+                        - query
+                        - header
+                        - path
+                        - formData
+                        - body
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    required:
+                      description: if ../in = 'path' this must be true
+                      default: 'false'
+                      type: boolean
+                      format: boolean
+                    schema:
+                      allOf:
+                        - $ref: '#/definitions/json:json-schema'
+                        - properties:
+                            $ref:
+                              type: string
+                              format: json-schema-ref
+                            required:
+                              type: array
+                              items:
+                                type: string
+                                format: leafref
+                            property:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'yang:yang-identifier'
+                                  schema:
+                                    $ref: '#/definitions/json:json-schema'
+                            items:
+                              $ref: '#/definitions/json:json-schema'
+                            allOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            anyOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            oneOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            type:
+                              type: string
+                              format: enumeration
+                              enum:
+                                - string
+                                - number
+                                - integer
+                                - boolean
+                                - array
+                                - file
+                                - object
+                            format:
+                              type: string
+                              format: union
+                    type:
+                      type: string
+                      format: enumeration
+                      enum:
+                        - string
+                        - number
+                        - integer
+                        - boolean
+                        - array
+                        - file
+                        - object
+                    format:
+                      type: string
+                      format: union
+          response:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/openapi:response'
+                - required:
+                    - description
+                  properties:
+                    code:
+                      type: integer
+                      format: uint16
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    schema:
+                      allOf:
+                        - $ref: '#/definitions/json:json-schema'
+                        - properties:
+                            $ref:
+                              type: string
+                              format: json-schema-ref
+                            required:
+                              type: array
+                              items:
+                                type: string
+                                format: leafref
+                            property:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'yang:yang-identifier'
+                                  schema:
+                                    $ref: '#/definitions/json:json-schema'
+                            items:
+                              $ref: '#/definitions/json:json-schema'
+                            allOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            anyOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            oneOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            type:
+                              type: string
+                              format: enumeration
+                              enum:
+                                - string
+                                - number
+                                - integer
+                                - boolean
+                                - array
+                                - file
+                                - object
+                            format:
+                              type: string
+                              format: union
+                    header:
+                      type: array
+                      items:
+                        type: object
+                    example:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - mime
+                        properties:
+                          mime:
+                            type: string
+                            format: mimetype
+                          data:
+                            type: object
+    oneOf: []
+    properties: {}
+    type: object
   'openapi:parameters-list':
+    allOf: []
+    oneOf: []
     type: object
     properties:
       parameter:
@@ -506,61 +1622,72 @@ definitions:
                   type: boolean
                   format: boolean
                 schema:
-                  $ref: '#/definitions/json:json-schema'
-  'json:json-schema':
-    allOf:
-      - $ref: '#/definitions/json:json-datatype'
-      - properties:
-          $ref:
-            type: string
-            format: json-schema-ref
-          required:
-            type: array
-            items:
-              type: string
-              format: leafref
-          property:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
+                  allOf:
+                    - $ref: '#/definitions/json:json-schema'
+                    - properties:
+                        $ref:
+                          type: string
+                          format: json-schema-ref
+                        required:
+                          type: array
+                          items:
+                            type: string
+                            format: leafref
+                        property:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                format: 'yang:yang-identifier'
+                              schema:
+                                $ref: '#/definitions/json:json-schema'
+                        items:
+                          $ref: '#/definitions/json:json-schema'
+                        allOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        anyOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        oneOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        type:
+                          type: string
+                          format: enumeration
+                          enum:
+                            - string
+                            - number
+                            - integer
+                            - boolean
+                            - array
+                            - file
+                            - object
+                        format:
+                          type: string
+                          format: union
+                type:
                   type: string
-                  format: 'yang:yang-identifier'
-                schema:
-                  $ref: '#/definitions/json:json-schema'
-          items:
-            $ref: '#/definitions/json:json-schema'
-          allOf:
-            type: array
-            items:
-              $ref: '#/definitions/json:json-schema'
-          anyOf:
-            type: array
-            items:
-              $ref: '#/definitions/json:json-schema'
-          oneOf:
-            type: array
-            items:
-              $ref: '#/definitions/json:json-schema'
-  'json:json-datatype':
-    type: object
-    properties:
-      type:
-        type: string
-        format: enumeration
-        enum:
-          - string
-          - number
-          - integer
-          - boolean
-          - array
-          - file
-          - object
-      format:
-        type: string
-        format: union
+                  format: enumeration
+                  enum:
+                    - string
+                    - number
+                    - integer
+                    - boolean
+                    - array
+                    - file
+                    - object
+                format:
+                  type: string
+                  format: union
   'openapi:responses-list':
+    allOf: []
+    oneOf: []
     type: object
     properties:
       response:
@@ -568,37 +1695,1557 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/openapi:response'
-            - properties:
+            - required:
+                - description
+              properties:
                 code:
                   type: integer
                   format: uint16
-  'openapi:response':
+                description:
+                  type: string
+                  format: 'meta:description'
+                schema:
+                  allOf:
+                    - $ref: '#/definitions/json:json-schema'
+                    - properties:
+                        $ref:
+                          type: string
+                          format: json-schema-ref
+                        required:
+                          type: array
+                          items:
+                            type: string
+                            format: leafref
+                        property:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                format: 'yang:yang-identifier'
+                              schema:
+                                $ref: '#/definitions/json:json-schema'
+                        items:
+                          $ref: '#/definitions/json:json-schema'
+                        allOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        anyOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        oneOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        type:
+                          type: string
+                          format: enumeration
+                          enum:
+                            - string
+                            - number
+                            - integer
+                            - boolean
+                            - array
+                            - file
+                            - object
+                        format:
+                          type: string
+                          format: union
+                header:
+                  type: array
+                  items:
+                    type: object
+                example:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - mime
+                    properties:
+                      mime:
+                        type: string
+                        format: mimetype
+                      data:
+                        type: object
+  path-item:
+    allOf:
+      - $ref: '#/definitions/openapi:operations-list'
+      - $ref: '#/definitions/openapi:parameters-list'
+      - properties:
+          $ref:
+            type: string
+            format: 'json:json-schema-ref'
+          operation:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/operation'
+                - properties:
+                    method:
+                      type: string
+                      format: http-method
+                      enum:
+                        - get
+                        - put
+                        - post
+                        - delete
+                        - options
+                        - head
+                        - patch
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                        format: 'yang:yang-identifier'
+                    summary:
+                      type: string
+                      format: 'meta:description'
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    operationId:
+                      type: string
+                      format: string
+                    consumes:
+                      type: array
+                      items:
+                        type: string
+                        format: mimetype
+                    produces:
+                      type: array
+                      items:
+                        type: string
+                        format: mimetype
+                    schemes:
+                      type: array
+                      items:
+                        type: string
+                        format: identityref
+                    deprecated:
+                      default: 'false'
+                      type: boolean
+                      format: boolean
+                    security:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name: {}
+                    parameter:
+                      type: array
+                      items:
+                        allOf:
+                          - $ref: '#/definitions/json:json-datatype'
+                          - required:
+                              - name
+                              - in
+                            properties:
+                              name:
+                                type: string
+                                format: string
+                              in:
+                                type: string
+                                format: enumeration
+                                enum:
+                                  - query
+                                  - header
+                                  - path
+                                  - formData
+                                  - body
+                              description:
+                                type: string
+                                format: 'meta:description'
+                              required:
+                                description: if ../in = 'path' this must be true
+                                default: 'false'
+                                type: boolean
+                                format: boolean
+                              schema:
+                                allOf:
+                                  - $ref: '#/definitions/json:json-schema'
+                                  - properties:
+                                      $ref:
+                                        type: string
+                                        format: json-schema-ref
+                                      required:
+                                        type: array
+                                        items:
+                                          type: string
+                                          format: leafref
+                                      property:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: string
+                                              format: 'yang:yang-identifier'
+                                            schema:
+                                              $ref: '#/definitions/json:json-schema'
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                      allOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      anyOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      oneOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      type:
+                                        type: string
+                                        format: enumeration
+                                        enum:
+                                          - string
+                                          - number
+                                          - integer
+                                          - boolean
+                                          - array
+                                          - file
+                                          - object
+                                      format:
+                                        type: string
+                                        format: union
+                              type:
+                                type: string
+                                format: enumeration
+                                enum:
+                                  - string
+                                  - number
+                                  - integer
+                                  - boolean
+                                  - array
+                                  - file
+                                  - object
+                              format:
+                                type: string
+                                format: union
+                    response:
+                      type: array
+                      items:
+                        allOf:
+                          - $ref: '#/definitions/openapi:response'
+                          - required:
+                              - description
+                            properties:
+                              code:
+                                type: integer
+                                format: uint16
+                              description:
+                                type: string
+                                format: 'meta:description'
+                              schema:
+                                allOf:
+                                  - $ref: '#/definitions/json:json-schema'
+                                  - properties:
+                                      $ref:
+                                        type: string
+                                        format: json-schema-ref
+                                      required:
+                                        type: array
+                                        items:
+                                          type: string
+                                          format: leafref
+                                      property:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: string
+                                              format: 'yang:yang-identifier'
+                                            schema:
+                                              $ref: '#/definitions/json:json-schema'
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                      allOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      anyOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      oneOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      type:
+                                        type: string
+                                        format: enumeration
+                                        enum:
+                                          - string
+                                          - number
+                                          - integer
+                                          - boolean
+                                          - array
+                                          - file
+                                          - object
+                                      format:
+                                        type: string
+                                        format: union
+                              header:
+                                type: array
+                                items:
+                                  type: object
+                              example:
+                                type: array
+                                items:
+                                  type: object
+                                  required:
+                                    - mime
+                                  properties:
+                                    mime:
+                                      type: string
+                                      format: mimetype
+                                    data:
+                                      type: object
+          parameter:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/json:json-datatype'
+                - required:
+                    - name
+                    - in
+                  properties:
+                    name:
+                      type: string
+                      format: string
+                    in:
+                      type: string
+                      format: enumeration
+                      enum:
+                        - query
+                        - header
+                        - path
+                        - formData
+                        - body
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    required:
+                      description: if ../in = 'path' this must be true
+                      default: 'false'
+                      type: boolean
+                      format: boolean
+                    schema:
+                      allOf:
+                        - $ref: '#/definitions/json:json-schema'
+                        - properties:
+                            $ref:
+                              type: string
+                              format: json-schema-ref
+                            required:
+                              type: array
+                              items:
+                                type: string
+                                format: leafref
+                            property:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'yang:yang-identifier'
+                                  schema:
+                                    $ref: '#/definitions/json:json-schema'
+                            items:
+                              $ref: '#/definitions/json:json-schema'
+                            allOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            anyOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            oneOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            type:
+                              type: string
+                              format: enumeration
+                              enum:
+                                - string
+                                - number
+                                - integer
+                                - boolean
+                                - array
+                                - file
+                                - object
+                            format:
+                              type: string
+                              format: union
+                    type:
+                      type: string
+                      format: enumeration
+                      enum:
+                        - string
+                        - number
+                        - integer
+                        - boolean
+                        - array
+                        - file
+                        - object
+                    format:
+                      type: string
+                      format: union
+    oneOf: []
+    properties: {}
     type: object
-    required:
-      - description
+  'openapi:operations-list':
+    allOf: []
+    oneOf: []
+    type: object
     properties:
-      description:
-        type: string
-        format: 'meta:description'
-      schema:
-        $ref: '#/definitions/json:json-schema'
-      header:
+      operation:
         type: array
         items:
-          type: object
-      example:
-        type: array
-        items:
-          type: object
-          required:
-            - mime
-          properties:
-            mime:
+          allOf:
+            - $ref: '#/definitions/operation'
+            - properties:
+                method:
+                  type: string
+                  format: http-method
+                  enum:
+                    - get
+                    - put
+                    - post
+                    - delete
+                    - options
+                    - head
+                    - patch
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    format: 'yang:yang-identifier'
+                summary:
+                  type: string
+                  format: 'meta:description'
+                description:
+                  type: string
+                  format: 'meta:description'
+                operationId:
+                  type: string
+                  format: string
+                consumes:
+                  type: array
+                  items:
+                    type: string
+                    format: mimetype
+                produces:
+                  type: array
+                  items:
+                    type: string
+                    format: mimetype
+                schemes:
+                  type: array
+                  items:
+                    type: string
+                    format: identityref
+                deprecated:
+                  default: 'false'
+                  type: boolean
+                  format: boolean
+                security:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name: {}
+                parameter:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/definitions/json:json-datatype'
+                      - required:
+                          - name
+                          - in
+                        properties:
+                          name:
+                            type: string
+                            format: string
+                          in:
+                            type: string
+                            format: enumeration
+                            enum:
+                              - query
+                              - header
+                              - path
+                              - formData
+                              - body
+                          description:
+                            type: string
+                            format: 'meta:description'
+                          required:
+                            description: if ../in = 'path' this must be true
+                            default: 'false'
+                            type: boolean
+                            format: boolean
+                          schema:
+                            allOf:
+                              - $ref: '#/definitions/json:json-schema'
+                              - properties:
+                                  $ref:
+                                    type: string
+                                    format: json-schema-ref
+                                  required:
+                                    type: array
+                                    items:
+                                      type: string
+                                      format: leafref
+                                  property:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                          format: 'yang:yang-identifier'
+                                        schema:
+                                          $ref: '#/definitions/json:json-schema'
+                                  items:
+                                    $ref: '#/definitions/json:json-schema'
+                                  allOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  anyOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  oneOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  type:
+                                    type: string
+                                    format: enumeration
+                                    enum:
+                                      - string
+                                      - number
+                                      - integer
+                                      - boolean
+                                      - array
+                                      - file
+                                      - object
+                                  format:
+                                    type: string
+                                    format: union
+                          type:
+                            type: string
+                            format: enumeration
+                            enum:
+                              - string
+                              - number
+                              - integer
+                              - boolean
+                              - array
+                              - file
+                              - object
+                          format:
+                            type: string
+                            format: union
+                response:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/definitions/openapi:response'
+                      - required:
+                          - description
+                        properties:
+                          code:
+                            type: integer
+                            format: uint16
+                          description:
+                            type: string
+                            format: 'meta:description'
+                          schema:
+                            allOf:
+                              - $ref: '#/definitions/json:json-schema'
+                              - properties:
+                                  $ref:
+                                    type: string
+                                    format: json-schema-ref
+                                  required:
+                                    type: array
+                                    items:
+                                      type: string
+                                      format: leafref
+                                  property:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                          format: 'yang:yang-identifier'
+                                        schema:
+                                          $ref: '#/definitions/json:json-schema'
+                                  items:
+                                    $ref: '#/definitions/json:json-schema'
+                                  allOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  anyOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  oneOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  type:
+                                    type: string
+                                    format: enumeration
+                                    enum:
+                                      - string
+                                      - number
+                                      - integer
+                                      - boolean
+                                      - array
+                                      - file
+                                      - object
+                                  format:
+                                    type: string
+                                    format: union
+                          header:
+                            type: array
+                            items:
+                              type: object
+                          example:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - mime
+                              properties:
+                                mime:
+                                  type: string
+                                  format: mimetype
+                                data:
+                                  type: object
+  'openapi:specification':
+    allOf:
+      - $ref: '#/definitions/openapi:paths-list'
+      - $ref: '#/definitions/openapi:definitions-list'
+      - $ref: '#/definitions/openapi:responses-def-list'
+      - $ref: '#/definitions/openapi:tags-list'
+      - required:
+          - swagger
+        properties:
+          swagger:
+            type: string
+            format: 'meta:api-version'
+          info:
+            allOf:
+              - $ref: '#/definitions/openapi:info'
+              - required:
+                  - title
+                  - version
+                properties:
+                  title:
+                    type: string
+                    format: 'meta:title'
+                  description:
+                    type: string
+                    format: 'meta:description'
+                  version:
+                    type: string
+                    format: 'meta:api-version'
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:person-name'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+                      email:
+                        type: string
+                        format: 'meta:email-address'
+                  license:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                        format: 'meta:license'
+                      url:
+                        type: string
+                        format: 'inet:uri'
+          host:
+            type: string
+            format: string
+          base-path:
+            type: string
+            format: 'inet:uri'
+          schemes:
+            type: array
+            items:
+              type: string
+              format: identityref
+          consumes:
+            type: array
+            items:
               type: string
               format: mimetype
-            data:
+          produces:
+            type: array
+            items:
+              type: string
+              format: mimetype
+          path:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/path-item'
+                - properties:
+                    name:
+                      type: string
+                      format: 'inet:uri'
+                    $ref:
+                      type: string
+                      format: 'json:json-schema-ref'
+                    operation:
+                      type: array
+                      items:
+                        allOf:
+                          - $ref: '#/definitions/operation'
+                          - properties:
+                              method:
+                                type: string
+                                format: http-method
+                                enum:
+                                  - get
+                                  - put
+                                  - post
+                                  - delete
+                                  - options
+                                  - head
+                                  - patch
+                              tags:
+                                type: array
+                                items:
+                                  type: string
+                                  format: 'yang:yang-identifier'
+                              summary:
+                                type: string
+                                format: 'meta:description'
+                              description:
+                                type: string
+                                format: 'meta:description'
+                              operationId:
+                                type: string
+                                format: string
+                              consumes:
+                                type: array
+                                items:
+                                  type: string
+                                  format: mimetype
+                              produces:
+                                type: array
+                                items:
+                                  type: string
+                                  format: mimetype
+                              schemes:
+                                type: array
+                                items:
+                                  type: string
+                                  format: identityref
+                              deprecated:
+                                default: 'false'
+                                type: boolean
+                                format: boolean
+                              security:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name: {}
+                              parameter:
+                                type: array
+                                items:
+                                  allOf:
+                                    - $ref: '#/definitions/json:json-datatype'
+                                    - required:
+                                        - name
+                                        - in
+                                      properties:
+                                        name:
+                                          type: string
+                                          format: string
+                                        in:
+                                          type: string
+                                          format: enumeration
+                                          enum:
+                                            - query
+                                            - header
+                                            - path
+                                            - formData
+                                            - body
+                                        description:
+                                          type: string
+                                          format: 'meta:description'
+                                        required:
+                                          description: if ../in = 'path' this must be true
+                                          default: 'false'
+                                          type: boolean
+                                          format: boolean
+                                        schema:
+                                          allOf:
+                                            - $ref: '#/definitions/json:json-schema'
+                                            - properties:
+                                                $ref:
+                                                  type: string
+                                                  format: json-schema-ref
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                    format: leafref
+                                                property:
+                                                  type: array
+                                                  items:
+                                                    type: object
+                                                    properties:
+                                                      name:
+                                                        type: string
+                                                        format: 'yang:yang-identifier'
+                                                      schema:
+                                                        $ref: '#/definitions/json:json-schema'
+                                                items:
+                                                  $ref: '#/definitions/json:json-schema'
+                                                allOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                anyOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                oneOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                type:
+                                                  type: string
+                                                  format: enumeration
+                                                  enum:
+                                                    - string
+                                                    - number
+                                                    - integer
+                                                    - boolean
+                                                    - array
+                                                    - file
+                                                    - object
+                                                format:
+                                                  type: string
+                                                  format: union
+                                        type:
+                                          type: string
+                                          format: enumeration
+                                          enum:
+                                            - string
+                                            - number
+                                            - integer
+                                            - boolean
+                                            - array
+                                            - file
+                                            - object
+                                        format:
+                                          type: string
+                                          format: union
+                              response:
+                                type: array
+                                items:
+                                  allOf:
+                                    - $ref: '#/definitions/openapi:response'
+                                    - required:
+                                        - description
+                                      properties:
+                                        code:
+                                          type: integer
+                                          format: uint16
+                                        description:
+                                          type: string
+                                          format: 'meta:description'
+                                        schema:
+                                          allOf:
+                                            - $ref: '#/definitions/json:json-schema'
+                                            - properties:
+                                                $ref:
+                                                  type: string
+                                                  format: json-schema-ref
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                    format: leafref
+                                                property:
+                                                  type: array
+                                                  items:
+                                                    type: object
+                                                    properties:
+                                                      name:
+                                                        type: string
+                                                        format: 'yang:yang-identifier'
+                                                      schema:
+                                                        $ref: '#/definitions/json:json-schema'
+                                                items:
+                                                  $ref: '#/definitions/json:json-schema'
+                                                allOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                anyOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                oneOf:
+                                                  type: array
+                                                  items:
+                                                    $ref: '#/definitions/json:json-schema'
+                                                type:
+                                                  type: string
+                                                  format: enumeration
+                                                  enum:
+                                                    - string
+                                                    - number
+                                                    - integer
+                                                    - boolean
+                                                    - array
+                                                    - file
+                                                    - object
+                                                format:
+                                                  type: string
+                                                  format: union
+                                        header:
+                                          type: array
+                                          items:
+                                            type: object
+                                        example:
+                                          type: array
+                                          items:
+                                            type: object
+                                            required:
+                                              - mime
+                                            properties:
+                                              mime:
+                                                type: string
+                                                format: mimetype
+                                              data:
+                                                type: object
+                    parameter:
+                      type: array
+                      items:
+                        allOf:
+                          - $ref: '#/definitions/json:json-datatype'
+                          - required:
+                              - name
+                              - in
+                            properties:
+                              name:
+                                type: string
+                                format: string
+                              in:
+                                type: string
+                                format: enumeration
+                                enum:
+                                  - query
+                                  - header
+                                  - path
+                                  - formData
+                                  - body
+                              description:
+                                type: string
+                                format: 'meta:description'
+                              required:
+                                description: if ../in = 'path' this must be true
+                                default: 'false'
+                                type: boolean
+                                format: boolean
+                              schema:
+                                allOf:
+                                  - $ref: '#/definitions/json:json-schema'
+                                  - properties:
+                                      $ref:
+                                        type: string
+                                        format: json-schema-ref
+                                      required:
+                                        type: array
+                                        items:
+                                          type: string
+                                          format: leafref
+                                      property:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: string
+                                              format: 'yang:yang-identifier'
+                                            schema:
+                                              $ref: '#/definitions/json:json-schema'
+                                      items:
+                                        $ref: '#/definitions/json:json-schema'
+                                      allOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      anyOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      oneOf:
+                                        type: array
+                                        items:
+                                          $ref: '#/definitions/json:json-schema'
+                                      type:
+                                        type: string
+                                        format: enumeration
+                                        enum:
+                                          - string
+                                          - number
+                                          - integer
+                                          - boolean
+                                          - array
+                                          - file
+                                          - object
+                                      format:
+                                        type: string
+                                        format: union
+                              type:
+                                type: string
+                                format: enumeration
+                                enum:
+                                  - string
+                                  - number
+                                  - integer
+                                  - boolean
+                                  - array
+                                  - file
+                                  - object
+                              format:
+                                type: string
+                                format: union
+          definition:
+            type: array
+            items:
               type: object
+              properties:
+                name:
+                  type: string
+                  format: 'openapi:grouping-identifier'
+                schema:
+                  allOf:
+                    - $ref: '#/definitions/json:json-schema'
+                    - properties:
+                        $ref:
+                          type: string
+                          format: json-schema-ref
+                        required:
+                          type: array
+                          items:
+                            type: string
+                            format: leafref
+                        property:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                format: 'yang:yang-identifier'
+                              schema:
+                                $ref: '#/definitions/json:json-schema'
+                        items:
+                          $ref: '#/definitions/json:json-schema'
+                        allOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        anyOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        oneOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        type:
+                          type: string
+                          format: enumeration
+                          enum:
+                            - string
+                            - number
+                            - integer
+                            - boolean
+                            - array
+                            - file
+                            - object
+                        format:
+                          type: string
+                          format: union
+          response:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/openapi:response'
+                - required:
+                    - description
+                  properties:
+                    name:
+                      type: string
+                      format: 'yang:yang-identifier'
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    schema:
+                      allOf:
+                        - $ref: '#/definitions/json:json-schema'
+                        - properties:
+                            $ref:
+                              type: string
+                              format: json-schema-ref
+                            required:
+                              type: array
+                              items:
+                                type: string
+                                format: leafref
+                            property:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    format: 'yang:yang-identifier'
+                                  schema:
+                                    $ref: '#/definitions/json:json-schema'
+                            items:
+                              $ref: '#/definitions/json:json-schema'
+                            allOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            anyOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            oneOf:
+                              type: array
+                              items:
+                                $ref: '#/definitions/json:json-schema'
+                            type:
+                              type: string
+                              format: enumeration
+                              enum:
+                                - string
+                                - number
+                                - integer
+                                - boolean
+                                - array
+                                - file
+                                - object
+                            format:
+                              type: string
+                              format: union
+                    header:
+                      type: array
+                      items:
+                        type: object
+                    example:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - mime
+                        properties:
+                          mime:
+                            type: string
+                            format: mimetype
+                          data:
+                            type: object
+          tag:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  format: 'yang:yang-identifier'
+                description:
+                  type: string
+                  format: 'meta:description'
+                externalDocs:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      format: 'meta:description'
+                    url:
+                      type: string
+                      format: 'inet:uri'
+    oneOf: []
+    properties: {}
+    type: object
+  'openapi:paths-list':
+    allOf: []
+    oneOf: []
+    type: object
+    properties:
+      path:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/path-item'
+            - properties:
+                name:
+                  type: string
+                  format: 'inet:uri'
+                $ref:
+                  type: string
+                  format: 'json:json-schema-ref'
+                operation:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/definitions/operation'
+                      - properties:
+                          method:
+                            type: string
+                            format: http-method
+                            enum:
+                              - get
+                              - put
+                              - post
+                              - delete
+                              - options
+                              - head
+                              - patch
+                          tags:
+                            type: array
+                            items:
+                              type: string
+                              format: 'yang:yang-identifier'
+                          summary:
+                            type: string
+                            format: 'meta:description'
+                          description:
+                            type: string
+                            format: 'meta:description'
+                          operationId:
+                            type: string
+                            format: string
+                          consumes:
+                            type: array
+                            items:
+                              type: string
+                              format: mimetype
+                          produces:
+                            type: array
+                            items:
+                              type: string
+                              format: mimetype
+                          schemes:
+                            type: array
+                            items:
+                              type: string
+                              format: identityref
+                          deprecated:
+                            default: 'false'
+                            type: boolean
+                            format: boolean
+                          security:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name: {}
+                          parameter:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/definitions/json:json-datatype'
+                                - required:
+                                    - name
+                                    - in
+                                  properties:
+                                    name:
+                                      type: string
+                                      format: string
+                                    in:
+                                      type: string
+                                      format: enumeration
+                                      enum:
+                                        - query
+                                        - header
+                                        - path
+                                        - formData
+                                        - body
+                                    description:
+                                      type: string
+                                      format: 'meta:description'
+                                    required:
+                                      description: if ../in = 'path' this must be true
+                                      default: 'false'
+                                      type: boolean
+                                      format: boolean
+                                    schema:
+                                      allOf:
+                                        - $ref: '#/definitions/json:json-schema'
+                                        - properties:
+                                            $ref:
+                                              type: string
+                                              format: json-schema-ref
+                                            required:
+                                              type: array
+                                              items:
+                                                type: string
+                                                format: leafref
+                                            property:
+                                              type: array
+                                              items:
+                                                type: object
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                    format: 'yang:yang-identifier'
+                                                  schema:
+                                                    $ref: '#/definitions/json:json-schema'
+                                            items:
+                                              $ref: '#/definitions/json:json-schema'
+                                            allOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            anyOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            oneOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            type:
+                                              type: string
+                                              format: enumeration
+                                              enum:
+                                                - string
+                                                - number
+                                                - integer
+                                                - boolean
+                                                - array
+                                                - file
+                                                - object
+                                            format:
+                                              type: string
+                                              format: union
+                                    type:
+                                      type: string
+                                      format: enumeration
+                                      enum:
+                                        - string
+                                        - number
+                                        - integer
+                                        - boolean
+                                        - array
+                                        - file
+                                        - object
+                                    format:
+                                      type: string
+                                      format: union
+                          response:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/definitions/openapi:response'
+                                - required:
+                                    - description
+                                  properties:
+                                    code:
+                                      type: integer
+                                      format: uint16
+                                    description:
+                                      type: string
+                                      format: 'meta:description'
+                                    schema:
+                                      allOf:
+                                        - $ref: '#/definitions/json:json-schema'
+                                        - properties:
+                                            $ref:
+                                              type: string
+                                              format: json-schema-ref
+                                            required:
+                                              type: array
+                                              items:
+                                                type: string
+                                                format: leafref
+                                            property:
+                                              type: array
+                                              items:
+                                                type: object
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                    format: 'yang:yang-identifier'
+                                                  schema:
+                                                    $ref: '#/definitions/json:json-schema'
+                                            items:
+                                              $ref: '#/definitions/json:json-schema'
+                                            allOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            anyOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            oneOf:
+                                              type: array
+                                              items:
+                                                $ref: '#/definitions/json:json-schema'
+                                            type:
+                                              type: string
+                                              format: enumeration
+                                              enum:
+                                                - string
+                                                - number
+                                                - integer
+                                                - boolean
+                                                - array
+                                                - file
+                                                - object
+                                            format:
+                                              type: string
+                                              format: union
+                                    header:
+                                      type: array
+                                      items:
+                                        type: object
+                                    example:
+                                      type: array
+                                      items:
+                                        type: object
+                                        required:
+                                          - mime
+                                        properties:
+                                          mime:
+                                            type: string
+                                            format: mimetype
+                                          data:
+                                            type: object
+                parameter:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/definitions/json:json-datatype'
+                      - required:
+                          - name
+                          - in
+                        properties:
+                          name:
+                            type: string
+                            format: string
+                          in:
+                            type: string
+                            format: enumeration
+                            enum:
+                              - query
+                              - header
+                              - path
+                              - formData
+                              - body
+                          description:
+                            type: string
+                            format: 'meta:description'
+                          required:
+                            description: if ../in = 'path' this must be true
+                            default: 'false'
+                            type: boolean
+                            format: boolean
+                          schema:
+                            allOf:
+                              - $ref: '#/definitions/json:json-schema'
+                              - properties:
+                                  $ref:
+                                    type: string
+                                    format: json-schema-ref
+                                  required:
+                                    type: array
+                                    items:
+                                      type: string
+                                      format: leafref
+                                  property:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                          format: 'yang:yang-identifier'
+                                        schema:
+                                          $ref: '#/definitions/json:json-schema'
+                                  items:
+                                    $ref: '#/definitions/json:json-schema'
+                                  allOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  anyOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  oneOf:
+                                    type: array
+                                    items:
+                                      $ref: '#/definitions/json:json-schema'
+                                  type:
+                                    type: string
+                                    format: enumeration
+                                    enum:
+                                      - string
+                                      - number
+                                      - integer
+                                      - boolean
+                                      - array
+                                      - file
+                                      - object
+                                  format:
+                                    type: string
+                                    format: union
+                          type:
+                            type: string
+                            format: enumeration
+                            enum:
+                              - string
+                              - number
+                              - integer
+                              - boolean
+                              - array
+                              - file
+                              - object
+                          format:
+                            type: string
+                            format: union
   'openapi:definitions-list':
+    allOf: []
+    oneOf: []
     type: object
     properties:
       definition:
@@ -608,10 +3255,60 @@ definitions:
           properties:
             name:
               type: string
-              format: 'yang:yang-identifier'
+              format: 'openapi:grouping-identifier'
             schema:
-              $ref: '#/definitions/json:json-schema'
+              allOf:
+                - $ref: '#/definitions/json:json-schema'
+                - properties:
+                    $ref:
+                      type: string
+                      format: json-schema-ref
+                    required:
+                      type: array
+                      items:
+                        type: string
+                        format: leafref
+                    property:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            format: 'yang:yang-identifier'
+                          schema:
+                            $ref: '#/definitions/json:json-schema'
+                    items:
+                      $ref: '#/definitions/json:json-schema'
+                    allOf:
+                      type: array
+                      items:
+                        $ref: '#/definitions/json:json-schema'
+                    anyOf:
+                      type: array
+                      items:
+                        $ref: '#/definitions/json:json-schema'
+                    oneOf:
+                      type: array
+                      items:
+                        $ref: '#/definitions/json:json-schema'
+                    type:
+                      type: string
+                      format: enumeration
+                      enum:
+                        - string
+                        - number
+                        - integer
+                        - boolean
+                        - array
+                        - file
+                        - object
+                    format:
+                      type: string
+                      format: union
   'openapi:responses-def-list':
+    allOf: []
+    oneOf: []
     type: object
     properties:
       response:
@@ -619,11 +3316,84 @@ definitions:
         items:
           allOf:
             - $ref: '#/definitions/openapi:response'
-            - properties:
+            - required:
+                - description
+              properties:
                 name:
                   type: string
                   format: 'yang:yang-identifier'
+                description:
+                  type: string
+                  format: 'meta:description'
+                schema:
+                  allOf:
+                    - $ref: '#/definitions/json:json-schema'
+                    - properties:
+                        $ref:
+                          type: string
+                          format: json-schema-ref
+                        required:
+                          type: array
+                          items:
+                            type: string
+                            format: leafref
+                        property:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                format: 'yang:yang-identifier'
+                              schema:
+                                $ref: '#/definitions/json:json-schema'
+                        items:
+                          $ref: '#/definitions/json:json-schema'
+                        allOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        anyOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        oneOf:
+                          type: array
+                          items:
+                            $ref: '#/definitions/json:json-schema'
+                        type:
+                          type: string
+                          format: enumeration
+                          enum:
+                            - string
+                            - number
+                            - integer
+                            - boolean
+                            - array
+                            - file
+                            - object
+                        format:
+                          type: string
+                          format: union
+                header:
+                  type: array
+                  items:
+                    type: object
+                example:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - mime
+                    properties:
+                      mime:
+                        type: string
+                        format: mimetype
+                      data:
+                        type: object
   'openapi:tags-list':
+    allOf: []
+    oneOf: []
     type: object
     properties:
       tag:

@@ -57,6 +57,13 @@ module yang-openapi {
       enum patch;
     }
   }
+  typedef grouping-identifier {
+    type string {
+      length "1..max";
+      pattern '[\w\-]*:?[a-zA-Z_][a-zA-Z0-9\-_.]*';
+      pattern '[\w\-]*:?.|..|[^xX].*|.[^mM].*|..[^lL].*';
+    }
+  }
   /*
    * Groupings
    */
@@ -224,7 +231,7 @@ module yang-openapi {
     list definition {
       key name;
       leaf name {
-        type yang:yang-identifier;
+        type openapi:grouping-identifier;
       }
       container schema {
         uses json:json-schema;

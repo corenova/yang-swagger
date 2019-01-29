@@ -1,6 +1,6 @@
 {
   "name": "yang-swagger",
-  "version": "1.2.5",
+  "version": "2.0.0",
   "description": "YANG model-driven swagger/openapi transform",
   "keywords": [
     "yang",
@@ -32,16 +32,16 @@
     "yang-openapi": "./yang-openapi.yang"
   },
   "dependencies": {
-    "config": "^1.24.0",
-    "debug": "^2.3.2",
+    "config": "^3.0.1",
+    "debug": "^4.1.1",
     "js-yaml": "^3.6.1",
     "minimist": "^1.2.0",
     "traverse": "^0.6.6",
-    "yang-js": "^0.17.4"
+    "yang-js": "^0.18.33"
   },
   "devDependencies": {
     "coffee-script": ">=1.7.0",
-    "mocha": "~2.0.1",
+    "mocha": "^5.2.0",
     "rimraf": "^2.5.2",
     "should": "~3.1.3"
   },

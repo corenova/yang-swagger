@@ -45,7 +45,7 @@ yang2jstype = (schema) ->
 
 yang2jsobj = (schema) ->
   return {} unless schema?
-  #debug? "[#{schema.trail}] converting schema to JSON-schema"
+  #debug? "[#{schema.uri}] converting schema to JSON-schema"
   js =
    description: schema.description?.tag
   required = []
@@ -65,9 +65,9 @@ yang2jsobj = (schema) ->
     when refs?.length
       refs.forEach (ref) ->
         unless definitions[ref.tag]?
-          debug? "[yang2jsobj] defining #{ref.tag} using #{schema.trail}"
+          debug? "[yang2jsobj] defining #{ref.tag} using #{schema.uri}"
           definitions[ref.tag] = true
-          definitions[ref.tag] = yang2jsobj ref.state.grouping.origin
+          definitions[ref.tag] = yang2jsobj schema.lookup('grouping', ref.tag)
 
       if refs.length > 1 or property.length
         js.allOf = refs.map (ref) -> '$ref': "#/definitions/#{ref.tag}"
@@ -107,7 +107,7 @@ yang2jschema = (schema, item=false) ->
     else yang2jsobj schema
 
 discoverOperations = (schema, item=false) ->
-  debug? "[discoverOperations] inspecting #{schema.trail}"
+  debug? "[discoverOperations] inspecting #{schema.uri}"
   origin = schema.root.tag
   deprecated = schema.status?.valueOf() is 'deprecated'
   switch 
@@ -242,7 +242,7 @@ discoverOperations = (schema, item=false) ->
     ]
 
 discoverPathParameter = (schema) ->
-  debug? "[discoverPathParameter] inspecting #{schema.trail}"
+  debug? "[discoverPathParameter] inspecting #{schema.uri}"
   switch
     when not schema.key?
       name: 'index'
@@ -272,7 +272,7 @@ discoverPaths = (schema) ->
   return [] if schema['if-feature']? # XXX ignore if-feature entries...
   
   name = "/#{schema.datakey}"
-  debug? "[discoverPaths] inspecting #{schema.trail}"
+  debug? "[discoverPaths] inspecting #{schema.uri}"
   paths = [
     name: name
     operation: discoverOperations schema
@@ -297,7 +297,7 @@ discoverPaths = (schema) ->
         operation: discoverOperations(schema,true)
     when 'container'
       subpaths.forEach (x) -> x.name = name + x.name
-  debug? "[discoverPaths] discovered #{paths.length} paths with #{subpaths.length} subpaths inside #{schema.trail}"
+  debug? "[discoverPaths] discovered #{paths.length} paths with #{subpaths.length} subpaths inside #{schema.uri}"
   paths.concat subpaths...
 
 discoverTags = (schema) ->
@@ -305,7 +305,7 @@ discoverTags = (schema) ->
   return [] if schema['if-feature']? # XXX ignore if-feature entries...
 
   name = "/#{schema.datakey}"
-  debug? "[discoverTags] inspecting #{schema.trail}"
+  debug? "[discoverTags] inspecting #{schema.uri}"
   tag =
     name: name
     description: schema.description?.tag ? "Operations related to #{name}"
@@ -340,12 +340,12 @@ serializeJSchema = (jschema) ->
 
 module.exports = require('./yang-openapi.yang').bind {
 
-  transform: ->
-    debug? "[transform] using '#{@input['@choice']}' as source"
-    switch @input['@choice']
+  transform: (input) ->
+    debug? "[transform] using '#{input['@choice']}' as source"
+    switch input['@choice']
       when 'swagger-file' then @throw "swagger-file transform feature not yet supported!"
-    debug? "[transform] importing '#{@input.modules}'"
-    modules = @input.modules
+    debug? "[transform] importing '#{input.modules}'"
+    modules = input.modules
       .map (name) => @schema.constructor.import(name)
       .filter (x) -> x?
     unless modules.length
@@ -353,7 +353,7 @@ module.exports = require('./yang-openapi.yang').bind {
     found = modules.map (x) -> x.datakey
     debug? "[transform] transforming #{found}"
     definitions = {} # XXX - usage of globals is a hack (will have concurrency issues)
-    @output =
+    output = 
       spec:
         swagger: '2.0'
         info: @get('/info')
@@ -371,8 +371,9 @@ module.exports = require('./yang-openapi.yang').bind {
           .map (m) -> discoverPaths(schema) for schema in m.nodes
           .reduce ((a,b) -> a.concat b...), []
         definition: (name: k, schema: v for k, v of definitions)
+    return output
 
-  '{specification}/serialize': ->
+  '{specification}/serialize': (input) ->
     debug? "[#{@path}] serializing specification"
     spec = @parent.toJSON(false)
     spec.tags = spec.tag
@@ -401,8 +402,8 @@ module.exports = require('./yang-openapi.yang').bind {
     delete spec.definition
     delete spec.serialize
     spec = traverse(spec).map (x) -> @remove() unless x?
-    @output =
-      data: switch @input.format
+    return
+      data: switch input.format
         when 'json' then JSON.stringify spec, null, 2
         when 'yaml' then yaml.dump spec, lineWidth: -1
 }
