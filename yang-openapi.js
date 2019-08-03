@@ -406,7 +406,7 @@
         };
       case !(schema.key.tag.length > 1):
         return {
-          name: "" + (schema.key.valueOf()),
+          name: "" + (schema.key.tag.join('+')),
           "in": 'path',
           required: true,
           type: 'string',

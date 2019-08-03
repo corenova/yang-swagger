@@ -252,7 +252,7 @@ discoverPathParameter = (schema) ->
       format: 'int64'
       description: "An index key identifying #{schema.tag} item (may change over time)"
     when schema.key.tag.length > 1
-      name: "#{schema.key.valueOf()}"
+      name: "#{schema.key.tag.join('+')}"
       in: 'path'
       required: true
       type: 'string'
