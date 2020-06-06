@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-var argv = require('minimist')(process.argv.slice(2), {
+const fs = require('fs');
+const path = require('path');
+const argv = require('minimist')(process.argv.slice(2), {
   boolean: [ 'help' ],
   alias: {
     help: 'h',
@@ -12,7 +14,7 @@ var argv = require('minimist')(process.argv.slice(2), {
 });
 
 if (argv.h === true) {
-  var help;
+  let help;
   help  = "  Usage: yang-swagger [options] modules...\n\n";
   help += "  Options:\n";
   help += "    -c, --config <filename>  Use <filename> to retrieve configuration data (default: uses 'config' directory)\n";
@@ -22,26 +24,20 @@ if (argv.h === true) {
   process.exit();
 }
 
-var config = require('config');
+let config = require('config');
 if (argv.config) {
-  var path = require('path');
   config = config.util.parseFile(path.resolve(argv.config));
 }
-var swagger = require('..').eval(config)
+const swagger = require('..').eval(config)
 
-swagger.in('transform')
-  .do({modules: argv._})
-  .then(function (output) {
-	return output.spec.serialize(argv)
-  })
-  .then(function (output) {
+swagger.in('transform').do({modules: argv._})
+  .then(res => res.spec.serialize(argv))
+  .then(res => {
     if (argv.output) {
-      require('fs').writeFileSync(argv.output, output.data, 'utf-8');
+      fs.writeFileSync(argv.output, res.data, 'utf-8');
     } else {
-      console.log(output.data);
+      console.log(res.data);
     }
-    return output;
+    return res;
   })
-  .catch(function (err) {
-    console.error(err);
-  });
+  .catch(err => console.error(err));

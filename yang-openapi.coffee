@@ -12,13 +12,13 @@ yang2jstype = (schema) ->
     description: schema.description?.tag
     default: schema.default?.tag
   return js unless schema.type?
-  datatype = switch schema.type.primitive
+  datatype = switch schema.type.state.basetype
     when 'uint8','int8'
       type: 'integer'
       format: 'byte'
     when 'uint16','uint32','uint64','int16','int32','int64'
       type: 'integer'
-      format: schema.type.primitive
+      format: schema.type.state.basetype
     when 'binary'
       type: 'string'
       format: 'binary'
@@ -340,23 +340,23 @@ serializeJSchema = (jschema) ->
 
 module.exports = require('./yang-openapi.yang').bind {
 
-  transform: (input) ->
+  transform: (ctx, input) ->
     debug? "[transform] using '#{input['@choice']}' as source"
     switch input['@choice']
-      when 'swagger-file' then @throw "swagger-file transform feature not yet supported!"
+      when 'swagger-file' then throw ctx.error "swagger-file transform feature not yet supported!"
     debug? "[transform] importing '#{input.modules}'"
     modules = input.modules
-      .map (name) => @schema.constructor.import(name)
+      .map (name) => ctx.schema.constructor.import(name)
       .filter (x) -> x?
     unless modules.length
-      @throw "unable to transform without any modules"
+      throw ctx.error "unable to transform without any modules"
     found = modules.map (x) -> x.datakey
     debug? "[transform] transforming #{found}"
     definitions = {} # XXX - usage of globals is a hack (will have concurrency issues)
     output = 
       spec:
         swagger: '2.0'
-        info: @get('/info')
+        info: ctx.get('/info')
         consumes: [ "application/json" ]
         produces: [ "application/json" ]
         tag: modules
@@ -373,9 +373,9 @@ module.exports = require('./yang-openapi.yang').bind {
         definition: (name: k, schema: v for k, v of definitions)
     return output
 
-  '{specification}/serialize': (input) ->
-    debug? "[#{@path}] serializing specification"
-    spec = @parent.toJSON(false)
+  'grouping(specification)/serialize': (ctx, input) ->
+    debug? "[#{ctx.path}] serializing specification"
+    spec = ctx.toJSON(false)
     spec.tags = spec.tag
     spec.paths = spec.path.reduce ((a,_path) ->
       path = a[_path.name] = '$ref': _path['$ref']
