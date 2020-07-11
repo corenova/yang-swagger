@@ -1,6 +1,6 @@
 {
   "name": "yang-swagger",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "YANG model-driven swagger/openapi transform",
   "keywords": [
     "yang",
@@ -36,7 +36,7 @@
     "js-yaml": "^3.13.1",
     "minimist": "^1.2.0",
     "traverse": "^0.6.6",
-    "yang-js": "../yang-js"
+    "yang-js": "^0.24.0"
   },
   "devDependencies": {
     "coffeescript": "2",

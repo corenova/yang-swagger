@@ -8,38 +8,41 @@ yaml = require 'js-yaml'
 # TODO: this should be handled via separate yang-json-schema module
 definitions = {}
 yang2jstype = (schema) ->
-  js =
-    description: schema.description?.tag
-    default: schema.default?.tag
-  return js unless schema.type?
-  datatype = switch schema.type.state.basetype
+  switch schema.state.basetype
     when 'uint8','int8'
       type: 'integer'
       format: 'byte'
     when 'uint16','uint32','uint64','int16','int32','int64'
       type: 'integer'
-      format: schema.type.state.basetype
+      format: schema.state.basetype
     when 'binary'
       type: 'string'
       format: 'binary'
     when 'decimal64'
       type: 'number'
       format: 'double'
-    when 'union' # TODO
-      type: 'string'
-      format: schema.type.tag
-      #anyOf: []
+    when 'union'
+      anyOf: [].concat(schema.type).map (s) => yang2jstype s, true
+      #type: 'string'
+      #format: schema.type.tag
     when 'boolean'
       type: 'boolean'
-      format: schema.type.tag
+      format: schema.tag
     when 'enumeration'
       type: 'string'
-      format: schema.type.tag
-      enum: schema.type.enum.map (e) -> e.tag
+      format: schema.tag
+      enum: schema.enum.map (e) -> e.tag
     else
       # TODO: handle pattern?
       type: 'string'
-      format: schema.type.tag
+      format: schema.tag
+
+yang2jsprop = (schema) ->
+  js =
+    description: schema.description?.tag
+    default: schema.default?.tag
+  return js unless schema.type?
+  datatype = yang2jstype schema.type
   js[k] = v for k, v of datatype
   return js
 
@@ -98,8 +101,8 @@ yang2jsobj = (schema) ->
 yang2jschema = (schema, item=false) ->
   return {} unless schema?
   switch schema.kind
-    when 'leaf'      then yang2jstype schema
-    when 'leaf-list' then type: 'array', items: yang2jstype schema
+    when 'leaf'      then yang2jsprop schema
+    when 'leaf-list' then type: 'array', items: yang2jsprop schema
     when 'list'
       unless item then type: 'array', items: yang2jsobj schema
       else yang2jsobj schema
@@ -264,7 +267,7 @@ discoverPathParameter = (schema) ->
         in: 'path'
         required: true
         description: "A key uniquely identifying #{schema.tag} item"
-      param[k] = v for k, v of yang2jstype schema.locate(param.name) when v?
+      param[k] = v for k, v of yang2jsprop schema.locate(param.name) when v?
       return param
 
 discoverPaths = (schema) ->
@@ -317,6 +320,7 @@ discoverTags = (schema) ->
 
 serializeJSchema = (jschema) ->
   return unless jschema?
+  isProperty = ('property' of jschema)
   o = {}
   o[k] = v for k, v of jschema when k isnt 'property'
   o.properties = jschema.property?.reduce ((a, _prop) ->
@@ -329,13 +333,18 @@ serializeJSchema = (jschema) ->
   # Swagger 2.0 does NOT support anyOf or oneOf
   #o.anyOf = o.anyOf?.map (x) -> serializeJSchema x
   #o.oneOf = o.oneOf?.map (x) -> serializeJSchema x
-  if o.anyOf?
-    o.type ?= 'object'
-    o.properties ?= {}
-    o.anyOf.forEach (x) ->
-      x.property?.forEach (prop) ->
-        o.properties[prop.name] = serializeJSchema prop.schema
-    delete o.anyOf
+  switch
+    when o.anyOf? and isProperty
+      o.type ?= 'object'
+      o.properties ?= {}
+      o.anyOf.forEach (x) ->
+        x.property?.forEach (prop) ->
+          o.properties[prop.name] = serializeJSchema prop.schema
+      delete o.anyOf
+    when o.anyOf?
+      o.type ?= 'string'
+      o.format = 'union'
+      delete o.anyOf
   return o
 
 module.exports = require('./yang-openapi.yang').bind {
