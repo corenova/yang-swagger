@@ -48,10 +48,10 @@
         return {
           anyOf: [].concat(schema.type).map((s) => {
             return yang2jstype(s, true);
-          })
+          }),
+          type: 'string',
+          format: schema.tag
         };
-      //type: 'string'
-      //format: schema.type.tag
       case 'boolean':
         return {
           type: 'boolean',
@@ -585,7 +585,9 @@
         if (o.type == null) {
           o.type = 'string';
         }
-        o.format = 'union';
+        if (o.format == null) {
+          o.format = 'union';
+        }
         delete o.anyOf;
     }
     return o;

@@ -23,8 +23,8 @@ yang2jstype = (schema) ->
       format: 'double'
     when 'union'
       anyOf: [].concat(schema.type).map (s) => yang2jstype s, true
-      #type: 'string'
-      #format: schema.type.tag
+      type: 'string'
+      format: schema.tag
     when 'boolean'
       type: 'boolean'
       format: schema.tag
@@ -343,7 +343,7 @@ serializeJSchema = (jschema) ->
       delete o.anyOf
     when o.anyOf?
       o.type ?= 'string'
-      o.format = 'union'
+      o.format ?= 'union'
       delete o.anyOf
   return o
 
