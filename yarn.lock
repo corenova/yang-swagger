@@ -300,10 +300,10 @@ xparse@^1.0.0:
   dependencies:
     comparse "^0.9.3"
 
-yang-js@^0.24.4:
-  version "0.24.4"
-  resolved "https://registry.yarnpkg.com/yang-js/-/yang-js-0.24.4.tgz#34f6772835df8e3756a1b42cd577a31766947cac"
-  integrity sha512-SGsxnsEXaRCfX+lMMVd3CeDfl0Opzfy9EzgbcPe0rsNuE6IfNL5oblu9aNqswht04VUTHYWsWMAFjTQPYeEofA==
+yang-js@^0.24.27:
+  version "0.24.27"
+  resolved "https://registry.yarnpkg.com/yang-js/-/yang-js-0.24.27.tgz#aa4f4cc6243c34dac76a8bc1d9eb763caadcdcfb"
+  integrity sha512-sCk1rrUFSDOfU0Dsd/OSkXFolyVlm2dx0zrgThvOWQnYFpgUBN9Z8SQWNCZ3QEz4U9lOSWckzXB4/XdZP6I1SA==
   dependencies:
     co "^4.6.0"
     debug "^4.1.1"
