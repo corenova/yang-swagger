@@ -36,7 +36,7 @@
     "js-yaml": "^3.13.1",
     "minimist": "^1.2.0",
     "traverse": "^0.6.6",
-    "yang-js": "^0.24.28"
+    "yang-js": "^0.24.63"
   },
   "devDependencies": {
     "coffeescript": "2",

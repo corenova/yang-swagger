@@ -27,11 +27,6 @@ browser-stdout@1.3.1:
   resolved "https://registry.yarnpkg.com/browser-stdout/-/browser-stdout-1.3.1.tgz#baa559ee14ced73452229bad7326467c61fabd60"
   integrity sha512-qhAVI1+Av2X7qelOfAIYwXONood6XlZE/fXaBSmW/T5SzLAmCgzi+eiWE7fUvbHaeNBQH13UftjpXxsfLkMpgw==
 
-co@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
-  integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
-
 coffeescript@2:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-2.5.1.tgz#b2442a1f2c806139669534a54adc35010559d16a"
@@ -300,12 +295,11 @@ xparse@^1.0.0:
   dependencies:
     comparse "^0.9.3"
 
-yang-js@^0.24.28:
-  version "0.24.28"
-  resolved "https://registry.yarnpkg.com/yang-js/-/yang-js-0.24.28.tgz#5b4a5e4a077353f785263caea8899bacf1f25a0c"
-  integrity sha512-90/UgvmKA0E00fwTMIBZY+J6xztn79s9xfVeQ+FEgak0X1td7m/lUYUxbslGZHsIwo0+cftmEQ54HX/OE0n60A==
+yang-js@^0.24.63:
+  version "0.24.63"
+  resolved "https://registry.yarnpkg.com/yang-js/-/yang-js-0.24.63.tgz#9f600b7c9e802d0ab58eada215b7ed1c9b471787"
+  integrity sha512-+OPZb5psT6F/QEJfwgONYEziCRUvXzkhx21r6RA/rdQ2aAx/urqsgbaX32PkOlISRAB+hyyUVzRZnNnN/703tA==
   dependencies:
-    co "^4.6.0"
     debug "^4.1.1"
     delegates "^1.0.0"
     indent-string "^2.1.0"
